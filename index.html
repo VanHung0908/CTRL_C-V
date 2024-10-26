@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý phác đồ điều trị</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .treatment-plan {
+            background: #ffffff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .treatment-plan h2 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .guidelines {
+            margin-top: 20px;
+            background: #e2f0d9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        th:hover, td:hover {
+            background-color: #f1f1f1;
+        }
+        .drug-form {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .drug-form input[type="text"], .drug-form input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            flex: 1;
+        }
+        .drug-form button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .drug-form button:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Quản lý phác đồ điều trị</h1>
+    
+    <!-- Phác đồ điều trị mẫu -->
+    <div class="treatment-plan">
+        <h2>Phác đồ điều trị viêm khớp</h2>
+        <p><strong>Triệu chứng:</strong> Viêm, đau khớp, giảm vận động.</p>
+        
+        <div class="guidelines">
+            <h3>Hướng dẫn điều trị:</h3>
+            <p>1. Điều trị triệu chứng:</p>
+            <p>   - Cải thiện triệu chứng viêm, giảm đau, tăng vận động nhưng không thay đổi diễn tiến tự nhiên của bệnh.</p>
+            <p>2. Thuốc kháng viêm không phải steroid (NSAIDs):</p>
+            <p>   - Nên dùng thuốc ức chế chọn lọc hoặc ức chế ưu thế COX2 (vì ít tương tác với MTX).</p>
+            <p>3. Corticosteroids (Prednisolone, Prednisone):</p>
+            <p>   - Sử dụng ngắn hạn trong lúc chờ đợi các thuốc điều trị cơ bản có hiệu lực.</p>
+        </div>
+        
+        <h3>Danh sách thuốc:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên thuốc</th>
+                    <th>Liều lượng</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody id="drugList">
+                <!-- Danh sách thuốc sẽ được thêm vào đây -->
+            </tbody>
+        </table>
+
+        <!-- Biểu mẫu thêm thuốc -->
+        <div class="drug-form">
+            <input type="text" id="drugName" placeholder="Tên thuốc" required>
+            <input type="text" id="dosage" placeholder="Liều lượng" required>
+            <input type="text" id="notes" placeholder="Ghi chú" required>
+            <button onclick="addDrug()">Thêm thuốc</button>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            Thuốc đã được thêm thành công!
+        </div>
+        
+        <h3>Biện pháp hỗ trợ:</h3>
+        <p>1. Vật lý trị liệu: Tăng cường sức mạnh và tính linh hoạt cho khớp.</p>
+        <p>2. Thay đổi lối sống: Duy trì cân nặng hợp lý, ăn uống lành mạnh.</p>
+        
+        <h3>Phòng ngừa:</h3>
+        <p>1. Tránh chấn thương cho khớp bằng cách thực hiện các bài tập đúng cách.</p>
+        <p>2. Theo dõi triệu chứng thường xuyên và điều trị sớm khi có dấu hiệu viêm khớp.</p>
+
+        <h3>Theo dõi & tiên lượng:</h3>
+        <p>Bệnh nhân phải được điều trị lâu dài và theo dõi trong suốt quá trình điều trị.</p>
+        <p>Xét nghiệm định kỳ: CTM, VS, Creatinine, SGOT, SGPT mỗi 2 tuần trong một tháng đầu, mỗi tháng trong 3 tháng đầu, sau đó mỗi 3 tháng.</p>
+        <p>Tiên lượng nặng khi: tổn thương viêm nhiều khớp, bệnh nhân nữ, yếu tố dạng thấp (+), mức độ nặng.</p>
+    </div>
+
+</div>
+
+<script>
+    function addDrug() {
+        const drugName = document.getElementById('drugName').value;
+        const dosage = document.getElementById('dosage').value;
+        const notes = document.getElementById('notes').value;
+
+        // Kiểm tra xem các trường có giá trị hay không
+        if (drugName === '' || dosage === '' || notes === '') {
+            alert("Vui lòng điền tất cả các trường!");
+            return;
+        }
+
+        // Tạo hàng mới cho bảng thuốc
+        const drugList = document.getElementById('drugList');
+        const newRow = drugList.insertRow();
+        newRow.innerHTML = `
+            <td>${drugName}</td>
+            <td>${dosage}</td>
+            <td>${notes}</td>
+        `;
+
+        // Hiện thông báo thành công
+        const successMessage = document.getElementById('successMessage');
+        successMessage.style.display = 'block';
+
+        // Ẩn thông báo sau 3 giây
+        setTimeout(() => {
+            successMessage.style.display = 'none';
+        }, 3000);
+
+        // Xóa giá trị input sau khi thêm
+        document.getElementById('drugName').value = '';
+        document.getElementById('dosage').value = '';
+        document.getElementById('notes').value = '';
+    }
+</script>
+
+</body>
+</html>
