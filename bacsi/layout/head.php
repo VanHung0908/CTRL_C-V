@@ -27,7 +27,7 @@
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link rel="stylesheet" href="/QLBV/assets/css/base.css">
 </head>
 <body>
     <div class="header">
