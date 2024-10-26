@@ -1,0 +1,131 @@
+<?php include_once '../layout/header.php'?>
+
+<!-- Header -->
+<div class="section-2-1-1">
+    <div class="inner-wrap wow fadeInRight">
+        <div class="container-fluid h-custom">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-md-6">
+                    <!-- Lịch -->
+                    <div class="calendar-container bg-white p-4 rounded shadow-sml">
+                        <h2>Chọn Ngày</h2>
+                        <div class="lich">
+                            <button id="prevMonth">&#8249;</button>
+                            <div id="monthYear"></div>
+                            <button id="nextMonth">&#8250;</button>
+                        </div>
+                        <div class="days">
+                            <div class="day">CN</div>
+                            <div class="day">T2</div>
+                            <div class="day">T3</div>
+                            <div class="day">T4</div>
+                            <div class="day">T5</div>
+                            <div class="day">T6</div>
+                            <div class="day">T7</div>
+                        </div>
+                        <div id="dates" class="dates"></div>
+                        <div id="selectedDate" class="selected-date"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <!-- Thông tin đặt lịch -->
+                    <div class="booking-info bg-white p-4 rounded shadow-sml">
+                        <div class="info-title"><b>Thông tin đặt khám</b></div>
+                        <hr class="divider">
+                        <div class="info-details" id="infoDetails">
+                            <p>Ngày đã chọn: <span id="infoDate">Chưa chọn ngày</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const monthYearElement = document.getElementById('monthYear');
+    const datesElement = document.getElementById('dates');
+    const selectedDateElement = document.getElementById('selectedDate');
+    const infoDateElement = document.getElementById('infoDate');
+    const prevMonthButton = document.getElementById('prevMonth');
+    const nextMonthButton = document.getElementById('nextMonth');
+
+    let currentDate = new Date();
+
+    function renderCalendar() {
+    const month = currentDate.getMonth();
+    const year = currentDate.getFullYear();
+    monthYearElement.innerText = `${getMonthName(month)} ${year}`;
+
+    const firstDay = new Date(year, month, 1);
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    const startingDay = firstDay.getDay();
+
+    const today = new Date(); // Lưu ngày hôm nay
+    datesElement.innerHTML = '';
+
+    // Thêm các ô trống cho những ngày trước của tháng
+    for (let i = 0; i < startingDay; i++) {
+        datesElement.innerHTML += `<div class="date"></div>`;
+    }
+
+    // Thêm các ngày trong tháng
+    for (let date = 1; date <= lastDate; date++) {
+        const isToday = date === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        const className = isToday ? 'date today' : 'date'; // Thêm class 'today' cho ngày hiện tại
+        datesElement.innerHTML += `<div class="${className}" onclick="selectDate(${date})">${date}</div>`;
+    }
+
+    // Thêm các ô trống cho những ngày sau của tháng (nếu có)
+    const endDay = new Date(year, month + 1, 0).getDay();
+    for (let i = endDay + 1; i < 7; i++) {
+        datesElement.innerHTML += `<div class="date"></div>`;
+    }
+}
+
+
+
+    function getMonthName(month) {
+        const months = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", 
+                        "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
+        return months[month];
+    }
+
+    function selectDate(date) {
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const selectedDate = new Date(year, month - 1, date);
+    const today = new Date();
+    
+    // Kiểm tra xem ngày được chọn phải sau ngày hiện tại một ngày
+    if (selectedDate <= today) {
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Ngày đặt lịch phải sau ngày hiện tại!",
+                confirmButtonText: "Thử lại"
+            });
+        return;
+    }
+
+    selectedDateElement.innerText = `Ngày đã chọn: ${date}/${month}/${year}`;
+    infoDateElement.innerText = `${date}/${month}/${year}`;
+    }
+
+
+    prevMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextMonthButton.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    // Initial render
+    renderCalendar();
+</script>
+
+<?php include_once '../layout/footer.php'?>

@@ -1,0 +1,31 @@
+em: in nghiêng, emphasize
+strong: in đậm
+hr: tạo ra 1 cái đường kẻ
+h1->h6: header 
+p: paragraph, làm cho nó xuống hàng
+
+
+Ctrl Shift P: bật cái thanh kia nhanh
+Ctrl B: tắt editor
+Ctrl D: thay đổi tất cả chữ chung
+
+.class {} tên class name
+#total {} đọc ID
+
+line-height: chiều cao của chữ:
+letter-spacing: khoảng cách giưa các chữ
+text-transform: đổi uppercase hay lowercase
+font-weight: kích cỡ in đậm nghiêng...
+
+padding: top right bottom left - cái khung vuông ngoài text
+margin: cái vòng ở ngoài cùng, là cái khung vuông vô hình
+border-width: độ dài của cái hộp ngoài
+border-style: solid - đường thẳng, dashed là gạch
+border: 2px solid <color>
+border-radius top-left top-right bottom-right bottom-left (đi theo clockwise)
+
+ list-style-type: <type> loại của list
+list-style-type: none (xoá cái kí tự list)
+
+background-image: hình ảnh background
+background-repeat: no-repeat, ko lặp lại

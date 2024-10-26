@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Màu nền nhẹ nhàng */
+}
+
+a {
+    text-decoration: none;
+    color: #007bff; /* Màu xanh dương */
+}
+
+a:hover {
+    color: #0056b3; /* Màu xanh đậm khi hover */
+}
+
+/* Header styles */
+.header {
+    background-color: #5792d2; /* Bright Blue */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white; /* Text color */
+    font-size: 18px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.header .menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    padding-right: 20px;
+    transition: transform 0.3s ease;
+}
+.header .nav #Hoten{
+    color: #FFF;
+}
+.header img{
+    width: 120px;
+    height: 40px;
+    margin-bottom: 10px;
+}
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #e9ecef; /* Màu xám nhạt */
+    color: #343a40; /* Màu chữ tối */
+    position: fixed;
+    top: 0;
+    left: 0; 
+    transition: all 0.4s ease;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .logo {
+    padding: 20px;
+    text-align: center;
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: white;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    padding: 20px;
+    border-bottom: 1px solid #ced4da; /* Đường viền màu xám nhạt */
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    padding-left: 10px;
+    background-color: #d1e7dd; /* Màu nền khi hover */
+}
+
+.sidebar li span {
+    margin-left: 15px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 250px;
+    padding: 80px 20px;
+    transition: margin-left 0.4s ease;
+    background-color: #f0f2f5; /* Màu nền nhẹ nhàng */
+    flex: 1;
+}
+
+/* Dropdown styles */
+.dropdown-menu {
+    display: none;
+    margin-top: -5px;
+    position: absolute;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Sidebar Icons */
+.sidebar-icon {
+    font-size: 20px;
+    width: 30px;
+    text-align: center;
+    color: #000;
+}
+
+.barry-text {
+    color: #343a40; /* Màu chữ tối */
+    font-size: 24px; /* Kích thước chữ */
+    font-weight: bold; /* Chữ đậm */
+    margin-left: 10px; /* Khoảng cách giữa biểu tượng menu và chữ */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Tạo bóng cho chữ */
+    letter-spacing: 1px; /* Tăng khoảng cách giữa các chữ cái */
+    transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+.barry-text:hover {
+    color: #b3c5cd; /* Màu chữ thay đổi khi hover */
+}
+/* Menu con */
+.submenu {
+    list-style-type: none; /* Xóa dấu chấm đầu dòng */
+    padding-left: 0; /* Xóa khoảng cách bên trái */
+    display: none; /* Ẩn menu con theo mặc định */
+    margin-top: 10px; /* Khoảng cách trên menu con */
+    /* Khoảng cách bên trái để căn chỉnh menu con */
+}
+
+.submenu.active {
+    display: block; /* Hiện menu con khi có lớp active */
+}
+
+.submenu li {
+    padding: 10px; /* Khoảng cách cho từng mục trong menu con */
+    border-bottom: 1px solid #34495e; /* Đường viền dưới các mục */
+    cursor: pointer; /* Thay đổi con trỏ khi hover */
+    color: #000; /* Màu chữ cho menu con */
+    margin-left: 30px;
+}
+
+.submenu li:hover {
+    background-color: #16a085; /* Màu nền khi hover vào mục menu con */
+}
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: .255em;
+    vertical-align: middle; /* Căn giữa với văn bản */
+    content: "";
+    border-top: .3em solid; /* Màu sắc của mũi tên */
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+
