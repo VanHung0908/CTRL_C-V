@@ -76,7 +76,7 @@
                             <p>Khoa khám: <span id="infoDepartment">Chưa chọn khoa</span></p>
                             <p>Bác sĩ: <span id="infoDoctor">Chưa chọn bác sĩ</span></p>
                         </div>
-                        <button id="confirmButton" class="btn btn-primary mt-3" style="display: none;" onclick="confirmBooking()">Xác Nhận</button>
+                        <button id="confirmButton" class="btn btn-primary mt-3" style="display: none;" onclick="confirmBooking()">Thanh toán</button>
                     </div>
                 </div>
             </div>
