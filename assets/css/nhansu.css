@@ -91,7 +91,7 @@ a:hover {
 }
 
 .sidebar li span {
-    margin-left: 15px;
+    margin-left: 10px;
     font-size: 16px;
     font-weight: 500;
 }
@@ -141,6 +141,9 @@ a:hover {
     color: #b3c5cd; /* Màu chữ thay đổi khi hover */
 }
 /* Menu con */
+.menu-toggle{
+    color: #000;
+}
 .submenu {
     list-style-type: none; /* Xóa dấu chấm đầu dòng */
     padding-left: 0; /* Xóa khoảng cách bên trái */
@@ -280,3 +283,195 @@ a:hover {
     cursor: pointer;
 }
 
+/* Hóa đơn */
+.hoadon-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.hoadon-table th, table td {
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.hoadon-table th {
+    background-color: #CCC;
+    color: black;
+    font-weight: 700;
+}
+.hoadon-table td {
+    color: black;
+}
+
+.btn-pay {
+    width: 150px;
+    text-align: center;
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn-pay:hover {
+    background-color: #2980b9;
+}
+/* Hóa đơn thanh toán */
+.header-title {
+    text-align: center;
+    color: black;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.section-title {
+    color: black;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.text {
+    font-size: 16px;
+    color:#595959;
+}
+.table-cost {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.table-cost th, .table-cost td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+.table-cost th {
+    background-color: #3498db;
+    color: #fff;
+}
+.table-cost td {
+    color: #34495e;
+}
+.total-amount, .payable-amount {
+    font-size: 18px;
+    color: #2c3e50;
+    margin: 10px 0;
+}
+.payable-amount span {
+    color: #e74c3c;
+}
+.btn-payment {
+    display: block;
+    padding: 12px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+    text-align: center;
+}
+.btn-payment:hover {
+    background-color: #2980b9;
+}
+/* Cá nhân */
+.profile-card, .account-info, .personal-info {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-card {
+    text-align: center;
+    height: 100%;
+}
+.profile-card img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+.account-info h5, .personal-info h5 {
+    font-weight: bold;
+}
+.account-info .form-control, .personal-info {
+    margin-bottom: 10px;
+}
+.form-group {
+    position: relative;
+}
+.form-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+/* Quản lý phòng khám */
+
+.schedule-table {
+    background-color: #FFF;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.schedule-table th, .schedule-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.schedule-table th {
+    background-color: #f2f2f2;
+}
+.schedule-table td {
+    height: 100px;
+    vertical-align: top;
+}
+.morning, .afternoon {
+    background-color: #ffffe0;
+    font-weight: bold;
+}
+.event {
+    background-color: #28a745;
+    color: white;
+    padding: 5px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+.QLPK-btn {
+    cursor: pointer;
+    color: white;
+    margin-left: 5px;
+}
+.header-date {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.header-date .btn-group {
+    display: flex;
+    gap: 5px;
+}
+.btn-group button {
+    background-color: #fff; 
+    border-color: #6c757d;
+}
+.header-date .date-picker {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.header-date .date-picker input {
+    padding: 5px;
+}
+.select-doctor {
+    width: 100%;
+}
+.date-picker input,
+#clinicSelect {
+    border-radius: 5px; /* Bo góc */
+    padding: 5px;
+    border: 1px solid #ced4da;
+    outline: none;
+}

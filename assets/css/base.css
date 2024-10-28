@@ -35,3 +35,8 @@ ul, li {
     margin: 0;
     padding: 0;
 }
+.divider {
+    border: none; /* Không viền mặc định */
+    border-top: 1px solid rgba(0, 0, 0, 0.2); /* Đường gạch mỏng */
+    margin: 10px 0; /* Khoảng cách trên và dưới */
+}
