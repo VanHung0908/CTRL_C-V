@@ -52,7 +52,7 @@ a:hover {
 }
 /* Sidebar styles */
 .sidebar {
-    width: 250px;
+    width: 260px;
     height: 100vh;
     background-color: #e9ecef; /* Màu xám nhạt */
     color: #343a40; /* Màu chữ tối */
@@ -64,7 +64,27 @@ a:hover {
     display: flex;
     flex-direction: column;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Thêm thuộc tính này để hiển thị thanh cuộn */
 }
+
+/* Tùy chỉnh thanh cuộn */
+.sidebar::-webkit-scrollbar {
+    width: 6px; /* Độ rộng của thanh cuộn */
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #e9ecef; /* Màu nền của track thanh cuộn */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #CCC; /* Màu thanh cuộn */
+    border-radius: 10px; /* Bo tròn thanh cuộn */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #495057; /* Màu thanh cuộn khi hover */
+}
+
 
 .sidebar .logo {
     padding: 20px;

@@ -1,15 +1,3 @@
-<!-- <div class="sidebar" id="sidebar">
-        <ul>
-            <li><span class="sidebar-icon"> </span><span></span></li>
-            <li><span class="sidebar-icon">📅</span><span>Đăng kí lịch</span></li>
-            <li><span class="sidebar-icon">👀</span><span>Xem lịch</span></li>
-            <li><span class="sidebar-icon">🏖️</span><span>Đăng kí nghỉ phép</span></li>
-            <li><span class="sidebar-icon">💰</span><span>Xem bảng lương</span></li>
-            <li><span class="sidebar-icon">👤</span><span>Cá nhân</span></li>
-            <li><span class="sidebar-icon">🚪</span><span>Đăng xuất</span></li>
-        </ul>
-    </div> -->
-
     <div class="sidebar" id="sidebar">
     <ul>
         <li>
@@ -47,6 +35,19 @@
             <a href="index.php?page=QLPK" class="sidebar-link">
                 <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
                 <span>Quản lý phòng khám</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="index.php?page=dangkykhambenh" class="sidebar-link">
+                <span class="sidebar-icon"><i class="fa-solid fa-calendar-check"></i></span> 
+                <span>Đăng ký khám bệnh</span>
+            </a>
+        </li>
+        <li>
+            <a href="index.php?page=phacdodieutri" class="sidebar-link">
+                <span class="sidebar-icon"><i class="fa-solid fa-clipboard-list"></i></span> 
+                <span>Phác đồ điều trị</span>
             </a>
         </li>
         <li>

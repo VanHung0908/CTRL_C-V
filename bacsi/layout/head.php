@@ -43,7 +43,7 @@
                     Lâm Văn Hưng 
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="">Hồ sơ cá nhân</a>
+                    <a class="dropdown-item" href="/QLBV/bacsi/index.php?page=CaNhan">Hồ sơ cá nhân</a>
                     <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                 </div>
             </li>
