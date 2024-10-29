@@ -27,10 +27,12 @@
             case 'thanhtoan':
                 $pagePath = "./page/HoaDon/hoadon.php"; // Đường dẫn đến xemchitiet.php
                 break;
+
             #NVQLNgoaiTru
             case 'capnhatthongtinNV':
                 $pagePath = "./page/DSnhapvien/capnhatthongtin.php"; // Đường dẫn đến xemchitiet.php
                 break;
+           
             default:
                 $pagePath = "./page/{$page}/index.php"; // Đường dẫn đến file index.php trong thư mục tương ứng
                 break;

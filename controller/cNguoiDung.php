@@ -9,7 +9,10 @@
           $tbl = $p->select01NguoiDung($user, $pw);
       
           if (mysqli_num_rows($tbl) > 0) {
+            foreach($tbl as $i){
               $_SESSION['dangnhap'] = 1;
+              $_SESSION['dn'] = $i['tenTK'];    
+          }
       
               // Kiểm tra nếu $user bắt đầu bằng "NS"
               if (substr($user, 0, 2) === "NS") {

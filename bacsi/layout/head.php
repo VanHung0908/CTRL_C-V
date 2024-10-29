@@ -49,3 +49,7 @@
             </li>
         </ul>
     </div>
+
+    <?php
+    include('C:\wamp64\www\QLBV\model\ketnoi.php');
+    ?>

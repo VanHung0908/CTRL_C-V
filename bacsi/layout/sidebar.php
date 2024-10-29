@@ -26,11 +26,13 @@
         <span class="sidebar-icon"><i class="fa-solid fa-calendar-alt"></i></span>
             <span class="menu-toggle">Lịch làm việc &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
             <ul class="submenu">
-                <li>Đăng kí lịch</li>
-                <li>Xem lịch</li>
-                <li>Đăng kí nghỉ phép</li>
+                <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
+                <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
+                <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
+                <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
             </ul>
         </li>
+      
         <li>
             <a href="index.php?page=QLPK" class="sidebar-link">
                 <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
@@ -38,6 +40,7 @@
             </a>
         </li>
         <li>
+
             <a href="index.php?page=DSgiuong" class="sidebar-link">
                 <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
                 <span> Danh sách giường</span>
@@ -73,6 +76,7 @@
             </ul>
         </li>
         <li>
+
             <a href="index.php?page=HoaDon" class="sidebar-link">
                 <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar" ></i></span> 
                 <span>Hóa đơn</span>

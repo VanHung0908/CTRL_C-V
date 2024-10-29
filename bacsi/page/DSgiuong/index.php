@@ -1,35 +1,5 @@
-    <style>
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .card-title {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .card-text {
-            font-size: 0.9rem;
-        }
-        .status {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-        .bed-icon {
-            font-size: 3rem;
-        }
-        .in-use {
-            color: red;
-        }
-        .reserved {
-            color: orange;
-        }
-        .empty {
-            color: blue;
-        }
-    </style>
-    <div class="main-content" id="main-content">
+
+  <div class="main-content" id="main-content">  
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <label for="roomSelect" class="form-label">Phòng:</label>
