@@ -100,7 +100,7 @@
                             LÂM VĂN HƯNG <b class="caret"></b>
                         </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/QLBV/benhnhan/profile.php">Hồ sơ cá nhân</a>
+                            <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ cá nhân</a>
                             <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                         </div>
                     <?php else: ?>

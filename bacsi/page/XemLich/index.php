@@ -27,7 +27,7 @@
     }
     ?>
 <div class="main-content" id="main-content">
-    <h1>Lịch Tuần</h1>
+    <h3>Lịch làm việc</h3>
     <span id="weekNumber">Tuần: </span>
     <div class="btn-group">
         <button onclick="previousWeek()" class="btn btn-outline-secondary">Tuần Trước</button>
