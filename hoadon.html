@@ -1,195 +1,160 @@
 <html>
+
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css.css">
+    <title>
+        PHIẾU KẾT QUẢ KHÁM BỆNH
+    </title>
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .card-title {
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        .card-text {
-            font-size: 0.9rem;
-        }
-        .status {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-        .bed-icon {
-            font-size: 3rem;
-        }
-        .in-use {
-            color: red;
-        }
-        .reserved {
-            color: orange;
-        }
-        .empty {
-            color: blue;
-        }
+
     </style>
 </head>
+
 <body>
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <label for="roomSelect" class="form-label">Room:</label>
-                <select id="roomSelect" class="form-select d-inline-block w-auto">
-                    <option selected>Oncology room 1</option>
-                    <!-- Add other room options as needed -->
-                </select>
-            </div>
-            <div>
-                <button class="btn btn-outline-secondary"><i class="fas fa-calendar-alt"></i> Month</button>
-                <button class="btn btn-outline-secondary"><i class="fas fa-filter"></i></button>
-            </div>
+    <div class="container">
+        <div class="header">
+            <img alt="Hospital Logo" height="100" src="/assets/images/Barry.png" width="100" />
+            <h1>
+                BỆNH VIỆN ĐA KHOA BARRY
+            </h1>
+            <h2>
+                KHOA TIM MẠCH
+            </h2>
+            <p>
+                Địa chỉ: Đường Nguyễn Văn Bảo, Phường 4, Quận Gò Vấp
+            </p>
+            <p>
+                Điện thoại: 024 3383 3766 | Website: www.benhviendakhoabarry.vn
+            </p>
+            <h2>
+                PHIẾU KẾT QUẢ KHÁM BỆNH
+            </h2>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 1</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: Michael Scott</p>
-                        <p>Admission Date: 09/12/2019</p>
-                        <p>Age: 67</p>
-                        <p>Sex: Male</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 2</span>
-                        <span class="status reserved">Reserved</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon reserved"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: Steve Smith</p>
-                        <p>Admission Date: 01/20/2020</p>
-                        <p>Age: 43</p>
-                        <p>Sex: Male</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 3</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: James Smith</p>
-                        <p>Admission Date: 12/27/2019</p>
-                        <p>Age: 73</p>
-                        <p>Sex: Male</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 4</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: Cindy Love</p>
-                        <p>Admission Date: 12/12/2019</p>
-                        <p>Age: 36</p>
-                        <p>Sex: Female</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 5</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: James Johnson</p>
-                        <p>Admission Date: 11/12/2019</p>
-                        <p>Age: 37</p>
-                        <p>Sex: Male</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 6</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: Maria Garcia</p>
-                        <p>Admission Date: 1/12/2020</p>
-                        <p>Age: 64</p>
-                        <p>Sex: Female</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 7</span>
-                        <span class="status empty">Empty</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon empty"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient:</p>
-                        <p>Admission Date:</p>
-                        <p>Age:</p>
-                        <p>Sex:</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">BED 8</span>
-                        <span class="status in-use">In Use</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Patient: Robert Scott</p>
-                        <p>Admission Date: 01/01/2020</p>
-                        <p>Age: 84</p>
-                        <p>Sex: Male</p>
-                    </div>
-                </div>
-            </div>
+        <table class="info">
+            <tr>
+                <td>
+                    Tên bệnh nhân: <span style="color: #000;">Nguyễn Văn A </span>
+                </td>
+
+                <td>
+                    Mã bệnh nhân: <span style="color: #000;">BN21066721</span>
+                </td>
+
+                <td>
+                    Mã BHYT: <span style="color: #000;">[BHYT]</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Năm sinh: <span style="color: #000;">2003</span>
+                </td>
+
+                <td>
+                    Giới tính: <span style="color: #000;">Nữ</span>
+                </td>
+
+                <td>
+                    Địa chỉ: <span style="color: #000;">173 đường số 20, phường 5, quận Gò Vấp</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Khoa: <span style="color: #000;">Khoa tim mạch</span>
+                </td>
+
+                <td>
+                    Bác sĩ khám bệnh: <span style="color: #000;">Lê Văn B</span>
+                </td>
+
+                <td>
+                    Chẩn đoán: <span style="color: #000;"><b>ĐÁI THÁO ĐƯỜNG ĐA BIẾN CHỨNG - THEO DÕI SUY THẬN / SUY GIÁP </b></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Tình trạng hiện tại: <span style="color: #000;">[Sample]</span>
+                </td>
+
+                <td>
+                    Ngày khám bệnh: <span style="color: #000;">28/10/2024</span>
+                </td>
+
+                <td>
+                    Ngày tái khám: <span style="color: #000;">15/11/2024</span>
+                </td>
+            </tr>
+           
+        </table>
+        <table class="results">
+            <h2 style="text-align: center;">TOA THUỐC</h2>
+            <tr>
+                <th>Mã thuốc</th>
+                <th>Tên thuốc</th>
+                <th> Liều lượng</th>
+                <th>Số lượng</th>
+                <th> Cách dùng</th>
+            </tr>
+
+            
+            <tr>
+                <td>
+                    <select name="maThuoc" id="maThuoc">
+                        <option value=""></option>
+                        <option value="T01">T01</option>
+                        <option value="T02">T02</option>
+                        <option value="T03">T03</option>
+                        <option value="T04">T04</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="tenThuoc" id="tenThuoc">
+                        <option value=""></option>
+                        <option value="T01">Triptans</option>
+                        <option value="T02">Etodolac </option>
+                        <option value="T03">Oxaprozin</option>
+                        <option value="T04">Indomethacin</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="lieuLuong" id="lieuLuong">
+                        <option value=""></option>
+                        <option value="T01">1 lần/ngày</option>
+                        <option value="T02">2 lần/ngày </option>
+                        <option value="T03">3 lần/ngày</option>
+                       
+                    </select>
+                </td>
+                <td>
+                   <input type="text" value="" id="soLuong">
+                </td>
+                <td>
+                    <select name="cachDung" id="cachDung">
+                        <option value=""></option>
+                        <option value="T01">Uống</option>
+                        <option value="T02">Tiêm </option>
+                        <option value="T03">Truyền dịch</option>
+                        
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td><button>Thêm thuốc</button></td>
+            </tr>
+           
+        </table>
+        <p class="note">
+            *Lưu ý: Dùng thuốc theo đơn, nếu nhận thấy có triệu chứng bất thường hãy đến khám ngay!
+        </p>
+        <div class="signature">
+            <p>
+                BÁC SĨ CHẤN ĐOÁN
+            </p>
         </div>
     </div>
 </body>
+
 </html>

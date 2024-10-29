@@ -495,3 +495,54 @@ a:hover {
     border: 1px solid #ced4da;
     outline: none;
 }
+/* Lập phiếu khám */
+
+.header-lpk {
+    text-align: center;
+}
+
+.header-lpk img {
+    width: 100px;
+}
+
+.header-lpk h1,
+.header-lpk h2 {
+    margin: 0;
+}
+
+.info,
+.results {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.info td,
+.results td,
+.results th {
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+.info td {
+    width: 25%;
+}
+
+.results th {
+    background-color: #f2f2f2;
+}
+
+.results th,
+.results td {
+    text-align: center;
+}
+
+.note {
+    margin-top: 10px;
+    font-style: italic;
+}
+
+.signature {
+    text-align: right;
+    margin-top: 20px;
+}
