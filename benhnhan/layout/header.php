@@ -1,3 +1,6 @@
+<?php
+    session_start(); // Khởi tạo hoặc tiếp tục session
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,8 +19,13 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <link rel="stylesheet" href="/QLBV/assets/css/style.css">
-  <link rel="stylesheet" href="/QLBV/assets/css/base.css">
+  <!-- <link rel="stylesheet" href="QLBV/assets/css/style.css">
+  <link rel="stylesheet" href="QLBV/assets/css/base.css"> -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/xemhoso.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/base.css">
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.2/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -32,9 +40,6 @@
 
 
 </head>
-<?php
-    session_start(); // Khởi tạo hoặc tiếp tục session
-?>
 <body>
 
   <!-- Pre Header -->
