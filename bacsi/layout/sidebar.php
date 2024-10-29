@@ -37,6 +37,12 @@
                 <span>Quản lý phòng khám</span>
             </a>
         </li>
+        <li>
+            <a href="index.php?page=DSgiuong" class="sidebar-link">
+                <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
+                <span> Danh sách giường</span>
+            </a>
+        </li>
         
         <li>
             <a href="index.php?page=dangkykhambenh" class="sidebar-link">
@@ -49,6 +55,22 @@
                 <span class="sidebar-icon"><i class="fa-solid fa-clipboard-list"></i></span> 
                 <span>Phác đồ điều trị</span>
             </a>
+        </li>
+        <li>
+        <span class="sidebar-icon"><i class="fa-solid fa-bed-pulse"></i></span>
+            <span class="menu-toggle">Nội trú &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
+            <ul class="submenu">
+                <li>
+                    <a href="index.php?page=DSnhapvien">
+                       Danh sách nhập viện
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?page=DSxuatvien">
+                       Danh sách xuất viện
+                    </a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="index.php?page=HoaDon" class="sidebar-link">
@@ -70,3 +92,12 @@
         </li>
     </ul>
 </div>
+<script>
+    document.querySelectorAll('.menu-toggle').forEach(item => {
+    item.addEventListener('click', function () {
+        const submenu = this.nextElementSibling;
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    });
+});
+
+</script>
