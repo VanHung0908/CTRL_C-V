@@ -618,3 +618,94 @@ a:hover {
 .dkl-button:hover {
     background-color: #4cae4c;
 }
+/* Duyệt yêu cầu nghỉ phép */
+.leave-request-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+.leave-request-table th,
+.leave-request-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.leave-request-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.leave-request-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.leave-request-table tr:hover {
+    background-color: #ddd;
+}
+
+.leave-request-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.leave-request-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* modal */
+#rejectModal {
+    width: 50%;
+    border-radius: 8px;
+}
+
+#rejectModal h3 {
+    margin-top: 0;
+}
+
+#rejectModal textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#rejectModal input[type="submit"] {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#rejectModal input[type="submit"]:hover {
+    background-color: #c9302c;
+}
+
+#rejectModal button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+#rejectModal button:hover {
+    background-color: #5a6268;
+}
+
+/* CSS cho overlay */
+#overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+}
