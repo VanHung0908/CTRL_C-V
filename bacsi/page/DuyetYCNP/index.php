@@ -3,7 +3,7 @@ ob_start();
 ?>
 
 <?php
-include_once(BACKEND_URL . 'model\mEmployee.php');
+include_once(BACKEND_URL . 'model/mEmployee.php');
 $con = new mEmployee;
 $dsYCNP = $con->dsYCNP();
 

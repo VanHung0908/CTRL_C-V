@@ -57,7 +57,7 @@ if (isset($_POST['btn'])) {
         foreach ($_POST['shift'] as $day_index => $shift_type) {
             $ca = $shift_type;
             $ngay = $day_index;
-            include_once(BACKEND_URL . 'model\mEmployee.php');
+            include_once(BACKEND_URL . 'model/mEmployee.php');
             $con = new mEmployee;
             $kq = $con->insertWork_schedule($_SESSION['dn'], $ngay, $ca);
             if (!$kq) {

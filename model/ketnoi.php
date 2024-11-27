@@ -3,7 +3,7 @@
     {
         public function moKetNoi()
         {
-            return mysqli_connect('localhost','root','','QLBV');
+            return mysqli_connect('localhost','root','','benhvien');
         }
         public function dongKetNoi($con)
         {
@@ -12,5 +12,5 @@
     }
     define('BN_URL', 'http://localhost/QLBV/');
     define('BS_URL', 'http://localhost/QLBV/bacsi/');
-    define('BACKEND_URL', 'C:\wamp64\www\QLBV\\');
+    define('BACKEND_URL', $_SERVER['DOCUMENT_ROOT'] . '/QLBV/');
 ?>

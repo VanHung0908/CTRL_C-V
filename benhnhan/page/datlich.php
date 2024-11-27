@@ -1,4 +1,10 @@
-<?php include_once '../layout/header.php' ?>
+<?php 
+include_once '../layout/header.php';
+include_once(BACKEND_URL . 'model/mKhoa.php');
+$model = new mKhoa();
+
+$departments = $model->getAllDepartments();
+ ?>
 
 <!-- Header -->
 <div class="section-2-1-1">
@@ -43,13 +49,14 @@
                     </div>
 
                     <!-- Chọn khoa khám -->
-                    <div class="department-selection bg-white p-4 rounded shadow-sml" id="departmentSelection" style="display: none;">
+                    <div class="department-selection bg-white p-4 rounded shadow-sml" id="departmentSelection"  style="display: none;">
                         <h4>Chọn Khoa Khám</h4>
                         <hr class="divider">
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Nhi')">Khoa Nhi</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Da Liễu')">Khoa Da Liễu</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Răng Hàm Mặt')">Khoa Răng Hàm Mặt</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Tai Mũi Họng')">Khoa Tai Mũi Họng</button>
+                        <?php foreach ($departments as $department): ?>
+                            <button class="btn btn-outline-primary m-1" onclick="selectDepartment('<?php echo htmlspecialchars($department); ?>')">
+                                <?php echo htmlspecialchars($department); ?>
+                            </button>
+                        <?php endforeach; ?>
                         <br><button id="backTogio" class="btn btn-secondary mt-3">Quay lại chọn giờ</button>
                     </div>
 
@@ -57,11 +64,8 @@
                     <div class="doctor-selection bg-white p-4 rounded shadow-sml" id="doctorSelection" style="display: none;">
                         <h4>Chọn Bác Sĩ</h4>
                         <hr class="divider">
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Lâm Văn Hưng')">Lâm Văn Hưng</button> 
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Châu Duy Khánh')">Châu Duy Khánh</button> 
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Đoàn Thị Mai Linh')">Đoàn Thị Mai Linh</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Nguyễn Tấn Đạt')">Nguyễn Tấn Đạt</button>
-                        <br><button id="backTokhoa" class="btn btn-secondary mt-3">Quay lại chọn khoa</button>
+                        <div id="doctorList"></div> <!-- Danh sách bác sĩ sẽ được thêm vào đây -->
+                        <br><button id="backTokhoa" class="btn btn-secondary mt-3" onclick="goBackToDepartment()">Quay lại chọn khoa</button>
                     </div>
                 </div>
 
@@ -205,27 +209,59 @@
         selectedTime = time;
         infoTimeElement.innerText = ` ${time}`;
 
-        // Hiện thị phần chọn khoa khám
         timeSelectionElement.style.display = 'none';
         departmentSelectionElement.style.display = 'block';
     }
 
-    function selectDepartment(department) {
-        selectedDepartment = department;
-        infoDepartmentElement.innerText = `${department}`;
+    function selectDepartment(tenKhoa) {
+    selectedDepartment = tenKhoa;
+    document.getElementById('infoDepartment').innerText = `${tenKhoa}`;
 
-        // Hiện thị phần chọn bác sĩ
-        departmentSelectionElement.style.display = 'none';
-        doctorSelectionElement.style.display = 'block';
+    // Gửi AJAX yêu cầu danh sách bác sĩ
+    fetch('../../ajax/DSBS.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `tenKhoa=${encodeURIComponent(tenKhoa)}`
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
     }
+    return response.json();
+})
+.then(data => {
+    document.getElementById('departmentSelection').style.display = 'none';
+    const doctorSelection = document.getElementById('doctorSelection');
+    doctorSelection.style.display = 'block';
 
-    function selectDoctor(doctor) {
-        selectedDoctor = doctor;
-        infoDoctorElement.innerText = ` ${doctor}`;
+    const doctorList = document.getElementById('doctorList');
+    doctorList.innerHTML = '';
 
-        // Hiện thị nút xác nhận
-        document.getElementById('confirmButton').style.display = 'block';
+    if (Array.isArray(data) && data.length > 0) {
+        data.forEach(doctor => {
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-primary m-1';
+            button.textContent = doctor;  // Tên bác sĩ sẽ hiển thị đúng khi được giải mã
+            button.onclick = () => selectDoctor(doctor);
+            doctorList.appendChild(button);
+        });
+    } else {
+        const noDoctorMessage = document.createElement('p');
+        noDoctorMessage.textContent = 'Không có bác sĩ nào trong khoa này.';
+        doctorList.appendChild(noDoctorMessage);
     }
+})
+.catch(error => console.error('Error:', error));
+
+}
+
+function selectDoctor(doctorName) {
+    selectedDoctor = doctorName;
+    document.getElementById('infoDoctor').innerText = ` ${doctorName}`;
+
+    // Hiển thị nút xác nhận
+    document.getElementById('confirmButton').style.display = 'block';
+}
 
     function confirmBooking() {
 

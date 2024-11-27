@@ -20,7 +20,7 @@
         public function insertWork_schedule($id,$ngay,$ca){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichlamviec`(`MaNS`, `Thu`, `Ca`) VALUES ('$id','$ngay','$ca')";
+            $sql = "INSERT INTO `lichlamviec`(`MaNS`, `Thu`, `CaLam`) VALUES ('$id','$ngay','$ca')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
@@ -55,7 +55,7 @@
         public function dknp($id,$date,$ca,$lydo){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `ca`, `LyDo`, `TrangThai`) VALUES ('$id','$date','$ca','$lydo','0')";
+            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`) VALUES ('$id','$date','$ca','$lydo','0')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }

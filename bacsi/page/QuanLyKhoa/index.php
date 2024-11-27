@@ -1,6 +1,6 @@
 <?php
 ob_start();
-include_once(BACKEND_URL . 'model\mKhoa.php');
+include_once(BACKEND_URL . 'model/mKhoa.php');
 $con = new mKhoa;
 $dsYCNP = $con->dsKhoa();
 

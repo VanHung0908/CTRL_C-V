@@ -17,6 +17,25 @@
             $p -> dongKetNoi($con);
             return $kq;
         }
+        public function getAllDepartments() {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi();
+    
+            // Truy vấn lấy danh sách khoa từ bảng khoa
+            $sql = "SELECT TenKhoa FROM khoa WHERE TrangThai = 1 AND MaKhoa NOT IN (5, 10)"; 
+            $result = mysqli_query($con, $sql);
+    
+            // Lưu kết quả vào một mảng
+            $departments = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $departments[] = $row['TenKhoa'];
+            }
+    
+            // Đóng kết nối
+            $p->dongKetNoi($con);
+    
+            return $departments;
+        }
 
       
     }
