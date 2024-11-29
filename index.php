@@ -320,4 +320,20 @@ include ('benhnhan/layout/header.php');
 
   <?php
 include ('benhnhan/layout/footer.php');
-?>
+// Nhận thông báo từ URL
+$status = $_GET['status'] ?? null;
+$message = $_GET['message'] ?? null;
+
+if ($status && $message): ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.onload = function () {
+            Swal.fire({
+                icon: '<?php echo $status === "success" ? "success" : "error"; ?>',
+                title: '<?php echo $status === "success" ? "Thành công" : "Lỗi"; ?>',
+                text: '<?php echo urldecode($message); ?>',
+                confirmButtonText: 'OK'
+            });
+        };
+    </script>
+<?php endif; ?>

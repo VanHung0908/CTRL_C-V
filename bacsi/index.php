@@ -2,9 +2,9 @@
     session_start(); // Bắt buộc khởi động session
 
     // Kiểm tra nếu giá trị của $_SESSION['dangnhap'] khác 1
-    if (!isset($_SESSION['dangnhap']) || $_SESSION['dangnhap'] != 1) {
+    if (!isset($_SESSION['dangnhap']) || $_SESSION['dangnhap'] != 2) {
         // Chuyển hướng về trang đăng nhập
-        header('Location: http://localhost/QLBV/benhnhan/auth/login.php');
+        header('Location: http://localhost/QLBV/');
         exit(); // Dừng thực thi các đoạn mã phía sau sau khi chuyển hướng
     }
 

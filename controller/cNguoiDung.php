@@ -4,60 +4,97 @@
     {
       public function get01NguoiDung($user, $pw)
       {
-          $pw = md5($pw);  // Mã hóa mật khẩu
+          $pw = md5($pw); // Mã hóa mật khẩu
           $p = new mNguoiDung();
           $tbl = $p->select01NguoiDung($user, $pw);
-
-          // Kiểm tra nếu có kết quả trả về
-          if (mysqli_num_rows($tbl) > 0) {
-              foreach ($tbl as $i) {
-                  $_SESSION['dangnhap'] = 1;
-                  $_SESSION['dn'] = $i['tenTK'];    
-                  $_SESSION['maNS'] = isset($i['MaNS']) ? $i['MaNS'] : null;  
-                  $_SESSION['maBN'] = isset($i['MaBN']) ? $i['MaBN'] : null;  
-                  // Lấy MaCV và MaBN từ kết quả truy vấn
-                  $maNS = isset($i['MaNS']) ? $i['MaNS'] : null;
-                  $maBN = isset($i['MaBN']) ? $i['MaBN'] : null;
-
-                  // Kiểm tra nếu MaCV tồn tại
-                  if ($maNS) {
-                      echo '<script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Đăng nhập thành công",
-                              confirmButtonText: "OK"
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                              window.location.href = "' . BS_URL . '";  // Chuyển hướng đến trang nhân sự
-                              }
-                            });
-                          </script>';
-                  } elseif ($maBN) {
-                      echo '<script>
-                            Swal.fire({
-                              icon: "success",
-                              title: "Đăng nhập thành công",
-                              confirmButtonText: "OK"
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                window.location.href = "' . BN_URL . '";  // Chuyển hướng đến trang bệnh nhân
-                              }
-                            });
-                          </script>';
-                  }
-              }
-          } else {
-              // Nếu không có kết quả
+  
+          // Kiểm tra nếu truy vấn không thành công hoặc không có dữ liệu
+          if (!$tbl || mysqli_num_rows($tbl) == 0) {
               echo '<script>
                       Swal.fire({
-                        icon: "error",
-                        title: "Thất bại",
-                        text: "Tài khoản hoặc mật khẩu không chính xác!",
-                        confirmButtonText: "Thử lại"
+                          icon: "error",
+                          title: "Thất bại",
+                          text: "Tài khoản hoặc mật khẩu không chính xác!",
+                          confirmButtonText: "Thử lại"
                       });
                     </script>';
+              return;
+          }
+  
+          // Kiểm tra nếu có kết quả trả về
+          foreach ($tbl as $i) {
+              $_SESSION['dangnhap'] = 0;
+              $_SESSION['dn'] = $i['tenTK'];
+              $_SESSION['maNS'] = isset($i['MaNS']) ? $i['MaNS'] : null;
+              $_SESSION['maBN'] = isset($i['MaBN']) ? $i['MaBN'] : null;
+  
+              $maNS = $_SESSION['maNS'];
+              $maBN = $_SESSION['maBN'];
+  
+              if ($maNS) {
+                $_SESSION['dangnhap'] = 2;
+                  echo '<script>
+                          Swal.fire({
+                              icon: "success",
+                              title: "Đăng nhập thành công",
+                              confirmButtonText: "OK"
+                          }).then((result) => {
+                              if (result.isConfirmed) {
+                                  window.location.href = "' . BS_URL . '";  
+                              }
+                          });
+                        </script>';
+              } elseif ($maBN) {
+                $_SESSION['dangnhap'] = 1;
+                  echo '<script>
+                          Swal.fire({
+                              icon: "success",
+                              title: "Đăng nhập thành công",
+                              confirmButtonText: "OK"
+                          }).then((result) => {
+                              if (result.isConfirmed) {
+                                  window.location.href = "' . BN_URL . '"; 
+                              }
+                          });
+                        </script>';
+              }
           }
       }
+      public function addTK($hoTen, $soDienThoai, $matKhau)
+        {
+            // Mã hóa mật khẩu
+            $matKhau = md5($matKhau);
+
+            // Khởi tạo đối tượng model để thực hiện thao tác với CSDL
+            $p = new mNguoiDung();
+
+            $result = $p->insertNguoiDung($hoTen, $soDienThoai, $matKhau);
+
+            // Kiểm tra nếu kết quả trả về là thành công hay thất bại
+            if ($result) {
+                echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Đăng ký thành công",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                 window.location.href = "' . BS_URL . '"; 
+                            }
+                        });
+                    </script>';
+            } else {
+                echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Thất bại",
+                            text: "Đã có lỗi xảy ra khi đăng ký!",
+                            confirmButtonText: "Thử lại"
+                        });
+                    </script>';
+            }
+        }
+
       public function getBenhNhanInfo()
       {
           if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1) {

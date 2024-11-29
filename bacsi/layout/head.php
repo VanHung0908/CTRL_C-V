@@ -33,7 +33,7 @@
 </head>
 <?php
     include(__DIR__ . '../../../model/ketnoi.php');
-    if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1 && isset($_SESSION['maNS'])) {
+    if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 2 && isset($_SESSION['maNS'])) {
       include_once(BACKEND_URL . 'model/mNguoiDung.php');
       $model = new mNguoiDung();
       

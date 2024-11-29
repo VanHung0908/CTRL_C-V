@@ -109,7 +109,7 @@ include(__DIR__ . '/../../model/ketnoi.php');
                 <li class="nav-item dropdown">
                     <?php if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1): ?>
                       <a href="#" id="navItem" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <?php echo htmlspecialchars($hoTen); ?> <b class="caret"></b>
+                          <?php echo htmlspecialchars(strtoupper($hoTen)); ?> <b class="caret"></b>
                       </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ cá nhân</a>

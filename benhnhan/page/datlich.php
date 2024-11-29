@@ -222,55 +222,94 @@ $departments = $model->getAllDepartments();
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: `tenKhoa=${encodeURIComponent(tenKhoa)}`
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('departmentSelection').style.display = 'none';
+            const doctorSelection = document.getElementById('doctorSelection');
+            doctorSelection.style.display = 'block';
+
+            const doctorList = document.getElementById('doctorList');
+            doctorList.innerHTML = '';
+
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(doctor => {
+                    const button = document.createElement('button');
+                    button.className = 'btn btn-outline-primary m-1';
+                    button.textContent = doctor;  // Tên bác sĩ sẽ hiển thị đúng khi được giải mã
+                    button.onclick = () => selectDoctor(doctor);
+                    doctorList.appendChild(button);
+                });
+            } else {
+                const noDoctorMessage = document.createElement('p');
+                noDoctorMessage.textContent = 'Không có bác sĩ nào trong khoa này.';
+                doctorList.appendChild(noDoctorMessage);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
+        }
+
+    function selectDoctor(doctorName) {
+        selectedDoctor = doctorName;
+        document.getElementById('infoDoctor').innerText = ` ${doctorName}`;
+
+        // Hiển thị nút xác nhận
+        document.getElementById('confirmButton').style.display = 'block';
     }
-    return response.json();
-})
-.then(data => {
-    document.getElementById('departmentSelection').style.display = 'none';
-    const doctorSelection = document.getElementById('doctorSelection');
-    doctorSelection.style.display = 'block';
 
-    const doctorList = document.getElementById('doctorList');
-    doctorList.innerHTML = '';
+        function confirmBooking() {
+        const amount = 100000; // Số tiền thanh toán
+        const orderInfo = 'Thanh toán chi phí khám'; // Thông tin đơn hàng
 
-    if (Array.isArray(data) && data.length > 0) {
-        data.forEach(doctor => {
-            const button = document.createElement('button');
-            button.className = 'btn btn-outline-primary m-1';
-            button.textContent = doctor;  // Tên bác sĩ sẽ hiển thị đúng khi được giải mã
-            button.onclick = () => selectDoctor(doctor);
-            doctorList.appendChild(button);
+        // Lấy các giá trị từ thông tin đặt lịch
+        const selectedDate = document.getElementById("infoDate").textContent;
+        const selectedTime = document.getElementById("infoTime").textContent;
+        const department = document.getElementById("infoDepartment").textContent;
+        const doctor = document.getElementById("infoDoctor").textContent;
+
+        // Kiểm tra giá trị trước khi gửi
+        console.log("Ngày:", selectedDate);
+        console.log("Giờ:", selectedTime);
+        console.log("Khoa:", department);
+        console.log("Bác sĩ:", doctor);
+
+        // Tạo đối tượng URLSearchParams để gửi tham số
+        const data = new URLSearchParams();
+        data.append('amount', amount);
+        data.append('orderInfo', orderInfo);
+        data.append('selectedDate', selectedDate);
+        data.append('selectedTime', selectedTime);
+        data.append('department', department);
+        data.append('doctor', doctor);
+
+        fetch('../../vnpay/create-payment.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Nếu yêu cầu thanh toán thành công, chuyển hướng đến VNPay
+                window.location.href = data.paymentUrl;
+            } else {
+                alert('Có lỗi xảy ra trong quá trình tạo yêu cầu thanh toán.');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            alert('Có lỗi xảy ra, vui lòng thử lại.');
         });
-    } else {
-        const noDoctorMessage = document.createElement('p');
-        noDoctorMessage.textContent = 'Không có bác sĩ nào trong khoa này.';
-        doctorList.appendChild(noDoctorMessage);
     }
-})
-.catch(error => console.error('Error:', error));
 
-}
-
-function selectDoctor(doctorName) {
-    selectedDoctor = doctorName;
-    document.getElementById('infoDoctor').innerText = ` ${doctorName}`;
-
-    // Hiển thị nút xác nhận
-    document.getElementById('confirmButton').style.display = 'block';
-}
-
-    function confirmBooking() {
-
-        Swal.fire({
-            icon: 'success',
-            title: 'Đặt Lịch Thành Công',
-            confirmButtonText: 'OK'
-        });
-    }
 
     // Chuyển tháng trước
     prevMonthButton.addEventListener('click', () => {
