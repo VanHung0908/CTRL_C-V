@@ -16,7 +16,7 @@ if (isset($_POST['selectedDate']) && isset($_POST['selectedTime']) && isset($_PO
     $_SESSION['doctor'] = $_POST['doctor'];
 }
 
-$vnp_Amount = isset($_POST['amount']) ? $_POST['amount'] * 100 : 10000000; 
+$vnp_Amount = isset($_POST['amount']) ? $_POST['amount'] * 100 : 100000; 
 $vnp_OrderInfo = isset($_POST['orderInfo']) ? $_POST['orderInfo'] : 'Thanh toán chi phí khám';  
 // Các tham số khác
 $vnp_OrderType = $vnp_OrderInfo;  

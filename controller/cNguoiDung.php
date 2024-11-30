@@ -27,9 +27,11 @@
               $_SESSION['dn'] = $i['tenTK'];
               $_SESSION['maNS'] = isset($i['MaNS']) ? $i['MaNS'] : null;
               $_SESSION['maBN'] = isset($i['MaBN']) ? $i['MaBN'] : null;
+              $_SESSION['maCV'] = isset($i['MaCV']) ? $i['MaCV'] : null;
   
               $maNS = $_SESSION['maNS'];
               $maBN = $_SESSION['maBN'];
+              $maCV = $_SESSION['maCV'];
   
               if ($maNS) {
                 $_SESSION['dangnhap'] = 2;
@@ -121,7 +123,7 @@
               echo "Bạn cần phải đăng nhập!";
           }
       }
-       
+      
         
     }
 

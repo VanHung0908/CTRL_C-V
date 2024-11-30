@@ -28,13 +28,6 @@ if ($secureHash === $vnp_SecureHash) {
             $maBN = $_SESSION['maBN'];
             $txnRef = $inputData['vnp_TxnRef'] ?? null;  // Mã thanh toán, nếu có
             $amount = $inputData['vnp_Amount'] ?? null;  // Số tiền, nếu có
-            echo "Ngày: " . htmlspecialchars($selectedDate) . "<br>";
-            echo "Giờ: " . htmlspecialchars($selectedTime) . "<br>";
-            echo "Khoa: " . htmlspecialchars($department) . "<br>";
-            echo "Bác sĩ: " . htmlspecialchars($doctor) . "<br>";
-            echo "Mã thanh toán: " . htmlspecialchars($txnRef) . "<br>";
-            echo "Số tiền: " . htmlspecialchars($amount) . "<br>";
-            echo $maBN;
             $model = new mPhieuDKKham();
             $result = $model->insertPhieuDKKham($selectedDate, $selectedTime, $department, $doctor, $txnRef, $amount, $maBN);
             if ($result) {

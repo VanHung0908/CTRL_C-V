@@ -37,10 +37,10 @@ if (!mysqli_num_rows($dsYCNP) > 0) {
     foreach ($dsYCNP as $i) {
         echo '<tr>
                 <td>' . $tt++ . '</td>
-                <td>' . $i['tenKhoa'] . '</td>
-                <td>' . $i['khuVuc'] . '</td>
-                <td>' . $i['moTa'] . '</td>
-                <td><a href="?page=QuanLyKhoa&xoa=' . $i['maKhoa'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Khoa này không ?\')">Xóa</a></td>
+                <td>' . $i['TenKhoa'] . '</td>
+                <td>' . $i['KhuVuc'] . '</td>
+                <td>' . $i['MoTa'] . '</td>
+                <td><a href="?page=QuanLyKhoa&xoa=' . $i['MaKhoa'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Khoa này không ?\')">Xóa</a></td>
             </tr>';
     }
 }

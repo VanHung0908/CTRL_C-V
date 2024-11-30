@@ -5,7 +5,7 @@
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
         
-            $sql_ns = "SELECT ns.MaNS 
+            $sql_ns = "SELECT ns.MaNS,ns.MaCV
                        FROM taikhoan tk
                        INNER JOIN nhansu ns ON tk.TenTK = ns.TenTK
                        WHERE tk.TenTK = '$user' AND tk.MatKhau = '$pw'";
@@ -79,27 +79,40 @@
             
             return $hoTen;
         }
-        public function getDoctorsByDepartment($tenKhoa) {
+        public function getDoctorsByDepartment($tenKhoa, $thu, $caLam) {
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
         
-            $sql = "SELECT HoTen FROM nhansu bs
+            $sql = "SELECT bs.HoTen 
+                    FROM nhansu bs
                     INNER JOIN khoa k ON bs.MaKhoa = k.MaKhoa
-                    WHERE k.TenKhoa = ? AND k.TrangThai = 1";
+                    INNER JOIN lichlamviec llv ON bs.MaNS = llv.MaNS
+                    WHERE k.TenKhoa = ? 
+                      AND k.TrangThai = 1 
+                      AND bs.MaCV = 4
+                      AND llv.Thu = ?
+                      AND llv.CaLam = ?
+                      AND llv.TrangThai = 'Đã duyệt'"; 
+        
+            // Chuẩn bị và thực thi truy vấn
             $stmt = $con->prepare($sql);
-            $stmt->bind_param("s", $tenKhoa);
+            $stmt->bind_param("sss", $tenKhoa, $thu, $caLam);
             $stmt->execute();
             $result = $stmt->get_result();
             $doctors = [];
+        
+            // Lấy kết quả
             while ($row = $result->fetch_assoc()) {
                 $doctors[] = $row['HoTen'];
             }
         
+            // Đóng kết nối
             $stmt->close();
             $p->dongKetNoi($con);
         
             return $doctors;
         }
+        
         
     }
     
