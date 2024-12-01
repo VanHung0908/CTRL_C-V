@@ -83,6 +83,7 @@
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
         
+            // Câu lệnh SQL với join và điều kiện bổ sung
             $sql = "SELECT bs.HoTen 
                     FROM nhansu bs
                     INNER JOIN khoa k ON bs.MaKhoa = k.MaKhoa

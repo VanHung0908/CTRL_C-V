@@ -211,9 +211,10 @@ if (isset($_POST['btn_DangKy'])) {
                 </select>
             </div>
         </div>
-
+        <div class="text-center ">
+            <button type="submit" class="btn btn-success  btn-lg w-30" name="btn_DangKy">Đăng ký khám bệnh</button>
+        </div>
         <!-- Nút đăng ký -->
-        <button type="submit" class="btn btn-primary" name="btn_DangKy">Đăng ký khám bệnh</button>
     </form>
 </div>
 

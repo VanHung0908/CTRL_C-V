@@ -183,6 +183,155 @@
         
             return false;
         }
+        // public function dsBenhNhan() {
+        //     // Tạo đối tượng lớp clsKetNoi
+        //     $p = new clsKetNoi();
+        //     $MaCV = $_SESSION['MaCV'];  
+        //     $MaNS = $_SESSION['MaNS'];  
+        //     // Mở kết nối cơ sở dữ liệu
+        //     $conn = $p->moKetNoi();
+        
+        //     // Truy vấn cơ sở dữ liệu
+        //     $sql = "
+        //     SELECT 
+        //         b.HoTen, 
+        //         b.NgaySinh, 
+        //         b.GioiTinh, 
+        //         b.DiaChi, 
+        //         b.SDT, 
+        //         b.CCCD, 
+        //         b.BHYT, 
+        //         b.LoaiBHYT, 
+        //         p.TrangThai, 
+        //         p.NgayKham
+        //     FROM 
+        //         benhnhan b
+        //     INNER JOIN 
+        //         phieudangkykham p ON b.MaBN = p.MaBN
+        //     WHERE 
+        //         DATE(p.NgayKham) = CURDATE()
+        //     ORDER BY 
+        //         p.MaBN DESC";
+        
+        //     $result = $conn->query($sql); 
+        
+        //     // Mảng để lưu danh sách bệnh nhân
+        //     $dsBenhNhan = []; 
+        
+        //     // Kiểm tra nếu có dữ liệu
+        //     if ($result->num_rows > 0) {
+        //         // Duyệt qua các hàng dữ liệu và thêm vào mảng
+        //         while ($row = $result->fetch_assoc()) {
+        //             $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+        //         }
+        //     }
+        
+        //     // Trả về danh sách bệnh nhân
+        //     return $dsBenhNhan;
+        // }
+        public function dsBenhNhan($MaCV, $MaNS) {
+            // Tạo đối tượng lớp clsKetNoi
+            $p = new clsKetNoi();
+        
+            // Mở kết nối cơ sở dữ liệu
+            $conn = $p->moKetNoi();
+        
+            // Khởi tạo câu truy vấn mặc định
+            $sql = "SELECT 
+                        b.MaBN,
+                        b.HoTen, 
+                        b.NgaySinh, 
+                        b.GioiTinh, 
+                        b.DiaChi, 
+                        b.SDT, 
+                        b.CCCD, 
+                        b.BHYT, 
+                        b.LoaiBHYT, 
+                        p.TrangThai, 
+                        p.NgayKham
+                    FROM 
+                        benhnhan b
+                    INNER JOIN 
+                        phieudangkykham p ON b.MaBN = p.MaBN";
+        
+            // Thêm điều kiện WHERE tùy theo MaCV
+            if ($MaCV == 1) {
+                // Nếu MaCV = 1 thì hiển thị tất cả bệnh nhân
+                $sql .= " ORDER BY p.MaBN DESC";
+            } elseif ($MaCV == 6) {
+                // Nếu MaCV = 6 thì chỉ hiển thị bệnh nhân của ngày hôm nay
+                // $sql .= " WHERE DATE(p.NgayKham) = CURDATE() ORDER BY p.MaBN DESC";
+                $sql .= "  ORDER BY p.MaBN DESC";
+            } elseif ($MaCV == 4) {
+                // Nếu MaCV = 4 thì hiển thị bệnh nhân theo MaNS từ session
+                $sql .= " WHERE p.MaNS = '$MaNS' ORDER BY p.MaBN DESC";
+            }
+        
+            // Thực thi câu truy vấn
+            $result = $conn->query($sql);
+        
+            // Mảng để lưu danh sách bệnh nhân
+            $dsBenhNhan = [];
+        
+            // Kiểm tra nếu có dữ liệu
+            if ($result->num_rows > 0) {
+                // Duyệt qua các hàng dữ liệu và thêm vào mảng
+                while ($row = $result->fetch_assoc()) {
+                    $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                }
+            }
+        
+            // Trả về danh sách bệnh nhân
+            return $dsBenhNhan;
+        }
+        public function PhieuKhamBN($MaBN, $MaNS) {
+            // Tạo đối tượng lớp clsKetNoi
+            $p = new clsKetNoi();
+            
+            // Mở kết nối cơ sở dữ liệu
+            $conn = $p->moKetNoi();
+            
+            // Câu truy vấn kết hợp thông tin từ các bảng benhnhan, phieudangkykham, nhansu và khoa
+            $sql = "SELECT 
+                        b.MaBN,
+                        b.HoTen AS HoTenBN, 
+                        b.NgaySinh, 
+                        b.GioiTinh, 
+                        b.DiaChi, 
+                        b.SDT, 
+                        b.BHYT, 
+                        n.HoTen AS BacSi,
+                        k.TenKhoa
+                    FROM 
+                        benhnhan b
+                    INNER JOIN 
+                        phieudangkykham p ON b.MaBN = p.MaBN
+                    LEFT JOIN 
+                        nhansu n ON p.MaNS = n.MaNS
+                    LEFT JOIN 
+                        khoa k ON n.MaKhoa = k.MaKhoa
+                    WHERE
+                        b.MaBN = '$MaBN' AND p.MaNS = '$MaNS'";
+        
+            // Thực thi câu truy vấn
+            $result = $conn->query($sql);
+        
+            // Mảng để lưu danh sách bệnh nhân
+            $dsBenhNhan = [];
+        
+            // Kiểm tra nếu có dữ liệu
+            if ($result->num_rows > 0) {
+                // Duyệt qua các hàng dữ liệu và thêm vào mảng
+                while ($row = $result->fetch_assoc()) {
+                    $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                }
+            }
+        
+            // Trả về danh sách bệnh nhân
+            return $dsBenhNhan;
+        }
+        
+        
         
     }
 ?>
