@@ -57,12 +57,102 @@ class mDonThuoc {
             return $row['Gia'];
         }
         
-        return 0; // Nếu không có kết quả thì trả về 0
+        return 0; 
         
         // Đóng kết nối
         $stmt->close();
         $p->dongKetNoi($con);
     }
+    public function insertHoaDon($khauTruBHYT, $tongTien, $ngayLapHD, $trangThaiThanhToan, $maDonThuoc, $maBN, $maNS, $maDDK) {
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi();
+        $phuongThucThanhToan = 'Chưa thanh toán';
+        // Tạo câu lệnh SQL
+        $sql = "INSERT INTO hoadon (KhauTruBHYT, TongTien, NgayLapHD, TrangThaiThanhToan, PhuongThucThanhToan, MaDonThuoc, MaBN, MaNS, MaDDK) 
+                VALUES ('$khauTruBHYT', '$tongTien', '$ngayLapHD', '$trangThaiThanhToan', '$phuongThucThanhToan', '$maDonThuoc', '$maBN', '$maNS', '$maDDK')";
+    
+        // Thực thi câu lệnh và kiểm tra kết quả
+        if (mysqli_query($con, $sql)) {
+            $p->dongKetNoi($con);
+            return true; // Thành công
+        } else {
+            $p->dongKetNoi($con);
+            return false; // Thất bại
+        }
+    }
+    public function insertPhieuKQKham($chuanDoan, $ngayTaiKham, $ngayKham, $maNS, $maDonThuoc, $maBN)
+    {
+        try {
+            $p = new clsKetNoi();
+            $conn = $p->moKetNoi();
+    
+            $query = "INSERT INTO phieuketquakham (ChanDoan, NgayTaiKham, NgayKham, MaNS, MaDonThuoc, MaBN) 
+            VALUES (?, ?, ?, ?, ?, ?)";
+
+            $stmt = $conn->prepare($query);
+
+            $stmt->bind_param("ssssii", $chuanDoan, $ngayTaiKham, $ngayKham, $maNS, $maDonThuoc, $maBN);
+
+            $stmt->execute();
+
+    
+            $result = $stmt->execute();
+    
+            $p->dongKetNoi($conn);
+    
+            return $result;
+        } catch (PDOException $e) {
+            error_log("Lỗi khi thêm phiếu kết quả khám: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function updateTrangThaiPhieuDKKham($MaDKK, $TrangThai)
+{
+    try {
+        $p = new clsKetNoi();
+        $conn = $p->moKetNoi();
+
+        $query = "UPDATE phieudangkykham 
+        SET TrangThai = ? 
+        WHERE MaDKK = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("si", $TrangThai, $MaDKK);
+        $result = $stmt->execute();
+        $p->dongKetNoi($conn);
+
+        return $result;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+public function updateTrangThaiBenhNhan($MaBN, $TrangThai)
+{
+    try {
+        $p = new clsKetNoi();
+        $conn = $p->moKetNoi();
+
+        $query = "UPDATE benhnhan 
+        SET TrangThai = ? 
+        WHERE MaBN = ?";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bind_param("si", $TrangThai, $MaBN);
+        $result = $stmt->execute();
+        $p->dongKetNoi($conn);
+
+        return $result;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
+
+    
+    
+    
     
     
 }

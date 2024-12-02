@@ -60,8 +60,7 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "'>Lập phiếu khám</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>
                     </ul>
                 </div>
             </td>";
@@ -73,12 +72,11 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
     </table>
 
     <div class="pagination" id="pagination">
-        <!-- Nút chuyển trang sẽ được tạo động -->
     </div>
 </div>
 
 <?php
-ob_end_flush(); // Kết thúc output buffering
+ob_end_flush(); 
 ?>
  <script>
         const rowsPerPage = 7;

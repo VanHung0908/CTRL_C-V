@@ -105,7 +105,7 @@ $maCV = $_SESSION['maCV'];
                 </a>
             </li>
             <li>
-                <a href="index.php?page=DSBN(NV)" class="sidebar-link">
+                <a href="index.php?page=DSBN" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
                     <span>Danh sách bệnh nhân</span>
                 </a>

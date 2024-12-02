@@ -8,7 +8,7 @@ class mPhieuDKKham {
     public function insertPhieuDKKham($date, $time, $department, $doctor, $txnRef, $amount, $maBN) {
         $p = new clsKetNoi();
         $con = $p->moKetNoi();
-    
+        $amount=$amount/100;
         // Bước 1: Lấy MaKhoa từ bảng Khoa
         $sql = "SELECT MaKhoa FROM khoa WHERE TenKhoa = ?";
         $stmt = $con->prepare($sql);

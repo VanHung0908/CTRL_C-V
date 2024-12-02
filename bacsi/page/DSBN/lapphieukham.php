@@ -1,5 +1,6 @@
 <?php
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
+$MaDKK = isset($_GET['MaDKK']) ? $_GET['MaDKK'] : null;
 $MaNS = $_SESSION['maNS'];
 include_once(BACKEND_URL . 'model/mBenhNhan.php');
 
@@ -21,7 +22,7 @@ $dsThuoc = $conThuoc->getAllThuoc();
         <tr>
             <td>Tên bệnh nhân: <span class="patient-info"><?php echo $benhNhan['HoTenBN']; ?></span></td>
             <td>Mã bệnh nhân: <span class="patient-info"><?php echo $benhNhan['MaBN']; ?></span></td>
-            <td>Mã BHYT: <span class="patient-info"><?php echo $benhNhan['BHYT']; ?></span></td>
+            <td>BHYT: <span class="patient-info"><?php echo $benhNhan['BHYT']; ?></span></td>
         </tr>
         <tr>
             <td>Năm sinh: <span class="patient-info"><?php echo $benhNhan['NgaySinh']; ?></span></td>
@@ -150,8 +151,7 @@ document.getElementById('addDrugButton').addEventListener('click', function() {
 
         // Thêm thuộc tính data-type để dễ phân biệt dòng dữ liệu
         newRow.setAttribute('data-type', 'data'); 
-        newRow.setAttribute('data-ma-thuoc', maThuoc);  // Thêm mã thuốc vào thuộc tính data-ma-thuoc
-
+        newRow.setAttribute('data-ma-thuoc', maThuoc); 
         // Thêm các ô dữ liệu vào dòng mới
         newRow.innerHTML = `
             <td>${newSTT}</td>
@@ -192,64 +192,116 @@ function updateSTT() {
 
     
 
+document.getElementById('savePrescriptionButton').addEventListener('click', function () {
+    var table = document.querySelector('.results');
+    var rows = table.querySelectorAll('tr');
 
-    document.getElementById('savePrescriptionButton').addEventListener('click', function () {
-        var table = document.querySelector('.results');
-        var rows = table.querySelectorAll('tr');
+    // Thu thập dữ liệu các thuốc trong bảng
+    var chiTietDonThuoc = [];
+    var tongTien = 0;
 
-        // Thu thập dữ liệu các thuốc trong bảng
-        var chiTietDonThuoc = [];
-        var tongTien = 0;
+    rows.forEach(function (row, index) {
+        if (index === 0) return; // Bỏ qua tiêu đề
 
-        rows.forEach(function (row, index) {
-            if (index === 0) return; // Bỏ qua tiêu đề
+        var tenThuoc = row.cells[1].textContent;
+        var lieuLuong = row.cells[2].textContent;
+        var soLuong = parseInt(row.cells[3].textContent);
+        var cachDung = row.cells[4].textContent;
+        var maThuoc = row.getAttribute('data-ma-thuoc');
 
-            var tenThuoc = row.cells[1].textContent;
-            var lieuLuong = row.cells[2].textContent;
-            var soLuong = parseInt(row.cells[3].textContent);
-            var cachDung = row.cells[4].textContent;
-            var maThuoc = row.getAttribute('data-ma-thuoc');
+        if (maThuoc && soLuong) {
+            // Tính tổng tiền dựa trên giá thuốc
+            var giaThuoc = parseFloat(row.getAttribute('data-gia-thuoc')) || 0;
+            tongTien += giaThuoc * soLuong;
 
-            if (maThuoc && soLuong) {
-                // Tính tổng tiền dựa trên giá thuốc
-                var giaThuoc = parseFloat(row.getAttribute('data-gia-thuoc')) || 0;
-                tongTien += giaThuoc * soLuong;
-
-                chiTietDonThuoc.push({
-                    MaThuoc: maThuoc,
-                    SoLuong: soLuong,
-                    LieuDung: lieuLuong,
-                    CachDung: cachDung
-                });
-            }
-        });
-
-        // Gửi dữ liệu lên server để lưu
-        if (chiTietDonThuoc.length > 0) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '/QLBV/ajax/saveDonThuoc.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.onreadystatechange = function () {  
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.success) {
-                        alert('Lưu đơn thuốc thành công!');
-                        location.reload();
-                    } else {
-                        alert('Lỗi khi lưu đơn thuốc: ' + response.message);
-                    }
-                }
-            };
-
-            xhr.send(JSON.stringify({
-                MaBN: <?php echo json_encode($MaBN); ?>,
-                NgayKeDon: new Date().toISOString().split('T')[0],
-                TongTien: tongTien,
-                ChiTietDonThuoc: chiTietDonThuoc
-            }));
-        } else {
-            alert('Không có thuốc nào để lưu.');
+            chiTietDonThuoc.push({
+                MaThuoc: maThuoc,
+                SoLuong: soLuong,
+                LieuDung: lieuLuong,
+                CachDung: cachDung
+            });
         }
     });
+
+    // Lấy dữ liệu từ các trường bổ sung
+    var chuanDoan = encodeURIComponent(document.querySelector('.diagnosis-textarea').value.trim());
+    var tinhTrang = encodeURIComponent(document.querySelectorAll('.diagnosis-textarea')[1].value.trim()); // Tình trạng hiện tại
+    var ngayTaiKham = document.querySelector('input[name="NgayTaiKham"]').value;
+    var maNS = <?php echo json_encode($_SESSION['maNS']); ?>;
+    var loaiBHYT = <?php echo json_encode($benhNhan['LoaiBHYT']); ?>;
+    var maDKK = <?php echo json_encode($MaDKK); ?>;
+
+    if (!chuanDoan || !tinhTrang) {
+        alert('Vui lòng nhập chẩn đoán và tình trạng hiện tại!');
+        return;
+    }
+
+    // Gửi dữ liệu lên server để lưu
+    if (chiTietDonThuoc.length > 0 || chuanDoan || tinhTrang || ngayTaiKham) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/QLBV/ajax/saveDonThuoc.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {  
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log("Server Response: ", xhr.responseText);
+                try {
+                    // Kiểm tra dữ liệu phản hồi và phân tích JSON
+                    console.log("Server Response: ", xhr.responseText);  // Kiểm tra dữ liệu phản hồi
+                    var response = JSON.parse(xhr.responseText);
+
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: 'Lưu đơn thuốc thành công!',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=DSBN';
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: 'Lỗi khi lưu đơn thuốc: ' + response.message,
+                            confirmButtonText: 'Thử lại'
+                        });
+                    }
+
+                } catch (e) {
+                        console.error('Error parsing JSON:', e);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi không mong muốn',
+                            text: 'Có lỗi xảy ra khi nhận dữ liệu từ server. Vui lòng kiểm tra phản hồi.',
+                            // footer: '<pre>' + xhr.responseText + '</pre>', 
+                            confirmButtonText: 'OK'
+                        });
+                    }
+            }
+        };
+
+        // Gửi dữ liệu dưới dạng JSON
+        var data = {
+            MaBN: <?php echo json_encode($MaBN); ?>,
+            NgayKeDon: new Date().toISOString().split('T')[0],
+            TongTien: tongTien,
+            ChuanDoan: chuanDoan,
+            TinhTrang: tinhTrang,
+            NgayTaiKham: ngayTaiKham,
+            ChiTietDonThuoc: chiTietDonThuoc,
+            MaNS: maNS,
+            LoaiBHYT: loaiBHYT,
+            MaDKK: maDKK
+        };
+
+        xhr.send(JSON.stringify(data));
+    } else {
+        alert('Không có dữ liệu để lưu.');
+    }
+});
+
+
 
 </script>
