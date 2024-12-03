@@ -342,18 +342,14 @@ a:hover {
 .header-title {
     text-align: center;
     color: black;
-    font-size: 24px;
-    margin-bottom: 20px;
+   
 }
 .section-title {
     color: black;
     font-size: 20px;
     margin-bottom: 10px;
 }
-.text {
-    font-size: 16px;
-    color:#595959;
-}
+
 .table-cost {
     width: 100%;
     border-collapse: collapse;
@@ -387,10 +383,10 @@ a:hover {
     border: none;
     font-size: 16px;
     border-radius: 5px;
-    cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
     text-align: center;
+    width: 100%;
 }
 .btn-payment:hover {
     background-color: #2980b9;

@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=DSBN';
+                    window.location.href = '/QLBV/bacsi/index.php?page=DSBN';
                 }
             });
         </script>";

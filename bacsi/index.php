@@ -26,6 +26,10 @@
             case 'nhapvien':
                 $pagePath = "./page/DSBN/nhapvien.php";
                 break;
+            #Nhập viện
+            case 'TTNhapVien':
+                $pagePath = "./page/DSBNNV/TTNhapVien.php";
+                break;
             #hóa đơn
             case 'thanhtoan':
                 $pagePath = "./page/HoaDon/hoadon.php";

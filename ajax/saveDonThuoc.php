@@ -11,6 +11,7 @@ $chiTietDonThuoc = $data['ChiTietDonThuoc'];
 $chuanDoan = urldecode($data['ChuanDoan']);
 $tinhTrang = urldecode($data['TinhTrang']);
 $ngayTaiKham = $data['NgayTaiKham'];
+$ngayTaiKham = date('Y-m-d', strtotime($ngayTaiKham));
 $MaDKK = $data['MaDKK'];
 $maNS = $data['MaNS'];
 $loaiBHYT = $data['LoaiBHYT'];

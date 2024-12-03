@@ -66,13 +66,13 @@ var modal = document.getElementById("notificationModal");
 var closeModal = document.getElementById("closeModal");
 
 closeModal.onclick = function() {
-    window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=QuanLyKhoa'; // Quay lại trang khi nhấn nút Đóng
+    window.location.href = '/QLBV/bacsi/index.php?page=QuanLyKhoa'; // Quay lại trang khi nhấn nút Đóng
 };
 
 // Tự động chuyển hướng về trang QuanLyKhoa sau 2 giây nếu xóa thành công
 <?php if ($successMessage) : ?>
     setTimeout(function() {
-        window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=QuanLyKhoa';
+        window.location.href = '/QLBV/bacsi/index.php?page=QuanLyKhoa';
     }, 2000);
 <?php endif; ?>
 </script>

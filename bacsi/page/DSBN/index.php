@@ -35,6 +35,9 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                 <th>Giới tính</th>
                 <th>Địa chỉ</th>
                 <th>Số điện thoại</th>
+                <?php if ($_SESSION['maCV'] == 6): ?>
+                    <th>Bác sĩ</th> <!-- Chỉ hiển thị nếu maCV là 6 -->
+                <?php endif; ?>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
@@ -51,8 +54,10 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                 echo "<td>" . $benhNhan['GioiTinh'] . "</td>";
                 echo "<td>" . $benhNhan['DiaChi'] . "</td>";
                 echo "<td>" . $benhNhan['SDT'] . "</td>";
+                if ($_SESSION['maCV'] == 6) {
+                    echo "<td>" . $benhNhan['TenNhanSu'] . "</td>"; // Chỉ hiển thị nếu maCV là 6
+                }
                 echo "<td>" . $benhNhan['TrangThai'] . "</td>";
-
                 echo "<td>
                         <div class='dropdown'>
                             <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
@@ -63,10 +68,19 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                 if ($_SESSION['maCV'] == 1) {
                     // Chỉ hiển thị "Xem chi tiết"
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
-                } else if ($_SESSION['maCV'] == 6) {
+                } else if ($_SESSION['maCV'] == 4) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";
+                }else if ($_SESSION['maCV'] == 5) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phác đồ</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Xuất viện</a></li>";
+                }else if ($_SESSION['maCV'] == 6) {
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=laphoadon&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>";
-                }else if ($_SESSION['maCV'] == 7) {
+                }
+                else if ($_SESSION['maCV'] == 7) {
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                 }
                 else
@@ -154,4 +168,69 @@ ob_end_flush(); // Kết thúc output buffering
         }
 
         displayPage(currentPage);
+        document.getElementById("search-input").addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        filterPatients(query);
+    });
+
+    function filterPatients(query) {
+        const rows = document.querySelectorAll("#employee-table-body tr");
+        rows.forEach((row) => {
+            const patientName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+            if (patientName.includes(query)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    document.getElementById("search-input").addEventListener("input", function () {
+        const query = this.value;
+        fetchPatients(query);
+    });
+
+    function fetchPatients(query) {
+        fetch("path/to/your/php/script.php", {
+            method: "POST",
+            body: JSON.stringify({ searchTerm: query }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            displayPatients(data);  // Hiển thị lại bệnh nhân sau khi lọc
+        });
+    }
+
+function displayPatients(patients) {
+    const tableBody = document.getElementById("employee-table-body");
+    tableBody.innerHTML = "";  // Xóa dữ liệu cũ
+
+    patients.forEach((patient, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${patient.HoTen}</td>
+            <td>${patient.NgaySinh}</td>
+            <td>${patient.GioiTinh}</td>
+            <td>${patient.DiaChi}</td>
+            <td>${patient.SDT}</td>
+            <td>${patient.TrangThai}</td>
+            <td>
+                <div class='dropdown'>
+                    <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <i class='fas fa-tasks'></i> Thao tác
+                    </button>
+                    <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
+                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=${patient.MaBN}'>Lập hóa đơn</a></li>
+                    </ul>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
     </script>

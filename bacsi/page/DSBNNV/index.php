@@ -11,7 +11,7 @@ $MaCV = $_SESSION['maCV'];
 $MaNS = $_SESSION['maNS'];
 
 // Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
-$dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
+$dsBenhNhan = $con->dsBenhNhanNV($MaCV, $MaNS);
 
 // Hiển thị danh sách bệnh nhân trong bảng
 ?>
@@ -26,6 +26,7 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                 <span class="search-icon">&#128269;</span>
             </div>
         </div>
+
     </div>
     <table class="employee-table">
         <thead>
@@ -60,7 +61,7 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=TTNhapVien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>
                     </ul>
                 </div>
             </td>";
@@ -136,4 +137,70 @@ ob_end_flush();
         }
 
         displayPage(currentPage);
+    document.getElementById("search-input").addEventListener("input", function () {
+        const query = this.value.toLowerCase();
+        filterPatients(query);
+    });
+
+    function filterPatients(query) {
+        const rows = document.querySelectorAll("#employee-table-body tr");
+        rows.forEach((row) => {
+            const patientName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+            if (patientName.includes(query)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+
+    document.getElementById("search-input").addEventListener("input", function () {
+        const query = this.value;
+        fetchPatients(query);
+    });
+
+    function fetchPatients(query) {
+        fetch("path/to/your/php/script.php", {
+            method: "POST",
+            body: JSON.stringify({ searchTerm: query }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            displayPatients(data);  // Hiển thị lại bệnh nhân sau khi lọc
+        });
+    }
+
+function displayPatients(patients) {
+    const tableBody = document.getElementById("employee-table-body");
+    tableBody.innerHTML = "";  // Xóa dữ liệu cũ
+
+    patients.forEach((patient, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${patient.HoTen}</td>
+            <td>${patient.NgaySinh}</td>
+            <td>${patient.GioiTinh}</td>
+            <td>${patient.DiaChi}</td>
+            <td>${patient.SDT}</td>
+            <td>${patient.TrangThai}</td>
+            <td>
+                <div class='dropdown'>
+                    <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <i class='fas fa-tasks'></i> Thao tác
+                    </button>
+                    <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
+                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=${patient.MaBN}'>Nhập viện</a></li>
+                    </ul>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
     </script>

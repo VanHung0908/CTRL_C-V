@@ -230,7 +230,6 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
     var maNS = <?php echo json_encode($_SESSION['maNS']); ?>;
     var loaiBHYT = <?php echo json_encode($benhNhan['LoaiBHYT']); ?>;
     var maDKK = <?php echo json_encode($MaDKK); ?>;
-
     if (!chuanDoan || !tinhTrang) {
         alert('Vui lòng nhập chẩn đoán và tình trạng hiện tại!');
         return;
@@ -254,10 +253,10 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
                         Swal.fire({
                             icon: 'success',
                             title: 'Thành công',
-                            text: 'Lưu đơn thuốc thành công!',
+                            text: 'Lập phiếu khám thành công!',
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=DSBN';
+                            window.location.href = '/QLBV/bacsi/index.php?page=DSBN';
                         });
                     } else {
                         Swal.fire({

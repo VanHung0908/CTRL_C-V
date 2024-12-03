@@ -105,9 +105,46 @@ $maCV = $_SESSION['maCV'];
                 </a>
             </li>
             <li>
+                <a href="index.php?page=DSBNNV" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
+                    <span>Lập thủ tục nhập viện</span>
+                </a>
+            </li>
+            <li>
                 <a href="index.php?page=DSBN" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
-                    <span>Danh sách bệnh nhân</span>
+                    <span>Lập hóa đơn</span>
+                </a>
+            </li>
+            <li>
+                <a href="index.php?page=dangkykhambenh" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-calendar-check"></i></span> 
+                    <span>Đăng ký khám bệnh</span>
+                </a>
+            </li>
+            <li>
+                <span class="sidebar-icon"><i class="fa-solid fa-calendar-alt"></i></span>
+                <span class="menu-toggle">Lịch làm việc &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
+                <ul class="submenu">
+                    <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
+                    <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
+                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
+                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                </ul>
+            </li>
+            
+           
+        <?php elseif ( $maCV == 7): ?>
+            <li>
+                <a href="index.php?page=DSgiuong" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
+                    <span> Danh sách giường</span>
+                </a>
+            </li>
+            <li>
+                <a href="index.php?page=DSBN" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
+                    <span>Lập hóa đơn</span>
                 </a>
             </li>
             <li>
