@@ -191,7 +191,7 @@ ob_end_flush(); // Kết thúc output buffering
     });
 
     function fetchPatients(query) {
-        fetch("path/to/your/php/script.php", {
+        fetch("/script.php", {
             method: "POST",
             body: JSON.stringify({ searchTerm: query }),
             headers: {

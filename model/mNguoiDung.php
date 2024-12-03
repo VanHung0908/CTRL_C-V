@@ -113,7 +113,24 @@
         
             return $doctors;
         }
+
+         public function getBacSiByKhoa($maKhoa) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi();
+            $sql = "SELECT MaNS, HoTen FROM nhansu WHERE MaKhoa = ? AND MaCV = '5'";
+            $stmt = mysqli_prepare($con, $sql);
         
+            mysqli_stmt_bind_param($stmt, 's', $maKhoa); 
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            
+            $bacSiList = [];
+            while ($row = $result->fetch_assoc()) {
+                $bacSiList[] = $row;
+            }
+
+            return $bacSiList;
+        }
         
     }
     
