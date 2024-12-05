@@ -2,12 +2,12 @@
     session_start(); // Bắt buộc khởi động session
 
     // Kiểm tra nếu giá trị của $_SESSION['dangnhap'] khác 1
-    if (!isset($_SESSION['dangnhap']) || $_SESSION['dangnhap'] != 1) {
+    if (!isset($_SESSION['dangnhap']) || $_SESSION['dangnhap'] != 2) {
         // Chuyển hướng về trang đăng nhập
-        header('Location: http://localhost/QLBV/benhnhan/auth/login.php');
+        header('Location: http://localhost/QLBV/');
         exit(); // Dừng thực thi các đoạn mã phía sau sau khi chuyển hướng
     }
-
+    //echo 'day la ' .$_SESSION['maKhoa'];
     if (isset($_REQUEST['page'])) {
         $page = $_REQUEST['page'];
         
@@ -15,35 +15,42 @@
         switch ($page) {
             #DSBN
             case 'xemchitiet':
-                $pagePath = "./page/DSBN/xemchitiet.php"; // Đường dẫn đến xemchitiet.php
+                $pagePath = "./page/DSBN/xemchitiet.php"; 
                 break;
             case 'lapphieukham':
-                $pagePath = "./page/DSBN/lapphieukham.php"; // Đường dẫn đến xemchitiet.php
+                $pagePath = "./page/DSBN/lapphieukham.php";
+                break;
+            case 'laphoadon':
+                $pagePath = "./page/DSBN/laphoadon.php";
                 break;
             case 'nhapvien':
-                $pagePath = "./page/DSBN/nhapvien.php"; // Đường dẫn đến xemchitiet.php
+                $pagePath = "./page/DSBN/nhapvien.php";
                 break;
             #hóa đơn
             case 'thanhtoan':
-                $pagePath = "./page/HoaDon/hoadon.php"; // Đường dẫn đến xemchitiet.php
+                $pagePath = "./page/HoaDon/hoadon.php";
                 break;
+
+            #NVQLNgoaiTru
+            case 'capnhatthongtinNV':
+                $pagePath = "./page/DSnhapvien/capnhatthongtin.php";
+                break;
+           
             default:
-                $pagePath = "./page/{$page}/index.php"; // Đường dẫn đến file index.php trong thư mục tương ứng
+                $pagePath = "./page/{$page}/index.php"; 
                 break;
         }
-        // Kiểm tra xem file có tồn tại không
         if (file_exists($pagePath)) {
-            include_once ('./layout/head.php'); // Bao gồm header nếu file tồn tại
-            include_once ('./layout/sidebar.php'); // Bao gồm sidebar nếu file tồn tại
-            include_once $pagePath; // Bao gồm file nếu tồn tại
+            include_once ('./layout/head.php'); 
+            include_once ('./layout/sidebar.php'); 
+            include_once $pagePath; 
         } else {
-            // Nếu không tìm thấy trang, hiển thị trang 404 mà không có header và sidebar
-            include_once "./page/404.php"; // Hiển thị trang lỗi nếu không tìm thấy
+            include_once "./page/404.php"; 
         }
     } else {
-        include_once ('./layout/head.php'); // Bao gồm header cho trang mặc định
-        include_once ('./layout/sidebar.php'); // Bao gồm sidebar cho trang mặc định
-        include_once "./page/content.php"; // Hiển thị trang mặc định nếu không có page nào được chỉ định
+        include_once ('./layout/head.php'); 
+        include_once ('./layout/sidebar.php'); 
+        include_once "./page/content.php"; 
     }
     
     

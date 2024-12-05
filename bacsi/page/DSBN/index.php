@@ -1,75 +1,111 @@
+<?php
+ob_start(); 
+
+include_once(BACKEND_URL . 'model/mBenhNhan.php');
+
+// Tạo đối tượng từ lớp mBenhNhan
+$con = new mBenhNhan(); 
+
+// Lấy giá trị MaCV và MaNS từ session
+$MaCV = $_SESSION['maCV'];
+$MaNS = $_SESSION['maNS'];
+
+// Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
+$dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
+// Hiển thị danh sách bệnh nhân trong bảng
+?>
+
+
 <div class="main-content" id="main-content">
-        <div class="actions">
-            <h3>Danh sách bệnh nhân</h3>
-            <div class="search-container">
-                <div class="input-container">
-                    <input type="text" id="search-input" placeholder="Nhập mã, tên bệnh nhân" class="search-input">
-                    <span class="search-icon">&#128269;</span>
-                </div>
+    <div class="actions">
+        <h3>Danh sách bệnh nhân</h3>
+        <div class="search-container">
+            <div class="input-container">
+                <input type="text" id="search-input" placeholder="Nhập mã, tên bệnh nhân" class="search-input">
+                <span class="search-icon">&#128269;</span>
             </div>
         </div>
-        <table class="employee-table">
-            <thead>
-                <tr>
-                    <th>STT</th>
-                    <th>Họ và tên</th>
-                    <th>Ngày sinh</th>
-                    <th>Giới tính</th>
-                    <th>Địa chỉ</th>
-                    <th>Số điện thoại</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="employee-table-body">
-                <tr>
-                    <td>1</td>
-                    <td>Lâm Văn Hưng</td>
-                    <td>09/08/2003</td>
-                    <td>Nam</td>
-                    <td>TP. Hồ Chí Minh</td>
-                    <td>0123456789</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionMenu1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-tasks"></i> Thao tác
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="actionMenu1">
-                                <li><a class="dropdown-item" href="index.php?page=xemchitiet">Xem chi tiết</a></li>
-                                <li><a class="dropdown-item" href="index.php?page=lapphieukham">Lập phiếu khám</a></li>
-                                <li><a class="dropdown-item" href="index.php?page=nhapvien">Nhập viện</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Nguyễn Tấn Đạt</td>
-                    <td>09/08/2003</td>
-                    <td>Nam</td>
-                    <td>Hồ Chí Minh</td>
-                    <td>0987654321</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionMenu1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-tasks"></i> Thao tác
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="actionMenu2">
-                                <li><a class="dropdown-item" href="index.php?page=xemchitiet">Xem chi tiết</a></li>
-                                <li><a class="dropdown-item" href="index.php?page=lapphieukham">Lập phiếu khám</a></li>
-                                <li><a class="dropdown-item" href="index.php?page=nhapvien">Nhập viện</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="pagination" id="pagination">
-            <!-- Nút chuyển trang sẽ được tạo động -->
-        </div>
     </div>
+    <table class="employee-table">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Họ và tên</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody id="employee-table-body">
+        <?php
+            // Duyệt qua danh sách bệnh nhân và hiển thị từng dòng
+            $stt = 1;
+            foreach ($dsBenhNhan as $benhNhan) {
+                echo "<tr>";
+                echo "<td>" . $stt++ . "</td>";
+                echo "<td>" . $benhNhan['HoTen'] . "</td>";
+                echo "<td>" . $benhNhan['NgaySinh'] . "</td>";
+                echo "<td>" . $benhNhan['GioiTinh'] . "</td>";
+                echo "<td>" . $benhNhan['DiaChi'] . "</td>";
+                echo "<td>" . $benhNhan['SDT'] . "</td>";
+                echo "<td>" . $benhNhan['TrangThai'] . "</td>";
 
-    <script>
+                echo "<td>
+                        <div class='dropdown'>
+                            <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
+                                <i class='fas fa-tasks'></i> Thao tác
+                            </button>
+                            <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
+                            
+                if ($_SESSION['maCV'] == 1) {
+                    // Chỉ hiển thị "Xem chi tiết"
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                } else if ($_SESSION['maCV'] == 4) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";
+                }else if ($_SESSION['maCV'] == 5) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phác đồ</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Xuất viện</a></li>";
+                }else if ($_SESSION['maCV'] == 6) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=laphoadon&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>";
+                }
+                else if ($_SESSION['maCV'] == 7) {
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                }
+                else
+                 {
+                    // Hiển thị tất cả các tùy chọn
+                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";
+                }
+
+                echo "      </ul>
+                        </div>
+                    </td>";
+                echo "</tr>";
+            }
+            ?>
+
+</tbody>
+
+    </table>
+
+    <div class="pagination" id="pagination">
+        <!-- Nút chuyển trang sẽ được tạo động -->
+    </div>
+</div>
+
+<?php
+ob_end_flush(); // Kết thúc output buffering
+?>
+ <script>
         const rowsPerPage = 7;
         let currentPage = 1;
 

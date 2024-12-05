@@ -1,4 +1,10 @@
-<?php include_once '../layout/header.php' ?>
+<?php 
+include_once '../layout/header.php';
+include_once(BACKEND_URL . 'model/mKhoa.php');
+$model = new mKhoa();
+
+$departments = $model->getAllDepartments();
+ ?>
 
 <!-- Header -->
 <div class="section-2-1-1">
@@ -43,13 +49,17 @@
                     </div>
 
                     <!-- Chọn khoa khám -->
-                    <div class="department-selection bg-white p-4 rounded shadow-sml" id="departmentSelection" style="display: none;">
+                    <div class="department-selection bg-white p-4 rounded shadow-sml" id="departmentSelection"  style="display: none;">
                         <h4>Chọn Khoa Khám</h4>
                         <hr class="divider">
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Nhi')">Khoa Nhi</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Da Liễu')">Khoa Da Liễu</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Răng Hàm Mặt')">Khoa Răng Hàm Mặt</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDepartment('Khoa Tai Mũi Họng')">Khoa Tai Mũi Họng</button>
+                        <?php foreach ($departments as $department): ?>
+                            <button 
+                                class="btn btn-outline-primary m-1" 
+                                onclick="selectDepartment('<?php echo htmlspecialchars($department); ?>', selectedDate.day, selectedDate.month, selectedDate.year)">
+                                <?php echo htmlspecialchars($department); ?>
+                            </button>
+                        <?php endforeach; ?>
+
                         <br><button id="backTogio" class="btn btn-secondary mt-3">Quay lại chọn giờ</button>
                     </div>
 
@@ -57,11 +67,8 @@
                     <div class="doctor-selection bg-white p-4 rounded shadow-sml" id="doctorSelection" style="display: none;">
                         <h4>Chọn Bác Sĩ</h4>
                         <hr class="divider">
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Lâm Văn Hưng')">Lâm Văn Hưng</button> 
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Châu Duy Khánh')">Châu Duy Khánh</button> 
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Đoàn Thị Mai Linh')">Đoàn Thị Mai Linh</button>
-                        <button class="btn btn-outline-primary m-1" onclick="selectDoctor('Nguyễn Tấn Đạt')">Nguyễn Tấn Đạt</button>
-                        <br><button id="backTokhoa" class="btn btn-secondary mt-3">Quay lại chọn khoa</button>
+                        <div id="doctorList"></div> <!-- Danh sách bác sĩ sẽ được thêm vào đây -->
+                        <br><button id="backTokhoa" class="btn btn-secondary mt-3" onclick="goBackToDepartment()">Quay lại chọn khoa</button>
                     </div>
                 </div>
 
@@ -76,7 +83,7 @@
                             <p>Khoa khám: <span id="infoDepartment">Chưa chọn khoa</span></p>
                             <p>Bác sĩ: <span id="infoDoctor">Chưa chọn bác sĩ</span></p>
                         </div>
-                        <button id="confirmButton" class="btn btn-primary mt-3" style="display: none;" onclick="confirmBooking()">Xác Nhận</button>
+                        <button id="confirmButton" class="btn btn-primary mt-3" style="display: none;" onclick="confirmBooking()">Thanh toán</button>
                     </div>
                 </div>
             </div>
@@ -144,44 +151,52 @@
         return months[month];
     }
 
-    function selectDate(date) {
-        const month = currentDate.getMonth() + 1;
-        const year = currentDate.getFullYear();
-        const selectedDate = new Date(year, month - 1, date);
-        const today = new Date();
+    let selectedDate = {
+    day: null,
+    month: null,
+    year: null
+};
 
-        // Kiểm tra xem ngày được chọn phải sau ngày hiện tại một ngày
-        if (selectedDate <= today) {
-            Swal.fire({
-                icon: "error",
-                title: "Thất bại",
-                text: "Ngày đặt lịch phải sau ngày hiện tại!",
-                confirmButtonText: "Thử lại"
-            });
-            return;
-        }
+function selectDate(date) {
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const selectedDateObject = new Date(year, month - 1, date);
+    const today = new Date();
 
-        // Kiểm tra nếu là thứ Bảy (6) hoặc Chủ Nhật (0)
-        const dayOfWeek = selectedDate.getDay();
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            Swal.fire({
-                icon: "error",
-                title: "Thất bại",
-                text: "Không thể chọn ngày thứ Bảy hoặc Chủ Nhật!",
-                confirmButtonText: "Thử lại"
-            });
-            return;
-        }
-
-        // Cập nhật ngày đã chọn
-        selectedDateElement.innerText = `Ngày đã chọn: ${date}/${month}/${year}`;
-        infoDateElement.innerText = `${date}/${month}/${year}`;
-
-        // Hiện thị phần chọn giờ
-        calendarContainer.style.display = 'none';
-        timeSelectionElement.style.display = 'block';
-        renderTimeButtons();
+    if (selectedDateObject <= today) {
+        Swal.fire({
+            icon: "error",
+            title: "Thất bại",
+            text: "Ngày đặt lịch phải sau ngày hiện tại!",
+            confirmButtonText: "Thử lại"
+        });
+        return;
     }
+
+    const dayOfWeek = selectedDateObject.getDay();
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        Swal.fire({
+            icon: "error",
+            title: "Thất bại",
+            text: "Không thể chọn ngày thứ Bảy hoặc Chủ Nhật!",
+            confirmButtonText: "Thử lại"
+        });
+        return;
+    }
+
+    // Lưu ngày đã chọn vào biến selectedDate
+    selectedDate.day = date;
+    selectedDate.month = month;
+    selectedDate.year = year;
+
+    selectedDateElement.innerText = `Ngày đã chọn: ${date}/${month}/${year}`;
+    infoDateElement.innerText = `${date}/${month}/${year}`;
+
+    calendarContainer.style.display = 'none';
+    timeSelectionElement.style.display = 'block';
+    renderTimeButtons();
+}
+
 
     function renderTimeButtons() {
         const morningTimes = document.getElementById('morningTimes');
@@ -205,36 +220,111 @@
         selectedTime = time;
         infoTimeElement.innerText = ` ${time}`;
 
-        // Hiện thị phần chọn khoa khám
         timeSelectionElement.style.display = 'none';
         departmentSelectionElement.style.display = 'block';
     }
+    function selectDepartment(tenKhoa, day, month, year) {
+    selectedDepartment = tenKhoa;
+    document.getElementById('infoDepartment').innerText = `${tenKhoa}`;
+    console.log("Dữ liệu gửi đi:", {
+    tenKhoa: tenKhoa,
+    date: day,
+    month: month,
+    year: year,
+    time: selectedTime
+});
+   fetch('../../ajax/DSBS.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `tenKhoa=${encodeURIComponent(tenKhoa)}&date=${encodeURIComponent(day)}&month=${encodeURIComponent(month)}&year=${encodeURIComponent(year)}&time=${encodeURIComponent(selectedTime)}`
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    departmentSelectionElement.style.display = 'none';
+    doctorSelectionElement.style.display = 'block';
 
-    function selectDepartment(department) {
-        selectedDepartment = department;
-        infoDepartmentElement.innerText = `${department}`;
+    const doctorList = document.getElementById('doctorList');
+    doctorList.innerHTML = '';
 
-        // Hiện thị phần chọn bác sĩ
-        departmentSelectionElement.style.display = 'none';
-        doctorSelectionElement.style.display = 'block';
+    // Kiểm tra dữ liệu trả về có đúng cấu trúc không
+    if (data && Array.isArray(data.doctors) && data.doctors.length > 0) {
+        // Duyệt qua danh sách bác sĩ và tạo các button
+        data.doctors.forEach(doctor => {
+            const button = document.createElement('button');
+            button.className = 'btn btn-outline-primary m-1';
+            button.textContent = doctor;
+            button.onclick = () => selectDoctor(doctor);
+            doctorList.appendChild(button);
+        });
+    } else {
+        const noDoctorMessage = document.createElement('p');
+        noDoctorMessage.textContent = 'Không có bác sĩ nào trong khoa này.';
+        doctorList.appendChild(noDoctorMessage);
+    }
+})
+.catch(error => console.error('Error:', error));
     }
 
-    function selectDoctor(doctor) {
-        selectedDoctor = doctor;
-        infoDoctorElement.innerText = ` ${doctor}`;
+    function selectDoctor(doctorName) {
+        selectedDoctor = doctorName;
+        document.getElementById('infoDoctor').innerText = ` ${doctorName}`;
 
-        // Hiện thị nút xác nhận
+        // Hiển thị nút xác nhận
         document.getElementById('confirmButton').style.display = 'block';
     }
 
-    function confirmBooking() {
+        function confirmBooking() {
+        const amount = 100000; // Số tiền thanh toán
+        const orderInfo = 'Thanh toán chi phí khám'; // Thông tin đơn hàng
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Đặt Lịch Thành Công',
-            confirmButtonText: 'OK'
+        // Lấy các giá trị từ thông tin đặt lịch
+        const selectedDate = document.getElementById("infoDate").textContent;
+        const selectedTime = document.getElementById("infoTime").textContent;
+        const department = document.getElementById("infoDepartment").textContent;
+        const doctor = document.getElementById("infoDoctor").textContent;
+
+        // Kiểm tra giá trị trước khi gửi
+        console.log("Ngày:", selectedDate);
+        console.log("Giờ:", selectedTime);
+        console.log("Khoa:", department);
+        console.log("Bác sĩ:", doctor);
+
+        // Tạo đối tượng URLSearchParams để gửi tham số
+        const data = new URLSearchParams();
+        data.append('amount', amount);
+        data.append('orderInfo', orderInfo);
+        data.append('selectedDate', selectedDate);
+        data.append('selectedTime', selectedTime);
+        data.append('department', department);
+        data.append('doctor', doctor);
+
+        fetch('../../vnpay/create-payment.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data.toString()
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Nếu yêu cầu thanh toán thành công, chuyển hướng đến VNPay
+                window.location.href = data.paymentUrl;
+            } else {
+                alert('Có lỗi xảy ra trong quá trình tạo yêu cầu thanh toán.');
+            }
+        })
+        .catch(error => {
+            console.error('Lỗi:', error);
+            alert('Có lỗi xảy ra, vui lòng thử lại.');
         });
     }
+
 
     // Chuyển tháng trước
     prevMonthButton.addEventListener('click', () => {

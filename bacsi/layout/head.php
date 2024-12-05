@@ -31,6 +31,19 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/QLBV/assets/css/base.css">
 </head>
+<?php
+    include(__DIR__ . '../../../model/ketnoi.php');
+    if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 2 && isset($_SESSION['maNS'])) {
+      include_once(BACKEND_URL . 'model/mNguoiDung.php');
+      $model = new mNguoiDung();
+      
+      // Lấy maBN từ session
+      $maNS = $_SESSION['maNS'];
+      
+      // Lấy HoTen từ model
+      $hoTen = $model->getHoTenByMaNS($maNS);
+  }
+    ?>
 <body>
     <div class="header">
         <div>
@@ -40,12 +53,13 @@
         <ul class="nav">
             <li class="nav-item dropdown has-arrow main-drop">
                 <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"id="Hoten">
-                    Lâm Văn Hưng 
+                <?php echo htmlspecialchars($hoTen); ?> <b class="caret"></b>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="">Hồ sơ cá nhân</a>
+                    <a class="dropdown-item" href="/QLBV/bacsi/index.php?page=CaNhan">Hồ sơ cá nhân</a>
                     <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                 </div>
             </li>
         </ul>
     </div>
+

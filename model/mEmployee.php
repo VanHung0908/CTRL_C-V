@@ -20,21 +20,24 @@
         public function insertWork_schedule($id,$ngay,$ca){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichlamviec`(`MaNS`, `Thu`, `Ca`) VALUES ('$id','$ngay','$ca')";
+            $sql = "INSERT INTO `lichlamviec`(`MaNS`, `Thu`, `CaLam`) VALUES ('$id','$ngay','$ca')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
         public function selectLicTrucNV($id){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "select * from lichlamviec where MaNS = '$id'";
+            $sql = "select NgayTrongTuan,CaTrongNgay,TenPhong from lichlamviec h 
+            join chitietphongkham j on h.MaCTPhongKham=j.MaCTPhongKham join phongkham k 
+            on k.maphong=j.maphong  where h.MaNS1 = '$id' or h.MaNS2='$id'";
+            //echo $sql;
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function ngaynghiphep(){
+        public function ngaynghiphep($id){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "SELECT * FROM lichnghiphep ";
+            $sql = "SELECT * FROM lichnghiphep where MaNS='$id' ";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
@@ -55,7 +58,7 @@
         public function dknp($id,$date,$ca,$lydo){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `ca`, `LyDo`, `TrangThai`) VALUES ('$id','$date','$ca','$lydo','0')";
+            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`) VALUES ('$id','$date','$ca','$lydo','0')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
@@ -70,10 +73,82 @@
         public function tuchoiYCNP($id,$lydo){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "UPDATE `lichnghiphep` SET `LyDo_TuChoi`='$lydo', `TrangThai`='2' WHERE `maLNP`='$id'";
+            $sql = "UPDATE `lichnghiphep` SET `LyDo_TuChoi`='$lydo', `TrangThai`='2' WHERE `MaLNP`='$id'";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
+
+        //lay phongkham 
+        public function phongkham($makhoa){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from phongkham where makhoa='$makhoa'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        // kết bảng lichlamviec và phongkham với điều kiện maKhoa của phongkham = makhoa của user
+        public function chitietphongbyID($maphong){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from chitietphongkham where MaPhong ='$maphong'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function lichlamviecbyCa($ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichlamviec where MaCTPhongKham ='$ma'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function DangKyLLVNS1($user,$ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "UPDATE `lichlamviec` SET `MaNS1`='$user' WHERE MaCTPhongKham ='$ma'";
+            //echo $sql;
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function DangKyLLVNS2($user,$ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "UPDATE `lichlamviec` SET `MaNS2`='$user' WHERE MaCTPhongKham ='$ma'";
+            //echo $sql;
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function CapNhatSSkhiDK($ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "UPDATE `chitietphongkham` SET `DaDangKy`= `DaDangKy` + 1 WHERE MaCTPhongKham ='$ma'";
+            //echo $sql;
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function xemLLV($ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichlamviec where MaNS1 ='$ma' or MaNS2='$ma'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function chitietphongbyMACT($maCT){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from chitietphongkham where MaCTPhongKham ='$maCT'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        //Kiểm tra đã đăng ký lịch 
+        public function ktraDaDKL($ma){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichlamviec where MaNS1 ='$ma' or MaNS2='$ma'";
+            //echo $sql;
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        
         
     }
 

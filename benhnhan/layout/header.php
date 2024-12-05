@@ -33,8 +33,20 @@
 
 </head>
 <?php
-    session_start(); // Khởi tạo hoặc tiếp tục session
-?>
+include(__DIR__ . '/../../model/ketnoi.php');
+
+    session_start(); 
+    if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1 && isset($_SESSION['maBN'])) {
+      include_once(BACKEND_URL . 'model/mBenhNhan.php');
+      $model = new mBenhNhan();
+      
+      // Lấy maBN từ session
+      $maBN = $_SESSION['maBN'];
+      
+      // Lấy HoTen từ model
+      $hoTen = $model->getHoTenByMaBN($maBN);
+  }
+ ?>
 <body>
 
   <!-- Pre Header -->
@@ -96,11 +108,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <?php if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1): ?>
-                        <a href="#" id="navItem" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            LÂM VĂN HƯNG <b class="caret"></b>
-                        </a>
+                      <a href="#" id="navItem" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <?php echo htmlspecialchars(strtoupper($hoTen)); ?> <b class="caret"></b>
+                      </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/QLBV/benhnhan/profile.php">Hồ sơ cá nhân</a>
+                            <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ cá nhân</a>
                             <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                         </div>
                     <?php else: ?>
