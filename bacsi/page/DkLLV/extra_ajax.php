@@ -28,7 +28,7 @@ if (isset($_POST['caID'])) {
     $caGio = [
         1 => '7h - 11h30',
         2 => '13h30 - 17h',
-        3 => '7h - 11h và 13h30 - 17h'
+        0 => '7h - 11h và 13h30 - 17h'
     ];
 
     // Kiểm tra nếu không có dữ liệu

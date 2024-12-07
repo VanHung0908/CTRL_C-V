@@ -194,6 +194,7 @@ foreach ($pp as $i) {
 ?>
 
 <div class="main-content" id="main-content">
+
     <h2 align="center" style="color: #4682B4;;margin-top:20px;"><b>LỊCH LÀM VIỆC</b></h2>
     <span id="weekNumber"> </span>
     <div class="btn-group">
@@ -257,6 +258,7 @@ foreach ($pp as $i) {
     <?php
 
     // Kiểm tra ngày và ca đã đăng ký
+    $successMessage = '';
     if (isset($_POST['btn'])) {
         $ngaynghi = $_POST['ngaynghi'];
         $lydo = $_POST['lydo'];
@@ -271,39 +273,42 @@ foreach ($pp as $i) {
 
         // Kiểm tra ngày và ca
         if (isset($checkDangKy[$ngaynghi]) && in_array($ca, $checkDangKy[$ngaynghi])) {
-            echo "<script>
-                document.getElementById('notification').style.display = 'block';
-                document.getElementById('notification').style.backgroundColor = '#f8d7da';
-                document.getElementById('notification').style.color = '#842029';
-                document.getElementById('notification').innerText = 'Bạn đã xin nghỉ phép ngày này và ca này rồi. Vui lòng chọn ngày khác hoặc ca khác!';
-            </script>";
+            $errorMessage = 'Đã xin nghỉ phép ca làm việc này !';
+            if ($errorMessage) {
+                echo '<div id="notificationModal" class="modal" style="display: block;">
+                        <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                            <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
+                            <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #F44336; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
+                        </div>
+                      </div>';
+            }
         } else {
             if (!empty($ngaynghi) && !empty($lydo) && !empty($ca)) {
                 $con = new mEmployee;
                 $kq = $con->dknp($_SESSION['maNS'], $ngaynghi, $ca, $lydo);
                 if ($kq) {
-                    echo "<script>
-                        document.getElementById('notification').style.display = 'block';
-                        document.getElementById('notification').style.backgroundColor = '#d1e7dd';
-                        document.getElementById('notification').style.color = '#0f5132';
-                        document.getElementById('notification').innerText = 'Đăng ký nghỉ phép thành công!';
-                    </script>";
+                    $successMessage = 'Đăng ký nghỉ phép thành công !';
+                    if (isset($successMessage)) {
+                        echo '<div id="notificationModal" class="modal" style="display: block;">
+                                <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                                    <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
+                                    <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
+                                </div>
+                              </div>';
+                    }
                 } else {
-                    echo "<script>
-                        document.getElementById('notification').style.display = 'block';
-                        document.getElementById('notification').style.backgroundColor = '#f8d7da';
-                        document.getElementById('notification').style.color = '#842029';
-                        document.getElementById('notification').innerText = 'Đăng ký nghỉ phép thất bại!';
-                    </script>";
+                    $errorMessage = 'Xin nghỉ phép thất bại !';
+                    if ($errorMessage) {
+                        echo '<div id="notificationModal" class="modal" style="display: block;">
+                        <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                            <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
+                            <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #F44336; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
+                        </div>
+                      </div>';
+                    }
                 }
-            } else {
-                echo "<script>
-                    document.getElementById('notification').style.display = 'block';
-                    document.getElementById('notification').style.backgroundColor = '#fff3cd';
-                    document.getElementById('notification').style.color = '#664d03';
-                    document.getElementById('notification').innerText = 'Vui lòng điền đầy đủ thông tin!';
-                </script>";
             }
+
         }
 
     }
@@ -547,5 +552,19 @@ foreach ($pp as $i) {
     }
 
     renderCalendar(new Date(currentDate));
+
+</script>
+
+<?php
+
+
+?>
+<script>
+    var modal = document.getElementById("notificationModal");
+    var notificationCloseModal = document.getElementById("closeModal");
+
+    notificationCloseModal.onclick = function () {
+        window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=XemLich'; // Quay lại trang khi nhấn nút Đóng
+    };
 
 </script>
