@@ -24,16 +24,24 @@ class mDonThuoc {
     public function insertChiTietDonThuoc($maDonThuoc, $maThuoc, $soLuong, $lieuDung, $cachDung) {
         $p = new clsKetNoi();
         $con = $p->moKetNoi();
-
+    
         // Câu lệnh SQL để thêm chi tiết đơn thuốc
         $sql = "INSERT INTO chitietdonthuoc (MaDonThuoc, MaThuoc, SoLuong, LieuDung, CachDung) VALUES (?, ?, ?, ?, ?)";
         $stmt = $con->prepare($sql);
         $stmt->bind_param("iiiss", $maDonThuoc, $maThuoc, $soLuong, $lieuDung, $cachDung);
-        $stmt->execute();
-
+    
+        if ($stmt->execute()) {
+            $stmt->close();
+            $p->dongKetNoi($con);
+            return true;
+        }
+    
+        // Đảm bảo đóng kết nối nếu có lỗi
         $stmt->close();
         $p->dongKetNoi($con);
+        return false;
     }
+    
     public function getGiaThuoc($maThuoc) {
         // Khởi tạo đối tượng kết nối
         $p = new clsKetNoi();
@@ -149,6 +157,38 @@ public function updateTrangThaiBenhNhan($MaBN, $TrangThai)
         return false;
     }
 }
+public function insertPhacDo($ngayKeDon, $ChuanDoan, $KeHoach, $CheDoDD, $maDonThuoc, $maBN, $MaNS) {
+    try {
+        $p = new clsKetNoi();
+        $conn = $p->moKetNoi();
+
+        $query = "INSERT INTO phacdo (ChanDoan, NgayLap, KeHoach, CheDoDD, MaDonThuoc, MaBN, MaNS) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            throw new mysqli_sql_exception("Lỗi khi chuẩn bị câu lệnh SQL");
+        }
+
+        $stmt->bind_param("ssssiii", $ChuanDoan, $ngayKeDon, $KeHoach, $CheDoDD, $maDonThuoc, $maBN, $MaNS);
+
+        if ($stmt->execute()) {
+            $stmt->close();
+            $p->dongKetNoi($conn);
+            return true;
+        }
+
+        // Đảm bảo đóng kết nối nếu có lỗi
+        $stmt->close();
+        $p->dongKetNoi($conn);
+        return false;
+
+    } catch (mysqli_sql_exception $e) {
+        error_log("Lỗi khi thêm phác đồ: " . $e->getMessage());
+        return false;
+    }
+}
+
 
     
     

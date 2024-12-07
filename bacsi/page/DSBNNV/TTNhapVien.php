@@ -20,17 +20,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sdt = isset($_POST['sdt_nguoinha']) ? $_POST['sdt_nguoinha'] : '';
     $diachi = isset($_POST['diachi_nguoinha']) ? $_POST['diachi_nguoinha'] : '';
     $quanhe = isset($_POST['quanhe_nguoinha']) ? $_POST['quanhe_nguoinha'] : '';
-    
     $MaKhoa = isset($_POST['MaKhoa']) ? $_POST['MaKhoa'] : '';
     $MaPhong = isset($_POST['phong']) ? $_POST['phong'] : '';
     $MaGiuong = isset($_POST['giuong']) ? $_POST['giuong'] : '';
-    $MaNS = isset($_POST['bacsi']) ? $_POST['bacsi'] : '';  // Mã bác sĩ
+    $MaNS = isset($_POST['bacsi']) ? $_POST['bacsi'] : ''; // Mã bác sĩ
     $TamUng = isset($_POST['TamUng']) ? $_POST['TamUng'] : 0;
-    
-    // Giả sử bạn có phương thức cập nhật trong model mPhieuNamVien
+
+    // Kiểm tra xem có trường nào bị thiếu không
+    if (empty($hoten) || empty($gioitinh) || empty($sdt) || empty($diachi) || empty($quanhe) || 
+        empty($MaKhoa) || empty($MaPhong) || empty($MaGiuong) || empty($MaNS)) {
+        
+        echo "<script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Thiếu thông tin',
+                text: 'Vui lòng nhập đầy đủ thông tin trước khi cập nhật!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.history.back();
+                }
+            });
+        </script>";
+        exit; // Dừng thực thi nếu thiếu thông tin
+    }
+
+    // Giả sử bạn có phương thức cập nhật trong model NamVien
     $phieu = new NamVien();
    
-    $result = $phieu->updatePhieuNamVien($MaBN, $MaKhoa, $MaPhong, $MaGiuong, $MaNS, $TamUng,$hoten,$gioitinh,$sdt,$diachi,$quanhe,$MaNV);
+    $result = $phieu->updatePhieuNamVien($MaBN, $MaKhoa, $MaPhong, $MaGiuong, $MaNS, $TamUng, $hoten, $gioitinh, $sdt, $diachi, $quanhe, $MaNV);
     
     if ($result) {
         echo "<script>
@@ -60,12 +78,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </script>";
     }
 }
+
 ?>
 
 <div class="main-content" id="main-content">
     <div class="col-md-12">
-        <h3 class="header-title" style="font-size: 24px;">Thủ tục nhập viện</h3>
-
+        <h3>Thủ tục nhập viện</h3>
+        <hr class="divider">
         <div class="card-body">
             <form method="POST">
                 <div class="form-row">
@@ -91,9 +110,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <label for="diachi_nguoinha">Địa chỉ</label>
                             <input name="diachi_nguoinha" type="text" class="form-control" id="diachi_nguoinha" placeholder="">
                         </div>
-                        <div class="form-group">
-                            <label for="quanhe_nguoinha">Quan hệ</label>
-                            <input name="quanhe_nguoinha" type="text" class="form-control" id="quanhe_nguoinha" placeholder="">
+                        <div class="mb-3">
+                        <label for="relativeRelation" class="form-label">Quan hệ</label>
+                            <select class="form-select" name="quanhe_nguoinha" id="relativeRelation">
+                                <option selected disabled>Chọn quan hệ</option>
+                                <option value="Anh">Anh</option>
+                                <option value="Em">Em</option>
+                                <option value="Cha">Cha</option>
+                                <option value="Mẹ">Mẹ</option>
+                                <option value="Vợ">Vợ</option>
+                                <option value="Chồng">Chồng</option>
+                            </select>
                         </div>
                     </div>
 

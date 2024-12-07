@@ -76,7 +76,7 @@ $maCV = $_SESSION['maCV'];
             </li>
         <?php elseif ($maCV == 5): ?>
             <li>
-                <a href="index.php?page=DSBN" class="sidebar-link">
+                <a href="index.php?page=DSBNNT" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
                     <span>Danh sách bệnh nhân</span>
                 </a>
@@ -91,13 +91,8 @@ $maCV = $_SESSION['maCV'];
                     <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="index.php?page=HoaDon" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar" ></i></span> 
-                    <span>Hóa đơn</span>
-                </a>
-            </li>
-        <?php elseif ($maCV == 6 || $maCV == 7): ?>
+         
+        <?php elseif ($maCV == 6 ): ?>
             <li>
                 <a href="index.php?page=DSgiuong" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
@@ -105,15 +100,9 @@ $maCV = $_SESSION['maCV'];
                 </a>
             </li>
             <li>
-                <a href="index.php?page=DSBNNV" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
-                    <span>Lập thủ tục nhập viện</span>
-                </a>
-            </li>
-            <li>
                 <a href="index.php?page=DSBN" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
-                    <span>Lập hóa đơn</span>
+                    <span>Danh sách bệnh nhân</span>
                 </a>
             </li>
             <li>
@@ -122,6 +111,14 @@ $maCV = $_SESSION['maCV'];
                     <span>Đăng ký khám bệnh</span>
                 </a>
             </li>
+            <li>
+                <a href="index.php?page=DSBNNV" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
+                    <span>Lập thủ tục nhập viện</span>
+                </a>
+            </li>
+           
+          
             <li>
                 <span class="sidebar-icon"><i class="fa-solid fa-calendar-alt"></i></span>
                 <span class="menu-toggle">Lịch làm việc &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
@@ -142,17 +139,22 @@ $maCV = $_SESSION['maCV'];
                 </a>
             </li>
             <li>
-                <a href="index.php?page=DSBN" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>
-                    <span>Lập hóa đơn</span>
-                </a>
+                <span class="sidebar-icon"><i class="fa-solid fa-bed-pulse"></i></span>
+                <span class="menu-toggle">Nội trú &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
+                <ul class="submenu">
+                    <li>
+                        <a href="index.php?page=DSnhapvien">
+                            Danh sách nhập viện
+                        </a>
+                    </li>
+                    <li>
+                        <a href="index.php?page=DSxuatvien">
+                            Danh sách xuất viện
+                        </a>
+                    </li>
+                </ul>
             </li>
-            <li>
-                <a href="index.php?page=dangkykhambenh" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-calendar-check"></i></span> 
-                    <span>Đăng ký khám bệnh</span>
-                </a>
-            </li>
+          
             <li>
                 <span class="sidebar-icon"><i class="fa-solid fa-calendar-alt"></i></span>
                 <span class="menu-toggle">Lịch làm việc &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
@@ -169,22 +171,7 @@ $maCV = $_SESSION['maCV'];
                     <span>Hóa đơn</span>
                 </a>
             </li>
-            <li>
-                <span class="sidebar-icon"><i class="fa-solid fa-bed-pulse"></i></span>
-                <span class="menu-toggle">Nội trú &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
-                <ul class="submenu">
-                    <li>
-                        <a href="index.php?page=DSnhapvien">
-                            Danh sách nhập viện
-                        </a>
-                    </li>
-                    <li>
-                        <a href="index.php?page=DSxuatvien">
-                            Danh sách xuất viện
-                        </a>
-                    </li>
-                </ul>
-            </li>
+           
         <?php endif; ?>   
         
         <li>

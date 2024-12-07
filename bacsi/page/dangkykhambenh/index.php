@@ -82,8 +82,8 @@ if (isset($_POST['btn_DangKy'])) {
 ?>
 
 <div class="main-content" id="main-content">  
-    <h2 class="mb-4">Đăng ký khám bệnh</h2>
-    
+    <h2>Đăng ký khám bệnh</h2>
+    <hr class="divider">
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="input-group d-flex w-100">

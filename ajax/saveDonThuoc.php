@@ -20,7 +20,7 @@ $mDonThuoc = new mDonThuoc();
 
 // Tạo mảng kết quả ban đầu
 $response = array(
-    "ChuẩnDoan" => $chuanDoan,
+    "ChuanDoan" => $chuanDoan,
     "TinhTrang" => $tinhTrang,
     "NgayTaiKham" => $ngayTaiKham,
     "MaNS" => $maNS,

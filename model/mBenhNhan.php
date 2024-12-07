@@ -21,6 +21,7 @@
                 
                 return $hoTen;
             }
+         
             public function dangKyKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $cccd, $khoaKham, $bhyt, $loaiBHYT) {
                 $p = new clsKetNoi();
                 $con = $p->moKetNoi();
@@ -224,6 +225,9 @@
                     // Nếu MaCV = 4 thì hiển thị bệnh nhân theo MaNS từ session và trạng thái "Chờ khám"
                     $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.MaNS = '$MaNS' AND p.TrangThai = 'Chờ khám' ORDER BY p.MaBN DESC";
                 }
+                elseif ($MaCV == 5) {
+                    $sql .= " WHERE  p.MaNS = '$MaNS' AND p.TrangThai  in('Nhập viện', 'Đang điều trị') ORDER BY p.MaBN DESC";
+                }
                 if (!empty($searchTerm)) {
                     $sql .= " AND b.HoTen LIKE '%$searchTerm%'";
                 }
@@ -273,28 +277,22 @@
                         WHERE
                             b.MaBN = '$MaBN' AND p.MaNS = '$MaNS'";
             
-                // Thực thi câu truy vấn
                 $result = $conn->query($sql);
             
-                // Mảng để lưu danh sách bệnh nhân
                 $dsBenhNhan = [];
             
-                // Kiểm tra nếu có dữ liệu
                 if ($result->num_rows > 0) {
-                    // Duyệt qua các hàng dữ liệu và thêm vào mảng
                     while ($row = $result->fetch_assoc()) {
                         $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
                     }
                 }
             
-                // Trả về danh sách bệnh nhân
                 return $dsBenhNhan;
             }
             
             public function getTTBN($MaBN) {
                 $p = new clsKetNoi();
                 
-                // Mở kết nối cơ sở dữ liệu
                 $conn = $p->moKetNoi();
                 $sql= "select * from benhnhan WHERE MaBN = '$MaBN'";
                 $result = $conn->query($sql);
@@ -305,14 +303,51 @@
                 }
                 return $dsBenhNhan;
             }
+            public function getTTBNNV($MaBN) {
+                $p = new clsKetNoi();
+                $conn = $p->moKetNoi();
+            
+                $stmt = $conn->prepare("SELECT 
+                                            bn.*, 
+                                            pnv.DiaChi AS DiaChiPNV, 
+                                            pnv.SDT AS SDTPNV, 
+                                            pnv.GioiTinh AS GioiTinhPNV,
+                                            pnv.MaNV, 
+                                            pnv.MaNS, 
+                                            pnv.TenNguoiLienHe, 
+                                            pnv.QuanHe, 
+                                            pnv.TamUng, 
+                                            pnv.MaGiuong, 
+                                            pnv.MaPhong,
+                                            pnv.MaKhoa, 
+                                            pg.TenPhong, 
+                                            gg.TenGiuong
+                                        FROM benhnhan bn
+                                        JOIN phieunamvien pnv ON bn.MaBN = pnv.MaBN
+                                        LEFT JOIN Phong pg ON pnv.MaPhong = pg.MaPhong
+                                        LEFT JOIN Giuong gg ON pnv.MaGiuong = gg.MaGiuong
+                                        WHERE bn.MaBN = ? AND pnv.TrangThai = 'Nhập viện';
+                                        ");
+                $stmt->bind_param("s", $MaBN); 
+                $stmt->execute();
+                $result = $stmt->get_result();
+            
+                $dsBenhNhan = [];
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $dsBenhNhan[] = $row; 
+                    }
+                }
+                $stmt->close();
+                $conn->close();
+                return $dsBenhNhan;
+            }
+            
             public function dsBenhNhanNV($MaCV, $MaNS, $searchTerm = '') {
-                // Tạo đối tượng lớp clsKetNoi
                 $p = new clsKetNoi();
                 
-                // Mở kết nối cơ sở dữ liệu
                 $conn = $p->moKetNoi();
                 
-                // Khởi tạo câu truy vấn mặc định
                 $sql = "SELECT 
                             b.MaBN,
                             b.HoTen, 
@@ -337,32 +372,177 @@
                 if ($MaCV == 6) {
                     $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.TrangThai IN ('Nhập viện') ORDER BY p.MaBN DESC";
                 } elseif ($MaCV == 7) {
-                    $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.TrangThai = 'Nhập viện' ORDER BY p.MaBN DESC";
+                    $sql .= " WHERE  p.TrangThai = 'Đang điều trị' ORDER BY p.MaBN DESC";
                 } elseif ($MaCV == 4) {
                     $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.MaNS = '$MaNS' AND p.TrangThai = 'Chờ khám' ORDER BY p.MaBN DESC";
                 }
             
-                // Nếu có từ khóa tìm kiếm, thêm điều kiện vào truy vấn
                 if (!empty($searchTerm)) {
                     $sql .= " AND b.HoTen LIKE '%$searchTerm%'";
                 }
             
-                // Thực thi câu truy vấn
                 $result = $conn->query($sql);
             
-                // Mảng để lưu danh sách bệnh nhân
                 $dsBenhNhan = [];
                 
-                // Kiểm tra nếu có dữ liệu
                 if ($result->num_rows > 0) {
-                    // Duyệt qua các hàng dữ liệu và thêm vào mảng
                     while ($row = $result->fetch_assoc()) {
                         $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
                     }
                 }
                 
-                // Trả về danh sách bệnh nhân
                 return $dsBenhNhan;
+            }
+            public function dsBenhNhanNTRu($MaCV, $MaNS, $searchTerm = '') {
+                $p = new clsKetNoi();
+                
+                $conn = $p->moKetNoi();
+                
+                $sql = "SELECT 
+                            b.MaBN,
+                            b.HoTen, 
+                            b.NgaySinh, 
+                            b.GioiTinh, 
+                            b.DiaChi, 
+                            b.SDT, 
+                            b.CCCD, 
+                            b.BHYT, 
+                            b.LoaiBHYT, 
+                            b.TrangThai, 
+                            p.ThoiGianNV,
+                            p.MaNV,
+                            ns.HoTen AS TenNhanSu,
+                            ph.TenPhong,
+                            gg.TenGiuong
+
+                        FROM 
+                            benhnhan b
+                         JOIN 
+                            phieunamvien p ON b.MaBN = p.MaBN
+                         JOIN 
+                            phong ph on ph.MaPhong=p.MaPhong
+                         JOIN 
+                            giuong gg on gg.MaGiuong=p.MaGiuong
+                         JOIN 
+                            nhansu ns ON p.MaNS = ns.MaNS";
+            
+                $sql .= " WHERE  b.TrangThai  ='Nhập viện' ORDER BY p.MaBN DESC";
+              
+            
+                if (!empty($searchTerm)) {
+                    $sql .= " AND b.HoTen LIKE '%$searchTerm%'";
+                }
+            
+                $result = $conn->query($sql);
+            
+                $dsBenhNhan = [];
+                
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                    }
+                }
+                
+                return $dsBenhNhan;
+            }
+            public function dsBenhNhanXV($MaCV, $MaNS, $searchTerm = '') {
+                $p = new clsKetNoi();
+                
+                $conn = $p->moKetNoi();
+                
+                $sql = "SELECT 
+                            b.MaBN,
+                            b.HoTen, 
+                            b.NgaySinh, 
+                            b.GioiTinh, 
+                            b.DiaChi, 
+                            b.SDT, 
+                            b.CCCD, 
+                            b.BHYT, 
+                            b.LoaiBHYT, 
+                            b.TrangThai, 
+                            p.ThoiGianNV,
+                            p.MaNV,
+                            ns.HoTen AS TenNhanSu,
+                            ph.TenPhong,
+                            gg.TenGiuong
+
+                        FROM 
+                            benhnhan b
+                         JOIN 
+                            phieunamvien p ON b.MaBN = p.MaBN
+                         JOIN 
+                            phong ph on ph.MaPhong=p.MaPhong
+                         JOIN 
+                            giuong gg on gg.MaGiuong=p.MaGiuong
+                         JOIN 
+                            nhansu ns ON p.MaNS = ns.MaNS";
+            
+                $sql .= " WHERE b.TrangThai  ='Xuất viện' ORDER BY p.MaBN DESC";
+              
+            
+                if (!empty($searchTerm)) {
+                    $sql .= " AND b.HoTen LIKE '%$searchTerm%'";
+                }
+            
+                $result = $conn->query($sql);
+            
+                $dsBenhNhan = [];
+                
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                    }
+                }
+                
+                return $dsBenhNhan;
+            }
+            public function updateBenhNhan($MaBN, $HoTen, $GioiTinh, $SDT, $CCCD, $BHYT, $DiaChi) {
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi(); 
+                $sql = "UPDATE benhnhan SET HoTen = '$HoTen', GioiTinh = '$GioiTinh', SDT = '$SDT', CCCD = '$CCCD', BHYT = '$BHYT', DiaChi = '$DiaChi' WHERE MaBN = '$MaBN'";
+                $result = mysqli_query($con, $sql);
+                $p -> dongKetNoi($con);
+                return $result;
+            }
+            
+            public function getBenhNhan( $MaBN) {
+                $p = new clsKetNoi();
+                
+                $conn = $p->moKetNoi();
+                
+                $sql = "SELECT 
+                            b.MaBN,
+                            b.HoTen, 
+                            b.NgaySinh, 
+                            b.GioiTinh, 
+                            b.DiaChi, 
+                            b.SDT, 
+                            b.CCCD, 
+                            b.BHYT, 
+                            b.LoaiBHYT, 
+                            b.TrangThai, 
+                            p.ThoiGianNV,
+                            p.MaNV,
+                            p.LyDo,
+                            p.ChuanDoanBD
+                        FROM 
+                            benhnhan b
+                         JOIN 
+                            phieunamvien p ON b.MaBN = p.MaBN
+                        WHERE  b.MaBN = '$MaBN' AND b.TrangThai  ='Nhập viện' ";
+              
+                $result = $conn->query($sql);
+            
+                $BenhNhan = [];
+                
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $BenhNhan[] = $row; 
+                    }
+                }
+                
+                return $BenhNhan;
             }
             
         }

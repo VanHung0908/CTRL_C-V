@@ -1,95 +1,120 @@
 <?php
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
-$MaDKK = isset($_GET['MaDKK']) ? $_GET['MaDKK'] : null;
 $MaNS = $_SESSION['maNS'];
 include_once(BACKEND_URL . 'model/mBenhNhan.php');
 
 $con = new mBenhNhan(); 
 
-$dsBenhNhan = $con->PhieuKhamBN($MaBN, $MaNS);
-$benhNhan = $dsBenhNhan[0]; 
+$BenhNhan = $con->getBenhNhan($MaBN);
+$benhNhan = $BenhNhan[0]; 
 include_once(BACKEND_URL . 'model/mThuoc.php');
 $conThuoc = new mThuoc();
 $dsThuoc = $conThuoc->getAllThuoc(); 
 
 ?>
-
 <div class="main-content" id="main-content">
-    <!-- <div class="header-lpk">
-        <h2></h2>
-    </div> -->
-    <h3>PHIẾU KẾT QUẢ KHÁM BỆNH</h3>
-    <hr class="divider">
-    <table class="info">
-        <tr>
-            <td>Tên bệnh nhân: <span class="patient-info"><?php echo $benhNhan['HoTenBN']; ?></span></td>
-            <td>Mã bệnh nhân: <span class="patient-info"><?php echo $benhNhan['MaBN']; ?></span></td>
-            <td>BHYT: <span class="patient-info"><?php echo $benhNhan['BHYT']; ?></span></td>
-        </tr>
-        <tr>
-            <td>Năm sinh: <span class="patient-info"><?php echo $benhNhan['NgaySinh']; ?></span></td>
-            <td>Giới tính: <span class="patient-info"><?php echo $benhNhan['GioiTinh']; ?></span></td>
-            <td>Địa chỉ: <span class="patient-info"><?php echo $benhNhan['DiaChi']; ?></span></td>
-        </tr>
-        <tr>
-            <td>Khoa: <span class="patient-info"><?php echo $benhNhan['TenKhoa']; ?></span></td>
-            <td>Bác sĩ khám bệnh: <span class="patient-info"><?php echo $benhNhan['BacSi']; ?></span></td>
-            <td>Chẩn đoán:   <textarea class="diagnosis-textarea "></textarea></td>
-        </tr>
-        <tr>
-            <td>Tình trạng hiện tại:   <textarea class="diagnosis-textarea" ></textarea></td>
-            <td>Ngày khám bệnh: <span><?php echo date('d-m-Y H:i:s'); ?></span></td>
-            <td>Ngày tái khám: <input type="date" name="NgayTaiKham"></td>
-        </tr>
-    </table>
+        <h2 class="text-center mb-4">Lập phác đồ điều trị</h2>
+        <hr class="divider">
+        <form>
+            <!-- Thông tin bệnh nhân -->
+            <fieldset class="border p-4 mb-4 rounded bg-white">
+                <legend class="w-auto px-3">Thông tin bệnh nhân</legend>
+                <div class="mb-3">
+                    <label for="patientName" class="form-label">Họ và tên</label>
+                    <input type="text" class="form-control" id="patientName"  value="<?php echo $benhNhan['HoTen']; ?>">
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="patientAge" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="patientAge" value="<?php echo $benhNhan['NgaySinh']; ?>">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="patientGender" class="form-label"  >Giới tính</label>
+                        <input type="text" class="form-control"  value="<?php echo $benhNhan['GioiTinh']; ?>">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="patientAge" class="form-label">Lý do nhập viện</label>
+                        <input type="text" class="form-control" id="patientAge" value="<?php echo $benhNhan['LyDo']; ?>">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="patientGender" class="form-label"  >Chẩn đoán ban đầu</label>
+                        <input type="text" class="form-control"  value="<?php echo $benhNhan['ChuanDoanBD']; ?>">
+                    </div>
+                </div>
+                
+            </fieldset>
+            </form>
 
-    <table class="results">
-        <h4>TOA THUỐC</h4>
-        <tr>
-            <th>STT</th>
-            <th>Tên thuốc</th>
-            <th>Liều lượng</th>
-            <th>Số lượng</th>
-            <th>Cách dùng</th>
-            <th>Thao tác</th>
-        </tr>
-        <tr>
-            <td><input type="number" value="1" readonly></td>
-            <td>
-                <input type="text" name="tenThuoc" id="tenThuoc" placeholder="Nhập tên thuốc..." autocomplete="off">
-                <select name="tenThuocOptions" id="tenThuocOptions">
-                    <option value="">Chọn thuốc</option>
-                </select>
-            </td>
-            <td>
-                <select name="lieuLuong" id="lieuLuong">
-                    <option value=""></option>
-                    <option value="1 lần/ngày">1 lần/ngày</option>
-                    <option value="2 lần/ngày">2 lần/ngày</option>
-                    <option value="3 lần/ngày">3 lần/ngày</option>
-                </select>
-            </td>
-            <td><input type="number" id="soLuong"></td>
-            <td>
-                <select name="cachDung" id="cachDung">
-                    <option value=""></option>
-                    <option value="Uống vào buổi sáng">Uống vào buổi sáng</option>
-                    <option value="Uống vào buổi sáng và tối">Uống vào buổi sáng và tối</option>
-                    <option value="Tiêm">Tiêm</option>
-                </select>
-            </td>
-            <td><button class="lpk-button" id="addDrugButton">Thêm thuốc</button></td>
-        </tr>
-    </table>
+            <!-- Chẩn đoán và kế hoạch điều trị -->
+            <fieldset class="border p-4 mb-4 rounded bg-white">
+                <legend class="w-auto px-3">Kế hoạch điều trị</legend>
+                <div class="mb-3">
+                    <label for="diagnosis" class="form-label">Chẩn đoán</label>
+                    <textarea class="form-control" id="diagnosis" rows="3" placeholder="Nhập chẩn đoán"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="treatmentPlan" class="form-label">Kế hoạch điều trị</label>
+                    <textarea class="form-control" id="treatmentPlan" rows="5" placeholder="Nhập kế hoạch điều trị"></textarea>
+                </div>
+                 
+                <div class="mb-3">
+                    <label for="treatmentPlan" class="form-label">Chế độ dinh dưỡng</label>
+                    <textarea class="form-control" id="CheDoDD" rows="5" placeholder="Nhập kế hoạch điều trị"></textarea>
+                </div>
+            </fieldset>
 
-    <p class="note">
-        *Lưu ý: Dùng thuốc theo đơn, nếu nhận thấy có triệu chứng bất thường hãy đến khám ngay!
-    </p>
-    <button class="lpk-button save-prescription" id="savePrescriptionButton">Lưu đơn thuốc</button>
 
-</div>
+            <!-- Hướng dẫn thuốc -->
+          
+            <table class="results">
+                <h4>TOA THUỐC</h4>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên thuốc</th>
+                    <th>Liều lượng</th>
+                    <th>Số lượng</th>
+                    <th>Cách dùng</th>
+                    <th>Thao tác</th>
+                </tr>
+                <tr>
+                    <td><input type="number" value="1" readonly></td>
+                    <td>
+                        <input type="text" name="tenThuoc" id="tenThuoc" placeholder="Nhập tên thuốc..." autocomplete="off">
+                        <select name="tenThuocOptions" id="tenThuocOptions">
+                            <option value="">Chọn thuốc</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="lieuLuong" id="lieuLuong">
+                            <option value=""></option>
+                            <option value="1 lần/ngày">1 lần/ngày</option>
+                            <option value="2 lần/ngày">2 lần/ngày</option>
+                            <option value="3 lần/ngày">3 lần/ngày</option>
+                        </select>
+                    </td>
+                    <td><input type="number" id="soLuong"></td>
+                    <td>
+                        <select name="cachDung" id="cachDung">
+                            <option value=""></option>
+                            <option value="Uống vào buổi sáng">Uống vào buổi sáng</option>
+                            <option value="Uống vào buổi sáng và tối">Uống vào buổi sáng và tối</option>
+                            <option value="Tiêm">Tiêm</option>
+                        </select>
+                    </td>
+                    <td><button class="lpk-button" id="addDrugButton">Thêm thuốc</button></td>
+                </tr>
+            </table>
 
-<script>
+
+            <!-- Nút hành động -->
+            <div class="text-center">
+            <button class="btn btn-primary btn-lg w-50" id="savePrescriptionButton">Lưu phác đồ</button>
+            </div>
+    </div>
+
+    <script>
     // Lắng nghe sự kiện khi người dùng nhập dữ liệu tìm kiếm thuốc
     document.getElementById('tenThuoc').addEventListener('input', function() {
         var searchTerm = this.value.trim();
@@ -205,7 +230,6 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
 
     // Thu thập dữ liệu các thuốc trong bảng
     var chiTietDonThuoc = [];
-    var tongTien = 0;
 
     rows.forEach(function (row, index) {
         if (index === 0) return; // Bỏ qua tiêu đề
@@ -217,10 +241,6 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
         var maThuoc = row.getAttribute('data-ma-thuoc');
 
         if (maThuoc && soLuong) {
-            // Tính tổng tiền dựa trên giá thuốc
-            var giaThuoc = parseFloat(row.getAttribute('data-gia-thuoc')) || 0;
-            tongTien += giaThuoc * soLuong;
-
             chiTietDonThuoc.push({
                 MaThuoc: maThuoc,
                 SoLuong: soLuong,
@@ -230,27 +250,19 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
         }
     });
 
-    // Lấy dữ liệu từ các trường bổ sung
-    var chuanDoan = encodeURIComponent(document.querySelector('.diagnosis-textarea').value.trim());
-    var tinhTrang = encodeURIComponent(document.querySelectorAll('.diagnosis-textarea')[1].value.trim()); // Tình trạng hiện tại
-    var ngayTaiKham = document.querySelector('input[name="NgayTaiKham"]').value;
+    var ChuanDoan = encodeURIComponent(document.getElementById('diagnosis').value.trim());
+    var KeHoach = encodeURIComponent(document.getElementById('treatmentPlan').value.trim());
+    var CheDoDD = encodeURIComponent(document.getElementById('CheDoDD').value.trim());
     var maNS = <?php echo json_encode($_SESSION['maNS']); ?>;
-    var loaiBHYT = <?php echo json_encode($benhNhan['LoaiBHYT']); ?>;
-    var maDKK = <?php echo json_encode($MaDKK); ?>;
-    if (!chuanDoan || !tinhTrang) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Lỗi',
-            text: 'Vui lòng nhập chẩn đoán và tình trạng hiện tại!',
-            confirmButtonText: 'Thử lại'
-        });
+    if (!ChuanDoan || !KeHoach) {
+        alert('Vui lòng nhập chẩn đoán và tình trạng hiện tại!');
         return;
     }
 
     // Gửi dữ liệu lên server để lưu
-    if (chiTietDonThuoc.length > 0 || chuanDoan || tinhTrang || ngayTaiKham) {
+    if (chiTietDonThuoc.length > 0 || ChuanDoan || KeHoach || CheDoDD) {
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/QLBV/ajax/saveDonThuoc.php', true);
+        xhr.open('POST', '/QLBV/ajax/savePhacDo.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
 
         xhr.onreadystatechange = function () {  
@@ -268,7 +280,7 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
                             text: 'Lập phiếu khám thành công!',
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            window.location.href = '/QLBV/bacsi/index.php?page=DSBN';
+                            window.location.href = '/QLBV/bacsi/index.php?page=DSBNNT';
                         });
                     } else {
                         Swal.fire({
@@ -297,14 +309,11 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
         var data = {
             MaBN: <?php echo json_encode($MaBN); ?>,
             NgayKeDon: new Date().toISOString().split('T')[0],
-            TongTien: tongTien,
-            ChuanDoan: chuanDoan,
-            TinhTrang: tinhTrang,
-            NgayTaiKham: ngayTaiKham,
+            ChuanDoan: ChuanDoan,
+            KeHoach: KeHoach,
+            CheDoDD: CheDoDD,
             ChiTietDonThuoc: chiTietDonThuoc,
-            MaNS: maNS,
-            LoaiBHYT: loaiBHYT,
-            MaDKK: maDKK
+            MaNS: maNS
         };
 
         xhr.send(JSON.stringify(data));

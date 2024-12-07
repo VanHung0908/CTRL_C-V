@@ -7,10 +7,23 @@ $benhNhan = $dsBenhNhan[0];
 include_once(BACKEND_URL . 'model/mPKQK.php');
 $conkqk = new mPKQK();
 $KQKB = $conkqk->getslectKQK($MaBN); 
-$KQKB = $KQKB[0];
+$KQKB = $conkqk->getslectKQK($MaBN);
 
-$MaDonThuoc= $KQKB['MaDonThuoc'];
-$donthuoc= $conkqk->getThuoc($MaDonThuoc); 
+// Kiểm tra xem $KQKB có hợp lệ không
+if (!empty($KQKB) && is_array($KQKB)) {
+    $KQKB = $KQKB[0];
+    $MaDonThuoc = isset($KQKB['MaDonThuoc']) ? $KQKB['MaDonThuoc'] : null;
+
+    if ($MaDonThuoc) {
+        $donthuoc = $conkqk->getThuoc($MaDonThuoc);
+    } else {
+        $donthuoc = []; // Nếu không có mã đơn thuốc, đặt mảng rỗng
+    }
+} else {
+    $KQKB = null; // Đặt null nếu không có kết quả
+    $donthuoc = []; // Đặt mảng rỗng nếu không có đơn thuốc
+}
+
 
 if (isset($_POST['btn_thanhtoan'])) {
     $phuongThucThanhToan = $_POST['payment_method'];
@@ -47,17 +60,18 @@ if (isset($_POST['btn_thanhtoan'])) {
 
 ?>
 <div class="main-content" id="main-content">
-    <h3 class="header-title">Hóa Đơn Thanh Toán</h3>
+    <h3>Hóa Đơn Thanh Toán</h3>
+    <hr class="divider">
+    <h4>Thông tin bệnh nhân</h4>
+    <p><strong>Tên bệnh nhân:</strong> <?php echo !empty($benhNhan['HoTen']) ? htmlspecialchars($benhNhan['HoTen']) : "Chưa có dữ liệu"; ?></p>
+    <p><strong>Mã bệnh nhân:</strong> <?php echo !empty($benhNhan['MaBN']) ? htmlspecialchars($benhNhan['MaBN']) : "Chưa có dữ liệu"; ?></p>
+    <p><strong>Ngày sinh:</strong> <?php echo !empty($benhNhan['NgaySinh']) ? htmlspecialchars($benhNhan['NgaySinh']) : "Chưa có dữ liệu"; ?></p>
+    <p><strong>Giới tính:</strong> <?php echo !empty($benhNhan['GioiTinh']) ? htmlspecialchars($benhNhan['GioiTinh']) : "Chưa có dữ liệu"; ?></p>
+    <p><strong>Chẩn đoán:</strong> <?php echo !empty($KQKB['ChanDoan']) ? htmlspecialchars($KQKB['ChanDoan']) : "Chưa có dữ liệu"; ?></p>
+    <p><strong>Ngày tái khám:</strong> <?php echo !empty($KQKB['NgayTaiKham']) ? htmlspecialchars($KQKB['NgayTaiKham']) : "Chưa có dữ liệu"; ?></p>
 
-    <h3>Thông tin bệnh nhân</h3>
-    <p><strong>Tên bệnh nhân:</strong> <?php echo htmlspecialchars($benhNhan['HoTen']); ?></p>
-    <p><strong>Mã bệnh nhân:</strong> <?php echo htmlspecialchars($benhNhan['MaBN']); ?></p>
-    <p><strong>Ngày sinh:</strong> <?php echo htmlspecialchars($benhNhan['NgaySinh']); ?></p>
-    <p><strong>Giới tính:</strong> <?php echo htmlspecialchars($benhNhan['GioiTinh']); ?></p>
-    <p><strong>ChuanDoan:</strong> <?php echo htmlspecialchars($KQKB['ChanDoan']); ?></p>
-    <p><strong>Ngày tái khám:</strong> <?php echo htmlspecialchars($KQKB['NgayTaiKham']); ?></p>
-
-    <h3>Chi tiết chi phí</h3>
+    <h4>Chi tiết chi phí</h4>
+    <?php if (!empty($donthuoc)): ?>
     <table class="table-cost">
         <thead>
             <tr>
@@ -85,6 +99,10 @@ if (isset($_POST['btn_thanhtoan'])) {
             <?php } ?>
         </tbody>
     </table>
+<?php else: ?>
+    <p>Chưa có dữ liệu đơn thuốc.</p>
+<?php endif; ?>
+
     <?php
 $percentBHYT = 0;
 switch ($benhNhan['LoaiBHYT']) {
@@ -102,7 +120,7 @@ switch ($benhNhan['LoaiBHYT']) {
     default:
         $percentBHYT = 0; 
 }
-
+$totalCost = $totalCost ?? 0;
 $bhytPayment = ($percentBHYT / 100) * $totalCost;
 $patientPayment = $totalCost - $bhytPayment;
 ?>

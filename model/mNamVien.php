@@ -104,7 +104,30 @@ class NamVien {
     
         return $kq ? "Cập nhật thành công cả hai bảng!" : "Không có thay đổi nào được thực hiện.";
     }
-    
+
+    public function updateNhapVien($MaBN, $TenNguoiLienHe, $QuanHe, $TamUng,$MaPhong,$MaGiuong) {
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi(); 
+        $sql =  "UPDATE phieunamvien 
+        SET TenNguoiLienHe = '$TenNguoiLienHe', QuanHe = '$QuanHe', TamUng = '$TamUng',MaPhong = '$MaPhong', MaGiuong = '$MaGiuong'
+        WHERE MaBN ='$MaBN' AND TrangThai = 'Nhập viện'";
+        $result = mysqli_query($con, $sql);
+        $p -> dongKetNoi($con);
+        return $result;
+    }
+    public function xuatvien($ThoiGianXV, $ChuanDoanKQ, $PhuongPhapDieuTri, $GhiChu, $MaBN, $MaNV){
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi(); 
+        $sql =  "UPDATE phieunamvien 
+        SET ThoiGianXV = '$ThoiGianXV', ChuanDoanKQ = '$ChuanDoanKQ', PhuongPhapDieuTri = '$PhuongPhapDieuTri',GhiChu = '$GhiChu', TrangThai = 'Xuất viện'
+        WHERE MaNV ='$MaNV' ";
+        $sql ="Update benhnhan set TrangThai='Xuất viện' where MaBN='$MaBN'";
+        $result = mysqli_query($con, $sql);
+        $p -> dongKetNoi($con);
+        return $result;
+    }
+
+
 
 } 
 

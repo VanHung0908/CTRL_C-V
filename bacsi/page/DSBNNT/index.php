@@ -10,10 +10,8 @@ $con = new mBenhNhan();
 $MaCV = $_SESSION['maCV'];
 $MaNS = $_SESSION['maNS'];
 
-// Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
 $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
 
-// Hiển thị danh sách bệnh nhân trong bảng
 ?>
 
 
@@ -31,7 +29,7 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
     <table class="employee-table">
         <thead>
             <tr>
-            <th>STT</th>
+                <th>STT</th>
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
@@ -64,8 +62,9 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
                         <i class='fas fa-tasks'></i> Thao tác
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtinNV&MaBN=" . $benhNhan['MaBN'] . "'>Cập nhật thông tin</a></li>
+                    <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>
+                    <li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=" . $benhNhan['MaBN'] . "'>Lập phác đồ</a></li>
+                    <li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=" . $benhNhan['MaBN'] . "&MaNV=" . $benhNhan['MaNV'] . "'>Xuất viện</a></li>
                     </ul>
                 </div>
             </td>";
@@ -198,7 +197,7 @@ function displayPatients(patients) {
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtin&MaBN=${patient.MaBN}'>Cập nhật thông tin</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=${patient.MaBN}'>Nhập viện</a></li>
                     </ul>
                 </div>
             </td>

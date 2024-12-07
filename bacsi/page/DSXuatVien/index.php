@@ -11,7 +11,7 @@ $MaCV = $_SESSION['maCV'];
 $MaNS = $_SESSION['maNS'];
 
 // Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
-$dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
+$dsBenhNhan = $con->dsBenhNhanXV($MaCV, $MaNS);
 
 // Hiển thị danh sách bệnh nhân trong bảng
 ?>

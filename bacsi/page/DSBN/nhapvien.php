@@ -16,11 +16,28 @@ $benhNhan = $dsBenhNhan[0];
 
 $con = new mKhoa();
 $dsKhoa = $con->dsKhoa();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $namVienModel = new NamVien();
     $thoiGianNV = date('Y-m-d');
 
+    // Kiểm tra dữ liệu đầu vào
+    if (empty($LyDo) || empty($ChuanDoanBD) || empty($TienSuBenh) || empty($ThuocDangSD) || empty($MaBN) || empty($MaKhoa)) {
+        echo "<script>
+            Swal.fire({
+                icon: 'warning',
+                title: 'Thiếu thông tin',
+                text: 'Vui lòng nhập đầy đủ thông tin trước khi thêm phiếu nhập viện!',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.history.back();
+                }
+            });
+        </script>";
+        exit; // Dừng xử lý nếu dữ liệu bị thiếu
+    }
+
+    // Gọi phương thức để thêm phiếu nhập viện
     $result = $namVienModel->insertPhieuNamVien($LyDo, $ChuanDoanBD, $thoiGianNV, $TienSuBenh, $ThuocDangSD, $MaBN, $MaKhoa);
     
     // Hiển thị thông báo và chuyển hướng
@@ -52,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </script>";
     }
 }
+
 ?>
 
 <div class="main-content" id="main-content">
