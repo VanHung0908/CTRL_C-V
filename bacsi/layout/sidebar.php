@@ -1,5 +1,5 @@
 <?php
-$maCV = $_SESSION['maCV'];  
+$maCV = $_SESSION['maCV'];
 ?>
 <div class="sidebar" id="sidebar">
     <ul>
@@ -9,13 +9,13 @@ $maCV = $_SESSION['maCV'];
         <?php if ($maCV == 1): ?>
             <li>
                 <a href="index.php?page=QuanLyNhanSu" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fas fa-users"></i></span> 
+                    <span class="sidebar-icon"><i class="fas fa-users"></i></span>
                     <span>Quản lý nhân sự</span>
                 </a>
             </li>
             <li>
                 <a href="index.php?page=QuanLyKhoa" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fas fa-hospital"></i></span> 
+                    <span class="sidebar-icon"><i class="fas fa-hospital"></i></span>
                     <span>Quản lý khoa</span>
                 </a>
             </li>
@@ -28,32 +28,32 @@ $maCV = $_SESSION['maCV'];
         <?php elseif ($maCV == 2): ?>
             <li>
                 <a href="index.php?page=QLPK" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span>
                     <span>Quản lý ca trực</span>
                 </a>
             </li>
             <li>
                 <a href="index.php?page=DuyetYCNP" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span>
                     <span>Duyệt nghỉ phép</span>
                 </a>
             </li>
         <?php elseif ($maCV == 3): ?>
             <li>
                 <a href="index.php?page=QLPK" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span>
                     <span>Quản lý phòng khám</span>
                 </a>
             </li>
             <li>
                 <a href="index.php?page=DuyetYCNP" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span>
                     <span>Duyệt yêu cầu nghỉ phép</span>
                 </a>
             </li>
             <li>
                 <a href="index.php?page=phacdodieutri" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-clipboard-list"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-clipboard-list"></i></span>
                     <span>Phác đồ điều trị</span>
                 </a>
             </li>
@@ -93,14 +93,14 @@ $maCV = $_SESSION['maCV'];
             </li>
             <li>
                 <a href="index.php?page=HoaDon" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar" ></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
                     <span>Hóa đơn</span>
                 </a>
             </li>
         <?php elseif ($maCV == 6 || $maCV == 7): ?>
             <li>
                 <a href="index.php?page=DSgiuong" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span>
                     <span> Danh sách giường</span>
                 </a>
             </li>
@@ -112,7 +112,7 @@ $maCV = $_SESSION['maCV'];
             </li>
             <li>
                 <a href="index.php?page=dangkykhambenh" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-calendar-check"></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-calendar-check"></i></span>
                     <span>Đăng ký khám bệnh</span>
                 </a>
             </li>
@@ -127,8 +127,14 @@ $maCV = $_SESSION['maCV'];
                 </ul>
             </li>
             <li>
+                <a href="index.php?page=QLP" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                    <span>Quản lý Phòng</span>
+                </a>
+            </li>
+            <li>
                 <a href="index.php?page=HoaDon" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar" ></i></span> 
+                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
                     <span>Hóa đơn</span>
                 </a>
             </li>
@@ -148,8 +154,8 @@ $maCV = $_SESSION['maCV'];
                     </li>
                 </ul>
             </li>
-        <?php endif; ?>   
-        
+        <?php endif; ?>
+
         <li>
             <a href="index.php?page=CaNhan" class="sidebar-link">
                 <span class="sidebar-icon"><i class="fa-solid fa-user"></i></span>
@@ -166,10 +172,10 @@ $maCV = $_SESSION['maCV'];
 </div>
 <script>
     document.querySelectorAll('.menu-toggle').forEach(item => {
-    item.addEventListener('click', function () {
-        const submenu = this.nextElementSibling;
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        item.addEventListener('click', function () {
+            const submenu = this.nextElementSibling;
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        });
     });
-});
 
 </script>
