@@ -29,7 +29,7 @@
             $p = $con -> moKetNoi();
             $sql = "select NgayTrongTuan,CaTrongNgay,TenPhong from lichlamviec h 
             join chitietphongkham j on h.MaCTPhongKham=j.MaCTPhongKham join phongkham k 
-            on k.maphong=j.maphong  where h.MaNS1 = '$id' or h.MaNS2='$id'";
+            on k.maphong=j.maphong  where h.MaNS = '$id' ";
             //echo $sql;
             $kq = mysqli_query($p,$sql);
             return $kq;
@@ -101,22 +101,15 @@
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function DangKyLLVNS1($user,$ma){
+        public function DangKyLLVNS($user,$ma){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "UPDATE `lichlamviec` SET `MaNS1`='$user' WHERE MaCTPhongKham ='$ma'";
+            $sql = "UPDATE `lichlamviec` SET `MaNS`='$user' WHERE MaCTPhongKham ='$ma'";
             //echo $sql;
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function DangKyLLVNS2($user,$ma){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "UPDATE `lichlamviec` SET `MaNS2`='$user' WHERE MaCTPhongKham ='$ma'";
-            //echo $sql;
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
+        
         public function CapNhatSSkhiDK($ma){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
@@ -143,7 +136,7 @@
         public function ktraDaDKL($ma){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "select * from lichlamviec where MaNS1 ='$ma' or MaNS2='$ma'";
+            $sql = "select * from lichlamviec where MaNS ='$ma'";
             //echo $sql;
             $kq = mysqli_query($p,$sql);
             return $kq;

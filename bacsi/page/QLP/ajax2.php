@@ -20,7 +20,6 @@ $daysOfWeek = [
 
 // Mảng ánh xạ CaTrongNgay
 $shifts = [
-    0 => "Cả ngày",
     1 => "Ca sáng",
     2 => "Ca chiều"
 ];
@@ -38,8 +37,7 @@ $shifts = [
                 <th>STT</th>
                 <th>Ngày trong tuần</th>
                 <th>Ca trong ngày</th>
-                <th>MaNS1</th>
-                <th>MaNS2</th>
+                <th>MaNS</th>
                 <th>Sửa CTCa</th>
                 <th>Xóa CTCa</th>
             </tr>
@@ -48,7 +46,7 @@ $shifts = [
             <?php
             if (mysqli_num_rows($dsCabyPhong) == 0) {
                 echo '<tr>';
-                echo '<td colspan="7">';
+                echo '<td colspan="6">';
                 echo 'Phòng này đang lên kế hoạch !';
                 echo '</td>';
                 echo '</tr>';
@@ -64,8 +62,7 @@ $shifts = [
                     // Hiển thị CaTrongNgay bằng chữ
                     echo '<td>' . $shifts[$i['CaTrongNgay']] . '</td>';
                     
-                    echo '<td>' . $i['MaNS1'] . '</td>';
-                    echo '<td>' . $i['MaNS2'] . '</td>';
+                    echo '<td>' . $i['MaNS'] . '</td>';
                     echo '<td><a href="?page=QLP&suaC=' . $i['MaLLV'] . '">Sửa</a></td>';
                     echo '<td><a href="?page=QuanLyKhoa&xoaC=' . $i['MaLLV'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Phòng này không ?\')">Xóa</a></td>';
                     echo '</tr>';

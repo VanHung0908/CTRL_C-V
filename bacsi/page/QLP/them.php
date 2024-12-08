@@ -81,7 +81,7 @@ if (isset($_GET['themP'])) {
                 <select name="shift_' . $i . '" style="width:300px;">
                     <option value="1">Ca sáng</option>
                     <option value="2">Ca chiều</option>
-                    <option value="0">Cả ngày</option>
+                    
                 </select>
             </td>
         </tr>';
@@ -98,6 +98,7 @@ if (isset($_GET['themP'])) {
 
 
 ?>
+
 
 
 <style>

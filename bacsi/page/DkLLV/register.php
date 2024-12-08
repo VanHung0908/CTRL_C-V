@@ -17,13 +17,10 @@ if (isset($_POST['caID'])) {
         echo "Ca này đã đạt số lượng đăng ký tối đa.";
         exit;
     } 
-    if($ss === 0){
-        $result = $con->DangKyLLVNS1($userID, $caID);
-        $result = $con -> CapNhatSSkhiDK($caID);  
-    }else{
-        $result = $con->DangKyLLVNS2($userID, $caID);
-        $result = $con -> CapNhatSSkhiDK($caID);  
-    }
+    
+    $result = $con->DangKyLLVNS($userID, $caID);
+    $result = $con -> CapNhatSSkhiDK($caID);  
+    
     
 
     // Thêm đăng ký mới

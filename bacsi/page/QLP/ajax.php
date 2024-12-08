@@ -9,9 +9,9 @@ foreach($Phong as $i){
 }
 ?>
 <div class="schedule-list">
-    <h5 align="center"><b class="color">DANH SÁCH PHÒNG LÀM VIỆC</b></h5>
+    <h5 align="center"><b class="color">DANH SÁCH CA LÀM VIỆC</b></h5>
     <div align="center" style="margin:10px;">
-        <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QLP&themCa=<?=$id?>">+ Thêm
+        <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QLP&themCa=<?=$id?>" id="loadPageLink">+ Thêm
                 Ca</a></b>
     </div>
     <table class="schedule-table">

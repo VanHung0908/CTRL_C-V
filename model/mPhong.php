@@ -59,8 +59,8 @@
         public function CTCabyCa($idCa,$day,$ca){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichlamviec`(`MaCTPhongKham`, `NgayTrongTuan`, `CaTrongNgay`, `MaNS1`, `MaNS2`) 
-            VALUES ('$idCa','$day','$ca','0','0')";
+            $sql = "INSERT INTO `lichlamviec`(`MaCTPhongKham`, `NgayTrongTuan`, `CaTrongNgay`,  `MaNS`) 
+            VALUES ('$idCa','$day','$ca','0')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
