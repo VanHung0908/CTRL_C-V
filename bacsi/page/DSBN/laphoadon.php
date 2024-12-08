@@ -7,15 +7,13 @@ $benhNhan = $dsBenhNhan[0];
 include_once(BACKEND_URL . 'model/mPKQK.php');
 $conkqk = new mPKQK();
 $KQKB = $conkqk->getslectKQK($MaBN); 
-$KQKB = $conkqk->getslectKQK($MaBN);
 
-// Kiểm tra xem $KQKB có hợp lệ không
 if (!empty($KQKB) && is_array($KQKB)) {
     $KQKB = $KQKB[0];
     $MaDonThuoc = isset($KQKB['MaDonThuoc']) ? $KQKB['MaDonThuoc'] : null;
 
     if ($MaDonThuoc) {
-        $donthuoc = $conkqk->getThuoc($MaDonThuoc);
+        $donthuoc = $conkqk->getTTThuoc($MaDonThuoc);
     } else {
         $donthuoc = []; // Nếu không có mã đơn thuốc, đặt mảng rỗng
     }

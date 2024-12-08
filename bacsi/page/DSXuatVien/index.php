@@ -12,7 +12,6 @@ $MaNS = $_SESSION['maNS'];
 
 // Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
 $dsBenhNhan = $con->dsBenhNhanXV($MaCV, $MaNS);
-
 // Hiển thị danh sách bệnh nhân trong bảng
 ?>
 
@@ -65,7 +64,7 @@ $dsBenhNhan = $con->dsBenhNhanXV($MaCV, $MaNS);
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtinNV&MaBN=" . $benhNhan['MaBN'] . "'>Cập nhật thông tin</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=laphoadonXV&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>
                     </ul>
                 </div>
             </td>";
@@ -198,7 +197,7 @@ function displayPatients(patients) {
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtin&MaBN=${patient.MaBN}'>Cập nhật thông tin</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=laphoadon&MaBN=${patient.MaBN}'>Lập hóa đơn</a></li>
                     </ul>
                 </div>
             </td>

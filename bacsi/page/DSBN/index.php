@@ -77,11 +77,8 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                     echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phác đồ</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Xuất viện</a></li>";
                 }else if ($_SESSION['maCV'] == 6) {
-                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
+                    echo "<li><a class='dropdown-item' href='index.php?page=capnhattt&MaBN=" . $benhNhan['MaBN'] . "'>Cập nhật thông tin</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=laphoadon&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>";
-                }
-                else if ($_SESSION['maCV'] == 7) {
-                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                 }
                 else
                  {

@@ -1,5 +1,16 @@
 <?php
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
+if (!$MaBN) {
+    echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không có dữ liệu bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    exit; // Dừng tiếp tục xử lý khi không có MaBN
+}
 $MaDKK = isset($_GET['MaDKK']) ? $_GET['MaDKK'] : null;
 $MaNS = $_SESSION['maNS'];
 include_once(BACKEND_URL . 'model/mBenhNhan.php');

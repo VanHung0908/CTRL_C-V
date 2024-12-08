@@ -96,14 +96,12 @@ class mDonThuoc {
     
             $query = "INSERT INTO phieuketquakham (ChanDoan, NgayTaiKham, NgayKham, MaNS, MaDonThuoc, MaBN) 
             VALUES (?, ?, ?, ?, ?, ?)";
-
-            $stmt = $conn->prepare($query);
-
-            $stmt->bind_param("ssssii", $chuanDoan, $ngayTaiKham, $ngayKham, $maNS, $maDonThuoc, $maBN);
-
-            $stmt->execute();
-
     
+            $stmt = $conn->prepare($query);
+    
+            $stmt->bind_param("ssssii", $chuanDoan, $ngayTaiKham, $ngayKham, $maNS, $maDonThuoc, $maBN);
+    
+            // Chỉ thực thi một lần
             $result = $stmt->execute();
     
             $p->dongKetNoi($conn);

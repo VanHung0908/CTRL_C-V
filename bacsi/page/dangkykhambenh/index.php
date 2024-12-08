@@ -196,7 +196,6 @@ if (isset($_POST['btn_DangKy'])) {
                     <label for="LoaiBHYTText" class="form-label">Loại BHYT</label>
                     <input type="text" class="form-control" id="LoaiBHYTText" name="LoaiBHYTText" readonly>
                 </div>
-            <!-- Trường hợp thẻ BHYT 15 số sẽ tự động hiển thị loại thẻ -->
             <div class="mb-3">
                 <label for="chiPhi" class="form-label">Chi phí khám bệnh</label>
                 <input type="text" class="form-control" id="chiPhi" name="chiPhi" value="<?php echo $chiPhi; ?>" readonly>

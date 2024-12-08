@@ -3,11 +3,31 @@ include_once(BACKEND_URL . 'model/mBenhNhan.php');
 include_once(BACKEND_URL . 'model/mNamVien.php');  // Giả sử bạn có model này để cập nhật bảng phiếu nằm viện
 
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
+if (!$MaBN) {
+    echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không có dữ liệu bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    exit; // Dừng tiếp tục xử lý khi không có MaBN
+}
 $con = new mBenhNhan();
 $dsBenhNhan = $con->getTTBN($MaBN);
-$benhNhan = $dsBenhNhan[0];
-
-//khoa 
+    if (empty($benhNhan)) {
+        echo '<script>
+        Swal.fire({
+        icon: "error",
+        title: "Thất bại",
+        text: "Không có dữ liệu bệnh nhân.",
+        confirmButtonText: "Thử lại"
+        });
+        </script>';
+        exit;
+    }
+    $benhNhan = $dsBenhNhan[0];
 include($_SERVER['DOCUMENT_ROOT'] . '/QLBV/model/mKhoa.php');
 $mKhoa = new mKhoa();
 $departments = $mKhoa->getalDepartments($MaBN);

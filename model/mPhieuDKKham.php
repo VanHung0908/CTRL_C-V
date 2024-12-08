@@ -71,8 +71,46 @@ class mPhieuDKKham {
             return "Lỗi khi chèn dữ liệu: " . $stmt->error;
         }
     }
+    public function getPDKK($MaBN) {
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi();
+        $sql = "SELECT pd.MaDKK,pd.NgayKham, pd.TrangThai, k.TenKhoa, pd.ChiPhiKham, ns.HoTen
+                FROM phieudangkykham pd
+                JOIN khoa k ON k.MaKhoa = pd.MaKhoa
+                JOIN nhansu ns ON pd.MaNS = ns.MaNS
+                WHERE pd.MaBN = '$MaBN' and pd.TrangThai  in ('Chờ khám','Đã khám')";
     
+        $result = mysqli_query($con, $sql);
+        $resultPDKK = []; // Khởi tạo mảng rỗng để lưu kết quả
     
+        // Kiểm tra và thêm dữ liệu vào mảng
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultPDKK[] = $row;
+        }
+    
+        // Đóng kết nối
+        $p->dongKetNoi($con);
+    
+        return $resultPDKK;
+    }
+    
+    public function getKQK($MaBN) {
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi();
+        $sql = " select pkq.*,ns.HoTen from phieuketquakham pkq join nhansu ns on ns.MaNS=pkq.MaNS where MaBN='$MaBN'";
+        $result = mysqli_query($con, $sql);
+        $resultKQK = []; // Khởi tạo mảng rỗng để lưu kết quả
+    
+        // Kiểm tra và thêm dữ liệu vào mảng
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultKQK[] = $row;
+        }
+    
+        // Đóng kết nối
+        $p->dongKetNoi($con);
+    
+        return $resultKQK;
+    }
 }
 
 ?>

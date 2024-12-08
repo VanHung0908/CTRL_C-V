@@ -1,12 +1,33 @@
 <?php
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
-
+if (!$MaBN) {
+    echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không có dữ liệu bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    exit; // Dừng tiếp tục xử lý khi không có MaBN
+}
 $MaNS = $_SESSION['maNS'];
 include_once(BACKEND_URL . 'model/mBenhNhan.php');
 include_once(BACKEND_URL . 'model/mNamVien.php'); 
 $con = new mBenhNhan(); 
 
 $BenhNhan = $con->getBenhNhan($MaBN);
+if (empty($BenhNhan)) {
+    echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không có dữ liệu bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    exit;
+}
 $benhNhan = $BenhNhan[0]; 
 include_once(BACKEND_URL . 'model/mThuoc.php');
 $conThuoc = new mThuoc();

@@ -4,6 +4,17 @@ include_once(BACKEND_URL . 'model/mKhoa.php');
 include_once(BACKEND_URL . 'model/mNamVien.php'); 
 
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
+if (!$MaBN) {
+    echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không có dữ liệu bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    exit; // Dừng tiếp tục xử lý khi không có MaBN
+}
 $MaKhoa = isset($_POST['MaKhoa']) ? $_POST['MaKhoa'] : null;
 $ChuanDoanBD = isset($_POST['ChuanDoanBD']) ? $_POST['ChuanDoanBD'] : null;
 $TienSuBenh = isset($_POST['TienSuBenh']) ? $_POST['TienSuBenh'] : null;

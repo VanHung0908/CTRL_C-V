@@ -196,8 +196,9 @@ function displayPatients(patients) {
                         <i class='fas fa-tasks'></i> Thao tác
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=${patient.MaBN}'>Nhập viện</a></li>
+                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem bệnh án</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=${patient.MaBN}'>Lập phác đồ</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=${patient.MaBN}&MaNV=${patient.MaNV}'>Xuất viện</a></li>
                     </ul>
                 </div>
             </td>

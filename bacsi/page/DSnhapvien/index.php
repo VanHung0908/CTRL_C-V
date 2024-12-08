@@ -198,7 +198,7 @@ function displayPatients(patients) {
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtin&MaBN=${patient.MaBN}'>Cập nhật thông tin</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=capnhatthongtinNV&MaBN=${patient.MaBN}'>Cập nhật thông tin</a></li>
                     </ul>
                 </div>
             </td>

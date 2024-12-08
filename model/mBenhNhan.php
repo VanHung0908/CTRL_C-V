@@ -21,6 +21,15 @@
                 
                 return $hoTen;
             }
+            public function getAllBenhNhan($maBN) {
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi();
+        
+                // Truy vấn lấy thông tin HoTen từ bảng benhnhan
+                $sql = "SELECT * FROM benhnhan WHERE MaBN = '$maBN'";
+                $result = mysqli_query($con, $sql);
+                return $result;
+            }
          
             public function dangKyKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $cccd, $khoaKham, $bhyt, $loaiBHYT) {
                 $p = new clsKetNoi();
@@ -101,7 +110,7 @@
                 $caLam = null;
                 if ($currentTime >= "07:00" && $currentTime <= "11:00") {
                     $caLam = 1;
-                } elseif ($currentTime >= "13:00" && $currentTime <= "23:00") {
+                } elseif ($currentTime >= "13:00" && $currentTime <= "18:00") {
                     $caLam = 2;
                 }
             
@@ -246,6 +255,22 @@
                 }
                 // Trả về danh sách bệnh nhân
                 return $dsBenhNhan;
+            }
+            public function updateTTCN($HoTen, $NgaySinh, $GioiTinh, $DiaChi,$SDT, $CCCD,$BHYT,$LoaiBHYT,$MaBN) {
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi(); 
+                $sql = "UPDATE benhnhan SET HoTen = '$HoTen',NgaySinh='$NgaySinh', GioiTinh = '$GioiTinh', SDT = '$SDT', CCCD = '$CCCD', BHYT = '$BHYT',LoaiBHYT='$LoaiBHYT', DiaChi = '$DiaChi' WHERE MaBN = '$MaBN'";
+                $result = mysqli_query($con, $sql);
+                $p -> dongKetNoi($con);
+                return $result;
+            }
+            public function updateTT($HoTen, $NgaySinh, $GioiTinh, $DiaChi,$SDT, $CCCD,$MaBN) {
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi(); 
+                $sql = "UPDATE benhnhan SET HoTen = '$HoTen',NgaySinh='$NgaySinh', GioiTinh = '$GioiTinh', SDT = '$SDT', CCCD = '$CCCD',  DiaChi = '$DiaChi' WHERE MaBN = '$MaBN'";
+                $result = mysqli_query($con, $sql);
+                $p -> dongKetNoi($con);
+                return $result;
             }
             public function PhieuKhamBN($MaBN, $MaNS) {
                 // Tạo đối tượng lớp clsKetNoi
@@ -425,8 +450,11 @@
                             giuong gg on gg.MaGiuong=p.MaGiuong
                          JOIN 
                             nhansu ns ON p.MaNS = ns.MaNS";
-            
-                $sql .= " WHERE  b.TrangThai  ='Nhập viện' ORDER BY p.MaBN DESC";
+             if ($MaCV == 5) {
+                $sql .= " WHERE p.TrangThai = 'Nhập viện' ORDER BY p.MaBN DESC";
+            } elseif ($MaCV == 7) {
+                $sql .= " WHERE  b.TrangThai  in('Nhập viện') ORDER BY DATEDIFF(CURRENT_DATE, p.ThoiGianNV) DESC";
+            }
               
             
                 if (!empty($searchTerm)) {
@@ -497,6 +525,7 @@
                 
                 return $dsBenhNhan;
             }
+          
             public function updateBenhNhan($MaBN, $HoTen, $GioiTinh, $SDT, $CCCD, $BHYT, $DiaChi) {
                 $p = new clsKetNoi();
                 $con = $p->moKetNoi(); 
@@ -531,6 +560,51 @@
                          JOIN 
                             phieunamvien p ON b.MaBN = p.MaBN
                         WHERE  b.MaBN = '$MaBN' AND b.TrangThai  ='Nhập viện' ";
+              
+                $result = $conn->query($sql);
+            
+                $BenhNhan = [];
+                
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $BenhNhan[] = $row; 
+                    }
+                }
+                
+                return $BenhNhan;
+            }
+            public function getBenhNhanXV( $MaBN) {
+                $p = new clsKetNoi();
+                
+                $conn = $p->moKetNoi();
+                
+                $sql = "SELECT 
+                            b.MaBN,
+                            b.HoTen, 
+                            b.NgaySinh, 
+                            b.GioiTinh, 
+                            b.DiaChi, 
+                            b.SDT, 
+                            b.CCCD, 
+                            b.BHYT, 
+                            b.LoaiBHYT, 
+                            b.TrangThai, 
+                            p.ThoiGianNV,
+                            p.ThoiGianXV,
+                            p.MaNV,
+                            p.MaNS,
+                            p.LyDo,
+                            p.ChuanDoanBD,
+                            p.ChuanDoanKQ,
+                            p.TamUng,
+                            p.PhuongPhapDieuTri,
+                            ph.TenPhong,ph.Gia
+                        FROM 
+                            benhnhan b
+                         JOIN 
+                            phieunamvien p ON b.MaBN = p.MaBN
+                        join phong ph on ph.MaPhong=p.MaPhong
+                        WHERE  b.MaBN = '$MaBN' AND b.TrangThai  ='Xuất viện' ";
               
                 $result = $conn->query($sql);
             
