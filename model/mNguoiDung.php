@@ -5,7 +5,7 @@
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
         
-            $sql_ns = "SELECT ns.MaNS,ns.MaCV
+            $sql_ns = "SELECT ns.MaNS,ns.MaCV,ns.MaKhoa
                        FROM taikhoan tk
                        INNER JOIN nhansu ns ON tk.TenTK = ns.TenTK
                        WHERE tk.TenTK = '$user' AND tk.MatKhau = '$pw'";
@@ -149,6 +149,90 @@
 
             return $bacSiList;
         }
+
+            public function getNS($MaNS) {
+            $p = new clsKetNoi();
+            
+            $conn = $p->moKetNoi();
+            $sql= "SELECT * FROM nhansu ns join khoa k on k.MaKhoa=ns.MaKhoa join chucvu cv on cv.MaCV=ns.MaCV where MaNS= '$MaNS'";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $dsBenhNhan[] = $row; 
+                }
+            }
+            return $dsBenhNhan;
+        }
+        
+        public function updateTTCN($MaNS,$NgaySinh,$Email,$GioiTinh,$SoDienThoai){
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            $sql = "UPDATE nhansu SET NgaySinh = '$NgaySinh',Email='$Email', GioiTinh = '$GioiTinh', SoDienThoai = '$SoDienThoai' WHERE MaNS = '$MaNS'";
+            $result = mysqli_query($con, $sql);
+            $p -> dongKetNoi($con);
+            return $result;
+        }
+        public function checkCurrentPassword($MaNS, $currentPassword) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn lấy TenTk từ bảng nhansu theo MaNS
+            $sql = "SELECT k.MatKhau FROM nhansu ns JOIN taikhoan k ON k.TenTK = ns.TenTk WHERE ns.MaNS = '$MaNS'";
+            $result = mysqli_query($con, $sql);
+        
+            if (mysqli_num_rows($result) > 0) {
+                // Lấy mật khẩu đã mã hóa (MD5) từ bảng taikhoan
+                $row = mysqli_fetch_assoc($result);
+                $storedPassword = $row['MatKhau'];
+        
+                // So sánh mật khẩu nhập vào (sau khi mã hóa MD5) với mật khẩu đã lưu trong DB
+                if (md5($currentPassword) === $storedPassword) {
+                    $p->dongKetNoi($con);
+                    return true; // Mật khẩu đúng
+                } else {
+                    $p->dongKetNoi($con);
+                    return false; // Mật khẩu sai
+                }
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Không tìm thấy người dùng
+            }
+        }
+        public function updatePassword($MaNS,  $newPassword) {
+                $newPasswordHash = md5($newPassword);
+        
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi(); 
+                
+                // Truy vấn để cập nhật mật khẩu mới cho người dùng
+                $sql = "UPDATE taikhoan k 
+                        JOIN nhansu ns ON ns.TenTk = k.TenTK 
+                        SET k.MatKhau = '$newPasswordHash' 
+                        WHERE ns.MaNS = '$MaNS'";
+        
+                if (mysqli_query($con, $sql)) {
+                    $p->dongKetNoi($con);
+                    return true; 
+                } else {
+                    $p->dongKetNoi($con);
+                    return false; // Thất bại
+                }
+        }
+        public function updateIMG($MaNS,  $imageName) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn để cập nhật mật khẩu mới cho người dùng
+            $sql = "UPDATE nhansu SET IMG = '$imageName' WHERE MaNS = '$MaNS'";
+    
+            if (mysqli_query($con, $sql)) {
+                $p->dongKetNoi($con);
+                return true; 
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Thất bại
+            }
+    }
         
     }
     

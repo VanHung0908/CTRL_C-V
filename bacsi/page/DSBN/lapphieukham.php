@@ -96,7 +96,7 @@ $dsThuoc = $conThuoc->getAllThuoc();
     <p class="note">
         *Lưu ý: Dùng thuốc theo đơn, nếu nhận thấy có triệu chứng bất thường hãy đến khám ngay!
     </p>
-    <button class="lpk-button save-prescription" id="savePrescriptionButton">Lưu đơn thuốc</button>
+    <button class="lpk-button save-prescription" id="savePrescriptionButton">Lập phiếu khám</button>
 
 </div>
 
@@ -285,7 +285,7 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi',
-                            text: 'Lỗi khi lưu đơn thuốc: ' + response.message,
+                            text: 'Lập phiếu khám thất bại!',
                             confirmButtonText: 'Thử lại'
                         });
                     }

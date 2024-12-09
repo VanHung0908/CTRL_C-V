@@ -1,8 +1,6 @@
 <?php
 
-include(__DIR__ . '/model/ketnoi.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/QLBV/model/mPKQK.php');  
-
+include_once('../../../model/mPKQK.php');
 if (isset($_GET['maDonThuoc'])) {
     $maDonThuoc = $_GET['maDonThuoc'];
     $mDonThuoc = new mPKQK();

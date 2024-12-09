@@ -32,12 +32,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="GioiTinh" class="form-label">Giới tính</label>
-                        <select class="form-select" id="GioiTinh" name="GioiTinh">
-                            <option value="Nam" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Nam') ? 'selected' : ''; ?>>Nam</option>
-                            <option value="Nữ" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Nữ') ? 'selected' : ''; ?>>Nữ</option>
-                            <option value="Khác" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Khác') ? 'selected' : ''; ?>>Khác</option>
-                        </select>
+                        
                     </div>
                 </div>
                 <div class="mb-3">

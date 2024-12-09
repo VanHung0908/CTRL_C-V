@@ -60,7 +60,6 @@ $dsBenhNhan = $con->dsBenhNhanNV($MaCV, $MaNS);
                         <i class='fas fa-tasks'></i> Thao tác
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>
                         <li><a class='dropdown-item' href='index.php?page=TTNhapVien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>
                     </ul>
                 </div>

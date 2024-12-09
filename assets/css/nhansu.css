@@ -761,3 +761,80 @@ a:hover {
     font-size: 14px;
     box-sizing: border-box;
 }
+/* Xem chi tiết bác sĩ ngoại trú */
+
+.ttcnbn-card { 
+    
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+.ttcnbn-table {
+    width: 100%; 
+    table-layout: fixed; 
+    word-wrap: break-word; 
+}
+
+.ttcnbn-table thead { 
+    background-color: #0056b3;
+    color: white;
+}
+.ttcnbn-table td, .ttcnbn-table th { 
+    vertical-align: middle;
+    padding: 10px;
+}
+.ttcnbn-badge-status { 
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+.ttcnbn-info-section { 
+    
+    margin-bottom: 30px;
+}
+.ttcnbn-info-card { 
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+.ttcnbn-card-header { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.ttcnbn-card-header button { 
+    border-radius: 50px;
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.ttcnbn-card-body { 
+    padding: 20px;
+}
+.ttcnbn-card-body p { 
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #343a40;
+}
+.ttcnbn-badge.bg-success { 
+    background-color: #28a745 !important;
+}
+.ttcnbn-badge.bg-warning { 
+    background-color: #ffc107 !important;
+    color: #212529;
+}
+.ttcnbn-badge.bg-danger { 
+    background-color: #dc3545 !important;
+}
+.ttcnbn-card-header.bg-primary { 
+    background-color: #0056b3 !important;
+}
+.ttcnbn-card-header.bg-success { 
+    background-color: #28a745 !important;
+}

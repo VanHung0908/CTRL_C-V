@@ -111,6 +111,23 @@ class mPhieuDKKham {
     
         return $resultKQK;
     }
+    public function getPhacDo($MaBN) {
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi();
+        $sql = " select * from phacdo where MaBN='$MaBN'";
+        $result = mysqli_query($con, $sql);
+        $resultKQK = []; // Khởi tạo mảng rỗng để lưu kết quả
+    
+        // Kiểm tra và thêm dữ liệu vào mảng
+        while ($row = mysqli_fetch_assoc($result)) {
+            $resultKQK[] = $row;
+        }
+    
+        // Đóng kết nối
+        $p->dongKetNoi($con);
+    
+        return $resultKQK;
+    }
 }
 
 ?>

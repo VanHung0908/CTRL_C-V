@@ -62,7 +62,7 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
                         <i class='fas fa-tasks'></i> Thao tác
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                    <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>
+                    <li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>
                     <li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=" . $benhNhan['MaBN'] . "'>Lập phác đồ</a></li>
                     <li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=" . $benhNhan['MaBN'] . "&MaNV=" . $benhNhan['MaNV'] . "'>Xuất viện</a></li>
                     </ul>

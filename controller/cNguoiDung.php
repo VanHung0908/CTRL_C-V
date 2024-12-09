@@ -28,6 +28,7 @@
               $_SESSION['maNS'] = isset($i['MaNS']) ? $i['MaNS'] : null;
               $_SESSION['maBN'] = isset($i['MaBN']) ? $i['MaBN'] : null;
               $_SESSION['maCV'] = isset($i['MaCV']) ? $i['MaCV'] : null;
+              $_SESSION['maKhoa'] = isset($i['MaKhoa']) ? $i['MaKhoa'] : null;
   
               $maNS = $_SESSION['maNS'];
               $maBN = $_SESSION['maBN'];
@@ -81,7 +82,7 @@
                             confirmButtonText: "OK"
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                 window.location.href = "' . BS_URL . '"; 
+                                 window.location.href = "QLBV/benhnhan/auth/login.php"; 
                             }
                         });
                     </script>';

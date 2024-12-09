@@ -13,12 +13,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     echo "Không tìm thấy bệnh nhân.";
 }
 
-$con = new mPhieuDKKham(); 
-$resultPDKK = $con->getPDKK($MaBN);
 
 $con = new mPhieuDKKham(); 
-$resultKQK = $con->getKQK($MaBN);
-
+$resultKQK = $con->getPhacDo($MaBN);
 ?>
 <style>
     
@@ -67,20 +64,20 @@ $resultKQK = $con->getKQK($MaBN);
                     </div>
 
 
-                    <!-- Bảng kết quả khám bệnh -->
                     <div class="mt-4">
                         <div class="ttcnbn-card">
                             <div class="ttcnbn-card-header bg-success">
-                                <h4 class="mb-0">Kết Quả Khám Bệnh</h4>
+                                <h4 class="mb-0">Phác đồ bệnh nhân</h4>
                             </div>
                             <div class="ttcnbn-card-body">
                                 <table class="ttcnbn-table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Ngày khám</th>
-                                            <th>Ngày tái khám</th>
-                                            <th>Bác sĩ</th>
+                                            <th>Ngày lập</th>
                                             <th>Chẩn đoán</th>
+                                            <th>Kế hoạch</th>
+                                            <th>Chế độ dinh dưỡng</th>
+                                            <th>Lưu ý</th>
                                             <th>Đơn thuốc</th>
                                         </tr>
                                     </thead>
@@ -89,10 +86,11 @@ $resultKQK = $con->getKQK($MaBN);
                                      if (!empty($resultKQK)) {
                                         foreach ($resultKQK as $row) {
                                             echo '<tr>';
-                                            echo '<td>' . (isset($row['NgayKham']) ? $row['NgayKham'] : '') . '</td>';
-                                            echo '<td>' . (isset($row['NgayTaiKham']) ? $row['NgayTaiKham'] : '') . '</td>';
-                                            echo '<td>' . (isset($row['HoTen']) ? $row['HoTen'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NgayLap']) ? $row['NgayLap'] : '') . '</td>';
                                             echo '<td>' . (isset($row['ChanDoan']) ? $row['ChanDoan'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['KeHoach']) ? $row['KeHoach'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['CheDoDD']) ? $row['CheDoDD'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['GhiChu']) ? $row['LuuY'] : '') . '</td>';
                                             ?>
                                             <td>
                                                     <?php if (isset($row['MaDonThuoc'])): ?>

@@ -1,11 +1,21 @@
+<?php
+    include_once(BACKEND_URL . 'controller/cNhanSu.php');
+    include_once(BACKEND_URL . 'model/mGiuong.php'); 
+    include_once(BACKEND_URL . 'model/mPhong.php'); 
+    $MaKhoa=$_SESSION['maKhoa'];
+    $con = new mPhong(); 
+    $dsPhong = $con->getPhongsByKhoa($MaKhoa);
 
+?>
   <div class="main-content" id="main-content">  
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <label for="roomSelect" class="form-label">Phòng:</label>
                 <select id="roomSelect" class="form-select d-inline-block w-auto">
-                    <option selected>Phòng hồi sức</option>
-                    <!-- Thêm các phòng khác nếu cần -->
+                        <option selected disabled>Chọn Phòng</option>
+                        <?php foreach ($dsPhong as $khoa) { ?>
+                            <option value="<?php echo $khoa['MaPhong']; ?>"><?php echo $khoa['TenPhong']; ?></option>
+                        <?php } ?>
                 </select>
             </div>
             <div>
@@ -13,108 +23,72 @@
                 <button class="btn btn-outline-secondary"><i class="fas fa-filter"></i></button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 1</span>
-                        <span class="status in-use">Đang sử dụng</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân: Nguyễn Tấn Đạt</p>
-                        <p>Ngày nhập viện: 09/12/2019</p>
-                        <p>Tuổi: 21</p>
-                        <p>Giới tính: Nam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 2</span>
-                        <span class="status in-use">Đang sử dụng</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân: Đoàn Thị Mai Linh</p>
-                        <p>Ngày nhập viện: 27/12/2019</p>
-                        <p>Tuổi: 21</p>
-                        <p>Giới tính: Nữ</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 3</span>
-                        <span class="status in-use">Đang sử dụng</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân: Lâm Văn Hưng</p>
-                        <p>Ngày nhập viện: 12/12/2019</p>
-                        <p>Tuổi: 21</p>
-                        <p>Giới tính: Nam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 4</span>
-                        <span class="status in-use">Đang sử dụng</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân: Trần Hoàng Gia Khánh</p>
-                        <p>Ngày nhập viện: 12/11/2019</p>
-                        <p>Tuổi: 21</p>
-                        <p>Giới tính: Nam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 5</span>
-                        <span class="status in-use">Đang sử dụng</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon in-use"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân: Châu Duy Khánh</p>
-                        <p>Ngày nhập viện: 12/01/2020</p>
-                        <p>Tuổi: 21</p>
-                        <p>Giới tính: Nam</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="card-title">GIƯỜNG 6</span>
-                        <span class="status empty">Trống</span>
-                    </div>
-                    <div class="text-center my-3">
-                        <i class="fas fa-bed bed-icon empty"></i>
-                    </div>
-                    <div class="card-text">
-                        <p>Bệnh nhân:</p>
-                        <p>Ngày nhập viện:</p>
-                        <p>Tuổi:<p>
-                        <p>Giới tính:</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="row" id="giuongContainer">
+    
     </div>
+    <script>
+  document.getElementById('roomSelect').addEventListener('change', function () {
+    var MaPhong = this.value;
+    var giuongContainer = document.getElementById('giuongContainer');
+
+    if (!MaPhong) {
+        giuongContainer.innerHTML = '<p>Chưa chọn phòng.</p>';
+        return;
+    }
+
+    // Gửi yêu cầu AJAX để lấy danh sách giường
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/QLBV/ajax/getGiuong.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            try {
+                var giuongs = JSON.parse(xhr.responseText);
+                if (giuongs.length === 0) {
+                    giuongContainer.innerHTML = '<p>Không có dữ liệu giường.</p>';
+                    return;
+                }
+
+                // Xóa dữ liệu cũ
+                giuongContainer.innerHTML = '';
+
+                // Tạo giao diện giường
+                giuongs.forEach(function (giuong) {
+                    // Nếu TrangThaiGiuong là null, đặt thành "Trống"
+                    var trangThai = giuong.TrangThaiGiuong || 'Trống';
+                    var trangThaiClass = trangThai === 'Nhập viện' ? 'in-use' : 'empty';
+
+                    var card = document.createElement('div');
+                    card.className = 'col-md-4';
+                    card.innerHTML = `
+                        <div class="card p-3 ${trangThaiClass === 'in-use' ? 'card-in-use' : 'card-empty'}">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="card-title">${giuong.TenGiuong}</span>
+                                <span class="status">${trangThai}</span>
+                            </div>
+                            <div class="text-center my-3">
+                                <i class="fas fa-bed bed-icon ${trangThaiClass}"></i>
+                            </div>
+                            <div class="card-text">
+                                <p><strong>Bệnh nhân:</strong>${giuong.BenhNhan || 'Chưa có'}</p>
+                                <p><strong>Ngày nhập viện:</strong> ${giuong.ThoiGianNV || 'N/A'}</p>
+                                <p><strong>Ngày sinh:</strong> ${giuong.NgaySinh || 'N/A'}</p>
+                                <p><strong>Giới tính:</strong> ${giuong.GioiTinh || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `;
+                    giuongContainer.appendChild(card);
+                });
+            } catch (e) {
+                console.error('Lỗi khi parse JSON:', e);
+                giuongContainer.innerHTML = '<p>Có lỗi xảy ra khi xử lý dữ liệu.</p>';
+            }
+        } else {
+            giuongContainer.innerHTML = '<p>Có lỗi khi lấy dữ liệu từ server.</p>';
+        }
+    };
+
+    xhr.send('MaPhong=' + MaPhong);
+});
+
+</script>

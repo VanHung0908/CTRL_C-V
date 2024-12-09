@@ -66,27 +66,16 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                             <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
                             
                 if ($_SESSION['maCV'] == 1) {
-                    // Chỉ hiển thị "Xem chi tiết"
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                 } else if ($_SESSION['maCV'] == 4) {
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";
-                }else if ($_SESSION['maCV'] == 5) {
-                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>";
-                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phác đồ</a></li>";
-                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Xuất viện</a></li>";
                 }else if ($_SESSION['maCV'] == 6) {
                     echo "<li><a class='dropdown-item' href='index.php?page=capnhattt&MaBN=" . $benhNhan['MaBN'] . "'>Cập nhật thông tin</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=laphoadon&MaBN=" . $benhNhan['MaBN'] . "'>Lập hóa đơn</a></li>";
                 }
-                else
-                 {
-                    // Hiển thị tất cả các tùy chọn
-                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
-                    echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
-                    echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";
-                }
+                
 
                 echo "      </ul>
                         </div>

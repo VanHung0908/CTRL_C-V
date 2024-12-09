@@ -165,12 +165,7 @@ $maCV = $_SESSION['maCV'];
                     <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="index.php?page=HoaDon" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-file-invoice-dollar" ></i></span> 
-                    <span>Hóa đơn</span>
-                </a>
-            </li>
+           
            
         <?php endif; ?>   
         

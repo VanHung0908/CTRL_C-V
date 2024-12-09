@@ -188,7 +188,7 @@ if (isset($_GET['xoa'])) {
     var notificationCloseModal = document.getElementById("closeModal");
 
     notificationCloseModal.onclick = function () {
-        window.location.href = 'http://localhost/QLBV/bacsi/index.php?page=QuanLyKhoa'; // Quay lại trang khi nhấn nút Đóng
+        window.location.href = '/QLBV/bacsi/index.php?page=QuanLyKhoa'; 
     };
 
 </script>

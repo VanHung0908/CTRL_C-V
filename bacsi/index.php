@@ -56,6 +56,9 @@
             case 'xuatvien':
                 $pagePath = "./page/DSBNNT/xuatvien.php";
                 break;
+            case 'xembenhan':
+                $pagePath = "./page/DSBNNT/xembenhan.php";
+                break;
             #NVQLNgoaiTru
             case 'capnhatthongtinNV':
                 $pagePath = "./page/DSnhapvien/capnhatthongtin.php";
@@ -75,7 +78,7 @@
     } else {
         include_once ('./layout/head.php'); 
         include_once ('./layout/sidebar.php'); 
-        include_once "./page/content.php"; 
+        include_once "./page/CaNhan/index.php"; 
     }
     
     
