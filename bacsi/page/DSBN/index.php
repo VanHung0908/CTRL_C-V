@@ -21,7 +21,7 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
         <h3>Danh sách bệnh nhân</h3>
         <div class="search-container">
             <div class="input-container">
-                <input type="text" id="search-input" placeholder="Nhập mã, tên bệnh nhân" class="search-input">
+                <input type="text" id="search-input" placeholder="Nhập tên bệnh nhân" class="search-input">
                 <span class="search-icon">&#128269;</span>
             </div>
         </div>

@@ -16,7 +16,7 @@ if (!$MaBN) {
 }
 $con = new mBenhNhan();
 $dsBenhNhan = $con->getTTBN($MaBN);
-    if (empty($benhNhan)) {
+    if (empty($dsBenhNhan)) {
         echo '<script>
         Swal.fire({
         icon: "error",

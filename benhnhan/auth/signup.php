@@ -13,28 +13,28 @@
                 <!-- Name input -->
                 <div class="form-outline mb-4 mt-3">
                     <label class="form-label" for="formName">Họ và tên</label>
-                    <input type="text" id="formName" name="hoTen" class="form-control form-control-lg" placeholder="Nhập họ và tên" onblur="validateName()" />
+                    <input type="text" id="formName" name="hoTen" class="form-control form-control-lg" placeholder="Nhập họ và tên" onblur="validateName()" required />
                     <small id="nameError" class="form-text text-danger d-none">Họ và tên không hợp lệ.</small>
                 </div>
 
                 <!-- Phone input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="formPhone">Số điện thoại</label>
-                    <input type="tel" id="formPhone" name="soDienThoai" class="form-control form-control-lg" placeholder="Nhập số điện thoại" onblur="validatePhone()" />
+                    <input type="tel" id="formPhone" name="soDienThoai" class="form-control form-control-lg" placeholder="Nhập số điện thoại" onblur="validatePhone()"  required/>
                     <small id="phoneError" class="form-text text-danger d-none">Số điện thoại không hợp lệ. Phải là 10 số và bắt đầu bằng 0.</small>
                 </div>
 
                 <!-- Password input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="formPassword">Mật khẩu</label>
-                    <input type="password" id="formPassword" name="matKhau" class="form-control form-control-lg" placeholder="Nhập mật khẩu" onblur="validatePassword()" />
+                    <input type="password" id="formPassword" name="matKhau" class="form-control form-control-lg" placeholder="Nhập mật khẩu" onblur="validatePassword()"  required/>
                     <small id="passwordError" class="form-text text-danger d-none">Mật khẩu không hợp lệ. Phải đủ 8 ký tự, có chữ in hoa và ký tự đặc biệt.</small>
                 </div>
 
                 <!-- Confirm Password input -->
                 <div class="form-outline mb-4">
                     <label class="form-label" for="formConfirmPassword">Xác nhận mật khẩu</label>
-                    <input type="password" id="formConfirmPassword" name="confirmMatKhau" class="form-control form-control-lg" placeholder="Xác nhận mật khẩu" onblur="validateConfirmPassword()" />
+                    <input type="password" id="formConfirmPassword" name="confirmMatKhau" class="form-control form-control-lg" placeholder="Xác nhận mật khẩu" onblur="validateConfirmPassword()" required />
                     <small id="confirmPasswordError" class="form-text text-danger d-none">Mật khẩu xác nhận không trùng khớp.</small>
                 </div>
 

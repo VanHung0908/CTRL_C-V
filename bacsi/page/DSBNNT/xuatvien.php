@@ -97,7 +97,7 @@ $dsThuoc = $conThuoc->getAllThuoc();
 </div>
 
 <?php
-    $ThoiGianXV = isset($_POST['ThoiGianXV'])? $_POST['ThoiGianXV'] : null;
+    $ThoiGianXV = date('Y-m-d');
     $ChuanDoanKQ = isset($_POST['ChuanDoanKQ']) ? $_POST['ChuanDoanKQ'] : null;
     $PhuongPhapDieuTri = isset($_POST['PhuongPhapDieuTri']) ? $_POST['PhuongPhapDieuTri'] : null;
     $GhiChu = isset($_POST['GhiChu']) ? $_POST['GhiChu'] : null;

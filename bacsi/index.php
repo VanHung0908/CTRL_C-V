@@ -13,6 +13,14 @@
         
         // Nếu trang là xemchitiet, thì xử lý khác
         switch ($page) {
+            #QLNS
+            case 'QuanLyNhanSu':
+                if (isset($_REQUEST['sua'])) {
+                    $pagePath = "./page/QuanLyNhanSu/suaNhanSu.php";
+                } else {
+                    $pagePath = "./page/QuanLyNhanSu/index.php";
+                }
+                break;
             #DSBN
             case 'xemchitiet':
                 $pagePath = "./page/DSBN/xemchitiet.php"; 

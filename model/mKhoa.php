@@ -9,10 +9,35 @@
             $p -> dongKetNoi($con);
             return $kq;
         }
+        public function dsKhoaByID($id){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "SELECT * FROM khoa where TrangThai= 1 and MaKhoa='$id'";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
         public function xoaKhoa($id){
             $p = new clsKetNoi();
             $con = $p -> moKetNoi();
             $sql = "Update khoa set TrangThai=0 where maKhoa='$id'";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
+        public function themkhoa($ten,$kv,$mt){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "INSERT INTO `khoa`(`TenKhoa`, `KhuVuc`, `MoTa`, `TrangThai`) VALUES
+            ('$ten','$kv','$mt','1')";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
+        public function updateKhoa($ten,$kv,$mt,$id){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "UPDATE `khoa` SET `TenKhoa`='$ten',`KhuVuc`='$kv',`MoTa`='$mt' WHERE MaKhoa='$id' ";
             $kq = mysqli_query($con,$sql);
             $p -> dongKetNoi($con);
             return $kq;
@@ -66,7 +91,7 @@
             WHERE pn.MaBN = ? AND pn.TrangThai = 'Nhập viện'";
             
             if ($stmt = mysqli_prepare($con, $sql)) {
-                mysqli_stmt_bind_param($stmt, "i", $MaBN); // "i" là kiểu dữ liệu integer cho MaBN
+                mysqli_stmt_bind_param($stmt, "i", $MaBN); 
                 
                 mysqli_stmt_execute($stmt);
                 
@@ -84,6 +109,15 @@
             
             return $departments;
         }
+        public function lay($id){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "Update khoa set TrangThai=0 where maKhoa='$id'";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
+
         
 
       

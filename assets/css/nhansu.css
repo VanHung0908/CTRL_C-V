@@ -271,6 +271,13 @@ a:hover {
     border-radius: 4px;
     cursor: pointer;
 }
+.fa-edit, .fa-trash-alt{
+    padding: 6px 12px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
 .edit-btn {
     background-color: #ffc107;

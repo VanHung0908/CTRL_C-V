@@ -1,9 +1,46 @@
-        <div class="main-content" id="main-content">
+<?php
+    include_once(BACKEND_URL . 'controller/cNhanSu.php');
+    include_once(BACKEND_URL . 'model/mNhanSu.php'); 
+
+    $p=new cNhanSu();
+    $kq = $p->getAllNhanSu();
+
+    if (isset($_GET['xoa'])) {
+        $p = new mNhanSu;
+        $tbl = $p->xoaNS($_GET['xoa']);
+        if ($tbl) {
+            echo '
+            <script>
+                Swal.fire({
+                    icon: "success",
+                    title: "Thành công",
+                    text: "Xóa nhân sự thành công!",
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    window.location.href = "/QLBV/bacsi/index.php?page=QuanLyNhanSu";
+                });
+            </script>
+        ';
+        } else {
+            echo '
+                <script>
+                    Swal.fire({
+                        icon: "error",
+                        title: "Thất bại",
+                        text: "Xóa nhân sự thất bại. Vui lòng thử lại.",
+                        confirmButtonText: "Thử lại",
+                    });
+                </script>
+            ';
+        }
+    }
+?>
+<div class="main-content" id="main-content">
         <div class="actions">
             <h3>Danh sách nhân sự</h3>
             <div class="search-container">
                 <div class="input-container">
-                    <input type="text" id="search-input" placeholder="Nhập mã, tên nhân viên" class="search-input">
+                    <input type="text" id="search-input" placeholder="Nhập tên nhân viên" class="search-input">
                     <span class="search-icon">&#128269;</span>
                 </div>
                 <button class="add-btn" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Thêm Nhân Viên</button>
@@ -16,127 +53,50 @@
                     <th>Họ và tên</th>
                     <th>Chức vụ</th>
                     <th>Khoa</th>
+                    <th>SDT</th>
                     <th>Email</th>
-                    <th>Số điện thoại</th>
+                    <th>CCCD</th>
                     <th>Ngày vào làm</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
             <tbody id="employee-table-body">
-                <tr>
-                    <td>1</td>
-                    <td>Lâm Văn Hưng</td>
-                    <td>Quản lý nội trú</td>
-                    <td>Khoa Nội</td>
-                    <td>LVH@example.com</td>
-                    <td>0123456789</td>
-                    <td>01/01/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Nguyễn Tấn Đạt</td>
-                    <td>Quản lý ngoại trú</td>
-                    <td>Khoa Ngoại</td>
-                    <td>NTD@example.com</td>
-                    <td>0987654321</td>
-                    <td>02/02/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Nguyễn Tấn Đạt</td>
-                    <td>Nhân viên quản lý nội trú</td>
-                    <td>Khoa Nội</td>
-                    <td>NTAn@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Đoàn Thị Mai Linh</td>
-                    <td>Bác sĩ nội trú</td>
-                    <td>Khoa Nội</td>
-                    <td>DTML@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Châu Duy Khánh</td>
-                    <td>Điều dưỡng</td>
-                    <td>Khoa Nội</td>
-                    <td>CDK@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Trần Hoàng Gia Khánh</td>
-                    <td>Bác sĩ ngoại trú</td>
-                    <td>Khoa Ngoại</td>
-                    <td>THGK@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>Lê Văn Việt</td>
-                    <td>Nhân viên quản lý ngoại trú</td>
-                    <td>Khoa Ngoại</td>
-                    <td>lvV@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>Lê Văn Sỹ</td>
-                    <td>Admin</td>
-                    <td>Khoa Hành Chính</td>
-                    <td>lvs@example.com</td>
-                    <td>0123987654</td>
-                    <td>03/03/2022</td>
-                    <td>
-                        <button class="icon-btn edit-btn"><i class="fas fa-edit"></i></button>
-                        <button class="icon-btn delete-btn"><i class="fas fa-trash-alt"></i></button>
+                <?php
+                  $stt = 1;
+                 while($r=mysqli_fetch_assoc($kq))
+                 {
+                     echo '<tr>
+                        <td align="center" valign="middle">' . $stt . '</td>
+                         <td align="center" valign="middle">'.$r['HoTen'].'</td>
+                         <td align="center" valign="middle">'.$r['TenCV'].'</td>
+                         <td align="center" valign="middle">'.$r['TenKhoa'].'</td>
+                         <td align="center" valign="middle">'.$r['SoDienThoai'].'</td>
+                         <td align="center" valign="middle">'.$r['Email'].'</td>
+                         <td align="center" valign="middle">'.$r['CCCD'].'</td>
+                         <td align="center" valign="middle">'.$r['NgayBatDau'].'</td>
+                         <td>
+                          <button class="icon-btn edit-btn" id="editbtn">
+                            <a href="?page=QuanLyNhanSu&sua='.$r["MaNS"].'" class="btn-link">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </button>
+                            <button class="icon-btn delete-btn">
+                                <a href="?page=QuanLyNhanSu&xoa='.$r["MaNS"].'" class="btn-link" onclick="return confirm(\'Bạn có chắc muốn xóa nhân sự này không?\');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </button>
+                         </td>
+                     </tr>';
+                     $stt++;
+                 }
+                ?>
                     </td>
                 </tr>
             </tbody>
         </table>
-
-                <!-- Thêm các nhân viên khác ở đây -->
-            </tbody>
-            
+        </tbody>
         </table>
-
         <div class="pagination" id="pagination">
-            <!-- Nút chuyển trang sẽ được tạo động -->
         </div>
     </div>
 
@@ -207,19 +167,19 @@
                 <h5 class="modal-title" id="addEmployeeModalLabel">Thêm Nhân Viên Mới</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="addEmployeeForm">
+            <div class="modal-body" >
+                <form id="addEmployeeForm" >
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="fullName" required>
+                        <input type="text" class="form-control" id="fullName" name="HoTen" required>
                     </div>
                     <div class="mb-3">
                         <label for="birthDate" class="form-label">Ngày sinh</label>
-                        <input type="date" class="form-control" id="birthDate" required>
+                        <input type="date" class="form-control" id="birthDate" name="NgaySinh" required>
                     </div>
                     <div class="mb-3">
                         <label for="gender" class="form-label">Giới tính</label>
-                        <select class="form-select" id="gender" required>
+                        <select class="form-select" id="gender" name="GioiTinh" >
                             <option value="" disabled selected>Chọn giới tính</option>
                             <option value="Nam">Nam</option>
                             <option value="Nữ">Nữ</option>
@@ -227,38 +187,133 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="phone" required>
+                        <label for="birthDate" class="form-label">Số điện thoại</label>
+                        <input type="number" class="form-control" id="birthDate" name="SoDienThoai" required>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Địa chỉ email</label>
-                        <input type="email" class="form-control" id="email" required>
+                        <input type="email" class="form-control" id="email" name="Email" required >
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ thường trú</label>
-                        <input type="text" class="form-control" id="address" required>
+                        <input type="text" class="form-control" id="address" name="DiaChi" required >
                     </div>
                     <div class="mb-3">
                         <label for="idCard" class="form-label">Số căn cước công dân</label>
-                        <input type="text" class="form-control" id="idCard" required>
+                        <input type="text" class="form-control" id="idCard" name="CCCD" required>
                     </div>
                     <div class="mb-3">
                         <label for="position" class="form-label">Chức vụ</label>
-                        <input type="text" class="form-control" id="position" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="profilePicture" class="form-label">Ảnh chân dung</label>
-                        <input type="file" class="form-control" id="profilePicture" accept="image/*" required>
+                        <?php
+                            $kq=$p->getAllChucVu();
+                            if($kq){
+                                echo '<select class="form-control" name="ChucVu">';
+                                while($r = mysqli_fetch_assoc($kq))
+                                {
+                                    echo '<option value="'.$r["MaCV"].'">'.$r["TenCV"].'</option>';
+                                    
+                                }
+                                echo '</select>';
+                            }   
+                            else
+                            {
+                                echo 'Không có data';
+                            }
+                        ?>
                     </div>
                    
                     <div class="mb-3">
-                        <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                        <input type="date" class="form-control" id="startDate" required>
+                        <label for="khoa" class="form-label">Khoa</label>
+                            <?php
+                            $kq=$p->getAllKhoa();
+                            if($kq){
+                                echo '<select class="form-control" name="Khoa">';
+                                while($r = mysqli_fetch_assoc($kq))
+                                {
+                                    echo '<option value="'.$r["MaKhoa"].'">'.$r["TenKhoa"].'</option>';
+                                    
+                                }
+                                echo '</select>';
+                            }   
+                            else
+                            {
+                                echo 'Không có data';
+                            }
+                            ?>
                     </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="button" class="btn btn-primary" id="saveEmployeeBtn">Lưu </button>
+                <button type="submit" class="btn btn-primary" id="saveEmployeeBtn">Lưu </button>
             </div>
+            </form>
         </div>
     </div>
 </div>
+
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById("addEmployeeForm");
+    if (form) {
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            // Kiểm tra dữ liệu formData
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            fetch("/QLBV/ajax/Themns.php", {
+                method: "POST",
+                body: formData,
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text(); // Lấy phản hồi dưới dạng text thay vì JSON
+            })
+            .then((text) => {
+                console.log("Response text:", text); // Log phản hồi để kiểm tra
+
+                try {
+                    // Thử phân tích phản hồi như JSON
+                    return JSON.parse(text);
+                } catch (error) {
+                    throw new Error('Phản hồi không phải là JSON');
+                }
+            })
+            .then((data) => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thành công",
+                        text: "Thêm nhân sự thành công!",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        window.location.href = "/QLBV/bacsi/index.php?page=QuanLyNhanSu";
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Thất bại",
+                        text: "Thêm nhân sự thất bại. Vui lòng thử lại.",
+                        confirmButtonText: "Thử lại",
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi kết nối",
+                    text: "Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại.",
+                    confirmButtonText: "OK",
+                });
+            });
+        });
+    }
+});
+
+</script>
