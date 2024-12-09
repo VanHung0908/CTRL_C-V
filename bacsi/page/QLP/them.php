@@ -2,7 +2,8 @@
 if (isset($_GET['themP'])) {
     echo '
             <div class="schedule-list">
-                <h5 align="center"><b class="color">Thêm phòng</b></h5>
+                <a href="index.php?page=QLP" style="color:#007bff"><b> <i class="fa-solid fa-house"></i>   TRỞ VỀ DANH SÁCH PHÒNG</b></a>
+                <h5 align="center"><b class="color">THÊM PHÒNG</b></h5>
                 <form action="" method="post">
                     <table class="schedule-table">
                         <tr>
@@ -30,8 +31,10 @@ if (isset($_GET['themP'])) {
         $name = $i['TenPhong'];
     }
     echo '
+    <a href="index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'" style="color:#007bff"><b> <i class="fa-solid fa-house"></i>  TRỞ VỀ DANH SÁCH CA</b></a>
+
             <div class="schedule-list">
-                <h5 align="center"><b class="color">Thêm Ca cho phònng ' . $name . '</b></h5>
+                <h5 align="center"><b class="color">THÊM CA CHO PHÒNG ' . $name . '</b></h5>
                 <form action="" method="post">
                     <table class="schedule-table">
                         <tr>
@@ -40,11 +43,11 @@ if (isset($_GET['themP'])) {
                         </tr>
                         <tr>
                             <td>Đã đăng ký</td>
-                            <td><input type="text" name="dadk" style="width:500px;"></td>
+                            <td><input type="text" name="dadk" value="0" style="width:500px;" readonly></td>
                         </tr>
                         <tr>
                             <td>Đăng ký tối đa</td>
-                            <td><input type="text" name="maxdk" style="width:500px;"></td>
+                            <td><input type="text" name="maxdk" value="1" style="width:500px;" readonly></td>
                         </tr>
                         <tr>
                             <td colspan="2"><input type="submit" value="Thêm" name="btnThemCa" class="custom-button" onclick="return confirm(\'Bạn có chắc chắn lưu những thay đổi này không ?\')"></td>
@@ -58,8 +61,15 @@ if (isset($_GET['themP'])) {
         $name = $i['TenCa'];
     }
     echo '
+    <a href="index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'&chitietCa='.$_SESSION['chitietCa'].'" style="color:#007bff"><b> <i class="fa-solid fa-house"></i> TRỞ VỀ  DANH SÁCH CHI TIẾT CA</b></a> <br>
+              
      <div class="schedule-list">
-         <h5 align="center"><b class="color">Thêm Chi tiết cho ' . $name . '</b></h5>
+
+     <input type="radio" name="CTshift" onclick="getALLCabyPhong(' . $i['MaCTPhongKham'] . ')"> Hiện thi lịch đã tồn tại
+     <div id="Ca">
+                                    <!-- Hiển thị Ca theo Phòng (AJAX) -->
+                    </div>
+         <h5 align="center"><b class="color">THÊM CHI TIẾT CA CHO ' . $name . '</b></h5>
          <form action="" method="post">
              <table class="schedule-table">';
 

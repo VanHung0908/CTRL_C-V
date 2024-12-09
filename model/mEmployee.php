@@ -51,14 +51,22 @@
         public function dsYCNP(){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "select * from lichnghiphep h join nhansu j on h.MaNS=j.MaNS where h.TrangThai = 0";
+            $sql = "select * from lichnghiphep h join nhansu j on h.MaNS=j.MaNS  where h.TrangThai = 0";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function dknp($id,$date,$ca,$lydo){
+        public function NPCaNhan($id){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`) VALUES ('$id','$date','$ca','$lydo','0')";
+            $sql = "select * from lichnghiphep where MaNS='$id'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function dknp($id,$date,$ca,$lydo,$phong){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $currentDateTime = (new DateTime())->format('Y-m-d H:i:s');
+            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`, `ThoiGianDK`,`Phong`) VALUES ('$id','$date','$ca','$lydo','0','$currentDateTime','$phong')";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }

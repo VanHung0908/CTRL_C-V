@@ -1,8 +1,6 @@
 <?php
-include_once('../../../model/mPhong.php');
-$con = new phong;
-$dsCabyPhong = $con->AllCTCabyCa($_POST['value']);
-$Ca = $con->CabyID($_POST['value']);
+$dsCabyPhong = $con->AllCTCabyCa($_GET['chitietCa']);
+$Ca = $con->CabyID($_GET['chitietCa']);
 foreach ($Ca as $i) {
     $id = $i['MaCTPhongKham'];
 }
@@ -47,7 +45,7 @@ $shifts = [
             if (mysqli_num_rows($dsCabyPhong) == 0) {
                 echo '<tr>';
                 echo '<td colspan="6">';
-                echo 'Phòng này đang lên kế hoạch !';
+                echo 'Ca này chưa có lịch !';
                 echo '</td>';
                 echo '</tr>';
             } else {
@@ -63,8 +61,9 @@ $shifts = [
                     echo '<td>' . $shifts[$i['CaTrongNgay']] . '</td>';
                     
                     echo '<td>' . $i['MaNS'] . '</td>';
-                    echo '<td><a href="?page=QLP&suaC=' . $i['MaLLV'] . '">Sửa</a></td>';
-                    echo '<td><a href="?page=QuanLyKhoa&xoaC=' . $i['MaLLV'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Phòng này không ?\')">Xóa</a></td>';
+                    echo '<td><a href="?page=QLP&suaCT=' . $i['MaLLV'] . '">Sửa</a></td>';
+                    echo '<td><a href="?page=QuanLyKhoa&xoaCT=' . $i['MaLLV'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Phòng này không ?\')">Xóa</a></td>';
+                    
                     echo '</tr>';
                 }
             }

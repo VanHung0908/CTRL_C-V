@@ -76,10 +76,11 @@ foreach ($pp as $i) {
         <form id="leaveRequestForm" method="post">
             <h2>Đăng Ký Nghỉ Phép</h2>
             <label for="leaveDate">Ngày nghỉ:</label>
-            <input type="text" id="leaveDate" readonly name="ngaynghi"><br><br>
+            <input type="text" id="leaveDate" readonly name="ngaynghi"><br><br> 
             <label for="leaveShift">Ca làm việc:</label>
             <input type="text" id="leaveShift" readonly><br><br>
             <input type="hidden" id="hiddenShiftType" name="ca">
+            <input type="hidden" id="phong" name="phong">
             <label for="reason">Lý do nghỉ:</label>
             <input type="text" name="lydo" required><br><br>
             <input type="submit" name="btn" value="Gửi">
@@ -97,7 +98,7 @@ foreach ($pp as $i) {
         $ngaynghi = $_POST['ngaynghi'];
         $lydo = $_POST['lydo'];
         $ca = $_POST['ca'];
-
+        $phong = $_POST['phong'];
         $checkDangKy = [];
         foreach ($ngaynghiphep as $i) {
             $checkDangKy[$i['NgayNghiPhep']][] = $i['CaLam'];
@@ -114,7 +115,7 @@ foreach ($pp as $i) {
         } else {
             if (!empty($ngaynghi) && !empty($lydo) && !empty($ca)) {
                 $con = new mEmployee;
-                $kq = $con->dknp($_SESSION['maNS'], $ngaynghi, $ca, $lydo);
+                $kq = $con->dknp($_SESSION['maNS'], $ngaynghi, $ca, $lydo,$phong);
                 if ($kq) {
                     $successMessage = 'Đăng ký nghỉ phép thành công!';
                     echo '<div id="notificationModal" class="modal" style="display: block;">
@@ -190,10 +191,10 @@ foreach ($pp as $i) {
                         if (leaveShifts[dateString] && leaveShifts[dateString][shiftIndex] !== undefined) {
                             const status = leaveShifts[dateString][shiftIndex];
                             if (status == 0) {
-                                trangthai = '<span style="color: orange;font-size:10px;">Trạng thái: chờ xét duyệt</span>';
+                                trangthai = '<span style="color: orange;font-size:10px;">Trạng thái: Chờ duyệt</span>';
                                 shiftClass = 'shift-pending';
                             } else if (status == 1) {
-                                trangthai = '<span style="color: green;font-size:10px;">Trạng thái: Đã xét duyệt</span>';
+                                trangthai = '<span style="color: green;font-size:10px;">Trạng thái: Đã duyệt</span>';
                                 shiftClass = 'shift-approved';
                             } else if (status == 2) {
                                 trangthai = '<span style="color: red;font-size:10px;">Trạng thái: Từ chối</span>';
@@ -203,7 +204,7 @@ foreach ($pp as $i) {
                             trangthai = ''; // Không có trạng thái nghỉ phép
                         }
 
-                        note = `<a href="#" onclick="openLeaveForm('${dateString}', '${shiftText}', ${shiftIndex})">
+                        note = `<a href="#" onclick="openLeaveForm('${dateString}', '${shiftText}', '${shiftIndex}', '${phongText}')">
                             <div class="shift-box ${shiftClass}">
                                 ${shiftText}
                                 <div class="room-info"> ${phongText}</div>
@@ -225,13 +226,16 @@ foreach ($pp as $i) {
 
         calendarHTML += '</table>';
         document.getElementById('calendar').innerHTML = calendarHTML;
+        
     }
 
-    function openLeaveForm(date, shift, shiftType) {
+    function openLeaveForm(date, shift, shiftType,phongText) {
         document.getElementById('leaveDate').value = date;
         document.getElementById('leaveShift').value = shift;
+        
         document.getElementById('hiddenShiftType').value = shiftType;
-        document.getElementById('leaveForm').style.display = 'block';
+        document.getElementById('phong').value = phongText;
+        document.getElementById('leaveForm').style.display = 'block'; 
     }
 
     function closeForm() {

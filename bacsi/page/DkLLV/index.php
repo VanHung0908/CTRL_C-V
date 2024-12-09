@@ -1,6 +1,7 @@
 <?php
 include_once(BACKEND_URL . 'model/mEmployee.php');
 $con = new mEmployee();
+$ktra = $con->ktraDaDKL($_SESSION['maNS']);
 ?>
 
 <!DOCTYPE html>
@@ -50,26 +51,28 @@ $con = new mEmployee();
     <div class="main-content" id="main-content">
         <div class="trangDKLICH">
             <h3 align="center" class="blu"><b>ĐĂNG KÝ LỊCH KHÁM</b></h3>
-            <form action="" method="post">
-                <select name="selection" id="selection" onchange="getSchedule(this.value)">
-                    <option value="" disabled selected>Chọn phòng khám</option>
-                    <?php
-                    $phongkham = $con->phongkham($_SESSION['maKhoa']);
-                    foreach ($phongkham as $i) {
-                        echo '<option value="' . $i['MaPhong'] . '">' . $i['TenPhong'] . '</option>';
-                    }
-                    ?>
-                </select>
-            </form>
             <?php
-            $ktra = $con->ktraDaDKL($_SESSION['maNS']);
             if(mysqli_num_rows($ktra)){
                 echo "<h3 align='center'><b class='tbDKR'>Bạn đã đăng ký lịch làm việc!</b></h3>";
-            } else {
+            }else{
+                echo '<form action="" method="post">
+                    <select name="selection" id="selection" onchange="getSchedule(this.value)">
+                        <option value="" disabled selected>Chọn phòng khám</option>';
+                        
+                        
+                        $phongkham = $con->phongkham($_SESSION['maKhoa']);
+                        foreach ($phongkham as $i) {
+                            echo '<option value="' . $i['MaPhong'] . '">' . $i['TenPhong'] . '</option>';
+                        }
+                        
+                    echo'</select>
+                </form>';
                 echo '<div align="right"><a href="#" id="showNotice"><b class="tb">*Lưu ý khi đăng ký lịch làm việc. Xem tại đây !</b></a></div>';
                 echo '<div id="div"></div>';
                 echo '<div id="extra-info"></div>';
-            }
+                }
+            
+            
             ?>
         </div>
     </div>
@@ -127,7 +130,7 @@ $con = new mEmployee();
         // Hàm xử lý đăng ký lịch làm việc
         function registerShift(caID) {
             Swal.fire({
-                title: 'Bạn có chắc muốn đăng ký lịch làm việc này không?',
+                title: 'Bạn có chắc chắn muốn đăng ký lịch làm việc này không?',
                 text: "Lịch này sẽ áp dụng suốt thời gian bạn làm việc!",
                 icon: 'warning',
                 showCancelButton: true,

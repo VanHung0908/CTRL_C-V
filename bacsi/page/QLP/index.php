@@ -1,5 +1,6 @@
 <!-- PHP -->
 <?php
+ob_start();
 include_once(BACKEND_URL . 'model/mPhong.php');
 $con = new phong;
 $dsKhoa = $con->AllPhongbyKhoa($_SESSION['maKhoa']);
@@ -12,74 +13,97 @@ foreach ($dsKhoa as $i) {
     <div class="main-content" id="main-content">
         <h3 align="center" style="margin-top:20px;"><a href="index.php?page=QLP" style="color : #4682B4; "><b>QUẢN LÝ
                     PHÒNG KHÁM</b></a></h3>
-        <p align="center" style="margin-top:10px;"><a href="index.php?page=QLP" style="color : #4682B4; " id="loadPageLink"><b>
+        <p align="center" style="margin-top:10px;"><a href="index.php?page=QLP" style="color : #4682B4; "
+                id="loadPageLink"><b>
                     <?= $tenkhoa ?></b></a></p>
 
-        <?php
+        <?php 
         
+        // Kiểm tra nếu không có tham số themP (thêm phòng) và chitietCa (chi tiết ca)
+        if(!isset($_GET['themP']) && !isset($_GET['chitietCa']) && !isset($_GET['themCa']) && !isset($_GET['themCTCa']) && !isset($_GET['suaC'])&& !isset($_GET['suaCT'])&& !isset($_GET['suaP'])) {
+            // Hiển thị danh sách phòng
             echo '
-                    <div class="schedule-list">
-                        <h5 align="center"><b class="color">DANH SÁCH PHÒNG LÀM VIỆC</b></h5>
-                        <div align="center" style="margin:10px;">
-                                <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QLP&themP">+ Thêm
-                                Phòng</a></b>
-                        </div>
-                        <table class="schedule-table">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>STT</th>
-                                    <th>Tên phòng</th>
-                                    <th>Tòa nhà</th>
-                                    <th>Mô tả</th>
-                                    <th>Khoa</th>
-                                    <th>Sửa Phòng</th>
-                                    <th>Xóa Phòng</th>
-                                </tr>
-                            </thead>
-                            <tbody>';
-            $dem = 1;
-            foreach ($dsKhoa as $i) {
-                echo '<tr>';
-                echo '<td><input type="radio" name="shift" onclick="getMaPhong(' . $i['MaPhong'] . ')"></td>';
-                echo '<td>' . $dem++ . '</td>';
-                echo '<td>' . $i['TenPhong'] . '</td>';
-                echo '<td>' . $i['Toa'] . '</td>';
-                echo '<td>' . $i['MoTa'] . '</td>';
-                echo '<td>' . $tenkhoa . '</td>';
-                echo
-                    '<td> 
-                                            <a href="?page=QLP&suaP=' . $i['MaPhong'] . '">Sửa</a>
-                                        </td>';
-                echo
-                    '<td>
-                                            <a href="?page=QuanLyKhoa&xoaP=' . $i['MaPhong'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Phòng này không ?\')">Xóa</a>
-                                        </td>';
-                echo '</tr>';
+                <div class="schedule-list">
+                    <h5 align="center"><b class="color">DANH SÁCH PHÒNG LÀM VIỆC</b></h5>
+                    <div align="center" style="margin:10px;">
+                            <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QLP&themP">+ Thêm
+                            Phòng</a></b>
+                    </div>
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên phòng</th>
+                                <th>Tòa nhà</th>
+                                <th>Mô tả</th>
+                                <th>Khoa</th>
+                                <th>Sửa Phòng</th>
+                                <th>Xóa Phòng</th>
+                                <th>Xem chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                        $dem = 1;
+                        foreach ($dsKhoa as $i) {
+                            echo '<tr>';
+                            echo '<td>' . $dem++ . '</td>';
+                            echo '<td>' . $i['TenPhong'] . '</td>';
+                            echo '<td>' . $i['Toa'] . '</td>';
+                            echo '<td>' . $i['MoTa'] . '</td>';
+                            echo '<td>' . $tenkhoa . '</td>';
+                            echo
+                                '<td> 
+                                        <a href="?page=QLP&suaP=' . $i['MaPhong'] . '">Sửa</a>
+                                    </td>';
+                            echo
+                                '<td>
+                                        <a href="?page=QuanLyKhoa&xoaP=' . $i['MaPhong'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Phòng này không ?\')">Xóa</a>
+                                    </td>';
+                            echo '<td> <a href="?page=QLP&chitiet=' . $i['MaPhong'] . '">Xem chi tiết</a> </td>';
+                            echo '</tr>';
+                        }
+                        echo '
+                        </tbody>
+                    </table>
+                </div>';
+        } 
+        if (isset($_GET['chitiet']) && !isset($_GET['themCTCa'])) { 
+            // Xóa session 'chitiet' trước khi gán lại
+            if (isset($_SESSION['chitiet'])) {
+                unset($_SESSION['chitiet']);
             }
-            echo '
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div id="Ca">
-                                    <!-- Hiển thị Ca theo Phòng (AJAX) -->
-                    </div>
-                    <div id="CTCa">
-                                    <!-- Hiển thị Chi tiết theo Ca (AJAX) -->
-                    </div>';
-        
-                    if (isset($_GET['themP']) || isset($_GET['themCa']) || isset($_GET['themCTCa'])) 
+            $_SESSION['chitiet'] = $_GET['chitiet'];
+            include_once('page/QLP/ajax.php');
+            
+            // Nếu có tham số themCa thì hiển thị thêm Ca
+            
+        }
+        if (isset($_GET['themCa']) || isset($_GET['themP']) || isset($_GET['themCTCa'])) {
             include_once('page/QLP/them.php');
+        } else if(isset($_GET['suaP']) || isset($_GET['suaC']) || isset($_GET['suaCT'])){
+            include_once('page/QLP/sua.php');
+        }
+        if (isset($_GET['chitietCa'])) { 
+            // Xóa session 'chitietCa' trước khi gán lại
+            if (isset($_SESSION['chitietCa'])) {
+                unset($_SESSION['chitietCa']);
+            }
+            $_SESSION['chitietCa'] = $_GET['chitietCa'];
+            include_once('page/QLP/ajax2.php');
+            
+            // Nếu có tham số themCTCa thì hiển thị thêm chi tiết ca
+            
+        }
+        
         
         ?>
 
         <!-- JavaScript -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            function getMaPhong(value) {
+            function getALLCabyPhong(value) {
                 $.ajax({
-                    url: "page/QLP/ajax.php",
+                    url: "page/QLP/hienthi.php",
                     type: "POST",
                     data: { value: value },
                     success: function (result) {
@@ -87,27 +111,10 @@ foreach ($dsKhoa as $i) {
                     },
                 });
             }
-            function reloadCaListAfterAdd(value) {
-    // Call getCaByPhong to refresh the list of shifts
-                getCaByPhong(value);
-            }
-
-            function getCTCa(value) {
-                $.ajax({
-                    url: "page/QLP/ajax2.php",
-                    type: "POST",
-                    data: { value: value },
-                    success: function (result) {
-                        $("#CTCa").html(result);
-                    },
-                });
-            }
         </script>
 </body>
 <!-- PHP -->
 <?php
-$successMessage = '';
-$errorMessage = '';
 if (isset($_POST['btnThemP'])) {
     $checkTenPhong = $con->AllPhongbyKhoa($_SESSION['maKhoa']);
     $arr = [];
@@ -115,118 +122,222 @@ if (isset($_POST['btnThemP'])) {
         $arr[] = $i['TenPhong'];
     }
     if (in_array($_POST['ten'], $arr)) {
-        $errorMessage = 'Phòng này đã tồn tại !';
-        echo '<div id="notificationModal" class="modal" style="display: block;">
-                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                        <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
-                        <button id="ERRcloseModal" class="btn btn-danger">Đóng</button>
-                    </div>
-                </div>';
-        exit();
+        echo '<script>alert("Tên phòng đã tồn tại !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&themP";
+          </script>';
     }
-    $kq = $con->InsertPhong($_POST['ten'], $_POST['toa'], $_POST['mt'], $_SESSION['maKhoa']);
+        $kq = $con->InsertPhong($_POST['ten'], $_POST['toa'], $_POST['mt'], $_SESSION['maKhoa']);
     if ($kq) {
-        $successMessage = 'Thêm Phòng mới thành công!';
-        echo '<div id="notificationModal" class="modal" style="display: block;">
-                <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                    <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
-                    <button id="closeModal" class="btn btn-success">Đóng</button>
-                </div>
-            </div>';
-    } else {
-        $errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại !';
-        echo '<div id="notificationModal" class="modal" style="display: block;">
-                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                        <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
-                        <button id="ERRcloseModal" class="btn btn-danger">Đóng</button>
-                    </div>
-                </div>';
+        echo '<script>alert("Thêm phòng thành công !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP";
+          </script>';
+    }
+}if (isset($_POST['btnSuaP'])) {
+    $checkTenPhong = $con->AllPhongbyKhoa($_SESSION['maKhoa']);
+    $arr = [];
+    foreach ($checkTenPhong as $i) {
+        $arr[] = $i['TenPhong'];
+    }
+    if (in_array($_POST['ten'], $arr) && $_POST['ten'] != $t ) {
+        echo '<script>alert("Tên phòng đã tồn tại !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&suaP='.$_GET['suaP'].'";
+          </script>';
+          exit();
+    }
+        $kq = $con->UpdatePhong($_POST['ten'], $_POST['toa'], $_POST['mt'], $_GET['suaP']);
+    if ($kq) {
+        echo '<script>alert("Sửa phòng thành công !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP";
+          </script>';
     }
 } else if (isset($_POST['btnThemCa'])) {
-    // Insert new shift
+    $ktra = $con -> AllCabyPhong($_SESSION['chitiet']);
+    $arr = [];
+    foreach ($ktra as $i) {
+        $arr[] = $i['TenCa'];
+    }
+    if (in_array($_POST['ten'], $arr)) {
+        echo '<script>alert("Tên Ca đã tồn tại !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&themCa='.$_SESSION['chitiet'].'";
+          </script>';
+    }
     $kq = $con->InsertCaByPhong($_GET['themCa'], $_POST['ten'], $_POST['dadk'], $_POST['maxdk']);
     if ($kq) {
+        echo '<script>alert("Thêm ca thành công !")</script>';
         echo '<script>
-            reloadCaListAfterAdd(' . $_GET['themCa'] . ');
-        </script>';
+            window.location.href = "index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'";
+          </script>';
+    } else {
+        echo 'Lỗi khi thêm Ca.';
+    }
+
+}else if (isset($_POST['btnSuaCa'])) {
+    $ktra = $con -> AllCabyPhong($_SESSION['chitiet']);
+    $arr = [];
+    foreach ($ktra as $i) {
+        $arr[] = $i['TenCa'];
+    }
+    if (in_array($_POST['ten'], $arr)) {
+        echo '<script>alert("Tên Ca đã tồn tại !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&SuaCa='.$_GET['suaC'].'";
+          </script>';
+          exit();
+    }
+    $kq = $con->UpdateCa($_GET['suaC'], $_POST['ten'], $_POST['dadk'], $_POST['maxdk']);
+    if ($kq) {
+        echo '<script>alert("Sửa ca thành công !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'";
+          </script>';
     } else {
         echo 'Lỗi khi thêm Ca.';
     }
 
 } else
-    if (isset($_POST['btnThemCTCa'])) {
-        $maCa = $_GET['themCTCa'];
-        $errors = [];
+if (isset($_POST['btnThemCTCa'])) {
+    $maCa = $_GET['themCTCa'];
+    $errors = [];
+    $dataToInsert = []; // Mảng để lưu các dữ liệu cần thêm vào
 
-        for ($i = 1; $i <= 5; $i++) {
-            if (isset($_POST["day_of_week_$i"]) && isset($_POST["shift_$i"])) {
-                $day_of_week = $_POST["day_of_week_$i"];
-                $shift = $_POST["shift_$i"];
+    // Lưu dữ liệu từ form vào mảng $dataToInsert
+    for ($i = 1; $i <= 5; $i++) {
+        if (isset($_POST["day_of_week_$i"]) && isset($_POST["shift_$i"])) {
+            $day_of_week = $_POST["day_of_week_$i"];
+            $shift = $_POST["shift_$i"];
 
-                // Kiểm tra tính hợp lệ
-                if (
-                    !is_numeric($day_of_week) || $day_of_week < 0 || $day_of_week > 6 ||
-                    !is_numeric($shift) || $shift < 0 || $shift > 2
-                ) {
-                    $errors[] = "Dữ liệu không hợp lệ cho ngày $day_of_week và ca $shift.";
-                    continue;
-                }
+            // Kiểm tra tính hợp lệ của dữ liệu
+            if (
+                !is_numeric($day_of_week) || $day_of_week < 0 || $day_of_week > 6 ||
+                !is_numeric($shift) || $shift < 0 || $shift > 2
+            ) {
+                $errors[] = "Dữ liệu không hợp lệ cho ngày $day_of_week và ca $shift.";
+                continue;
+            }
 
-                // Gọi hàm để thêm dữ liệu
-                $result = $con->CTCabyCa($maCa, $day_of_week, $shift);
-                if (!$result) {
-                    $errors[] = "Lỗi thêm chi tiết ca ngày $day_of_week - ca $shift.";
-                }
+            // Thêm vào mảng để kiểm tra sau
+            $dataToInsert[] = ['day_of_week' => $day_of_week, 'shift' => $shift];
+        }
+    }
+
+    // Kiểm tra tất cả dữ liệu có trùng lặp trong cơ sở dữ liệu không
+    $isDuplicate = false;
+    foreach ($dataToInsert as $data) {
+        $existingData = $con->checkExistingSchedule($maCa, $data['day_of_week'], $data['shift']);
+        if (mysqli_num_rows($existingData)>0) {
+            $isDuplicate = true; // Nếu có dòng trùng thì gán flag thành true
+            $daysOfWeek = [
+                0 => "Thứ 2",
+                1 => "Thứ 3",
+                2 => "Thứ 4",
+                3 => "Thứ 5",
+                4 => "Thứ 6",
+                5 => "Thứ 7",
+                6 => "Chủ nhật"
+            ];
+            
+            // Mảng ánh xạ CaTrongNgay
+            $shifts = [
+                1 => "Ca sáng",
+                2 => "Ca chiều"
+            ];
+            $errors[] = "Ca vào ngày : " . $daysOfWeek[$data['day_of_week']] . " (" . $shifts[$data['shift']] . ") đã tồn tại.";
+            break; // Dừng kiểm tra khi tìm thấy trùng
+        }
+    }
+
+    // Nếu không có trùng, tiến hành thêm tất cả dữ liệu vào cơ sở dữ liệu
+    if (!$isDuplicate) {
+        foreach ($dataToInsert as $data) {
+            $result = $con->CTCabyCa($maCa, $data['day_of_week'], $data['shift']);
+            if (!$result) {
+                $errors[] = "Có lỗi xảy ra khi thêm ca vào ngày " . $data['day_of_week'] . " (shift " . $data['shift'] . ").";
+            }
+        }
+    }
+
+    // Hiển thị kết quả
+    if (empty($errors)) {
+        echo '<script>alert("Thêm chi tiết ca thành công !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'&chitietCa='.$_SESSION['chitietCa'].'";
+          </script>';
+    } else {
+        echo '<script>alert("'. implode("<br>", $errors).'!")</script>';
+        echo " <p style=color:red;'>Thông báo :" . implode("<br>", $errors)."</p>" ;
+    }
+}
+ else
+if (isset($_POST['btnSuaCTCa'])) {
+    $maCa = $_SESSION['chitiet']; // Lấy mã ca cần sửa từ tham số GET
+    $errors = [];
+    
+    
+    // Lấy dữ liệu từ form
+    if (isset($_POST["day_of_week"]) && isset($_POST["shift"])) {
+        $day_of_week = $_POST["day_of_week"];
+        $shift = $_POST["shift"];
+
+        // Kiểm tra tính hợp lệ của dữ liệu
+        if (
+            !is_numeric($day_of_week) || $day_of_week < 0 || $day_of_week > 6 ||
+            !is_numeric($shift) || $shift < 1 || $shift > 2
+        ) {
+            $errors[] = "Dữ liệu không hợp lệ: ngày $day_of_week và ca $shift.";
+        } else {
+            // Kiểm tra trùng lặp dữ liệu trong cơ sở dữ liệu
+            $existingData = $con->checkExistingSchedule($maCa, $day_of_week, $shift);
+            if (mysqli_num_rows($existingData)>0) {
+                $daysOfWeek = [
+                    0 => "Thứ 2",
+                    1 => "Thứ 3",
+                    2 => "Thứ 4",
+                    3 => "Thứ 5",
+                    4 => "Thứ 6",
+                    5 => "Thứ 7",
+                    6 => "Chủ nhật"
+                ];
+
+                $shifts = [
+                    1 => "Ca sáng",
+                    2 => "Ca chiều"
+                ];
+
+                $errors[] = "Ca vào ngày: " . $daysOfWeek[$day_of_week] . " (" . $shifts[$shift] . ") đã tồn tại.";
             }
         }
 
-        // Kết quả
+        // Nếu không có lỗi, tiến hành cập nhật
         if (empty($errors)) {
-            echo "Thêm chi tiết ca thành công!";
-        } else {
-            echo "Có lỗi xảy ra:<br>" . implode("<br>", $errors);
+            $result = $con->UpdateCTCa($maCa, $day_of_week, $shift); // Hàm cập nhật dữ liệu
+            if ($result) {
+                echo '<script>alert("Sửa chi tiết ca thành công !")</script>';
+                echo '<script>
+                    window.location.href = "index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'&chitietCa='.$_SESSION['chitietCa'].'";
+                </script>';
+            } else {
+                $errors[] = "Có lỗi xảy ra khi cập nhật dữ liệu.";
+            }
         }
+    } else {
+        $errors[] = "Dữ liệu không đầy đủ.";
     }
+
+    // Hiển thị thông báo lỗi nếu có
+    if (!empty($errors)) {
+        echo '<script>alert("' . implode("\\n", $errors) . '");</script>';
+        echo '<p style="color:red;">Thông báo: ' . implode("<br>", $errors) . '</p>';
+    }
+}
+
+
 
 ?>
-
-<!-- JS -->
-<script>
-    document.getElementById("loadPageLink").addEventListener("click", function(event) {
-        event.preventDefault(); // Ngừng sự kiện mặc định (không tải lại trang)
-    });
-
-    var modal = document.getElementById("notificationModal");
-    var notificationCloseModal = document.getElementById("closeModal");
-    var notificationCloseModalERR = document.getElementById("ERRcloseModal");
-
-    // Kiểm tra nếu phần tử tồn tại trước khi thêm sự kiện
-    if (notificationCloseModal) {
-        notificationCloseModal.onclick = function () {
-            // Gọi lại AJAX để tải lại danh sách phòng sau khi đóng modal
-            $.ajax({
-                url: "index.php?page=QLP", // URL để lấy lại danh sách phòng
-                success: function(result) {
-                    // Cập nhật lại nội dung phòng khi đóng modal
-                    $("#main-content").html(result);
-                }
-            });
-        };
-    }
-
-    if (notificationCloseModalERR) {
-        notificationCloseModalERR.onclick = function() {
-            modal.style.display = "none";  // Ẩn modal
-        };
-    }
-
-    // Thêm sự kiện khi nhấn vào vùng ngoài modal để đóng modal
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";  // Ẩn modal nếu nhấn vào vùng ngoài modal
-        }
-    }
-</script>
 
 
 

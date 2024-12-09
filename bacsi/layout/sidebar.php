@@ -78,6 +78,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a> </li>
                 </ul>
             </li>
         <?php elseif ($maCV == 5): ?>
@@ -93,6 +94,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a> </li>
                 </ul>
             </li>
             <li>
@@ -126,6 +128,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a> </li>
                 </ul>
             </li>
             

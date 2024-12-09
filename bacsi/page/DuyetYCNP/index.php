@@ -8,21 +8,25 @@ $con = new mEmployee;
 $dsYCNP = $con->dsYCNP();
 
 echo '<div class="main-content" id="main-content">
+<h3 align="center" style="margin-top:20px;"><b style="color:#D2691E;margin-top:50px;">DANH SÁCH YÊU CẦU NGHỈ PHÉP</b></h3>
     <form action="" method="post">
         <table class="leave-request-table" align="center">
             <tr>
                 <th>STT</th>
                 <th>ID Nhân Viên</th>
                 <th>Họ Tên Nhân Viên</th>
+                <th>Phòng làm việc</th>
                 <th>Ngày Nghỉ Phép</th>
+                <th>Ca</th>
                 <th>Lý Do</th>
+                <th>Thời gian đăng ký</th>
                 <th>Thao Tác</th>
                 <th>Thao Tác</th>
             </tr>';
     if (!mysqli_num_rows($dsYCNP) > 0) {
         echo '
         <tr>
-        <td colspan="7"> Chưa có yêu cầu nào</td>
+        <td colspan="10"> Chưa có yêu cầu nào</td>
         </tr>';
         
     }else{
@@ -32,8 +36,11 @@ echo '<div class="main-content" id="main-content">
                 <td>' . $tt++ . '</td>
                 <td>' . $i['MaNS'] . '</td>
                 <td>' . $i['HoTen'] . '</td>
+                <td>' . $i['Phong'] . '</td>
                 <td>' . $i['NgayNghiPhep'] . '</td>
+                <td>' . $i['CaLam'] . '</td>
                 <td>' . $i['LyDo'] . '</td>
+                <td>' . $i['ThoiGianDK'] . '</td>
                 <td>
                     <a href="index.php?page=DuyetYCNP&duyet=' . $i['MaLNP'] . '" onclick="return confirm(\'Bạn có chắc chắn muốn duyệt yêu cầu này không?\');">Duyệt</a>
                 </td>
@@ -82,6 +89,9 @@ if (isset($_REQUEST['duyet'])) {
     $p = $con->duyetYCNP($_GET['duyet']);
     if ($p) {
         echo '<script>alert("Bạn đã chọn duyệt yêu cầu này!")</script>';
+        echo '<script>
+                    window.location.href = "index.php?page=DuyetYCNP";
+        </script>';
     } else {
         echo '<script>alert("Có lỗi xảy ra!")</script>';
     }
@@ -94,8 +104,14 @@ if (isset($_REQUEST['duyet'])) {
 
     if ($result) {
         echo '<script>alert("Bạn đã từ chối yêu cầu thành công!")</script>';
+        echo '<script>
+                    window.location.href = "index.php?page=DuyetYCNP";
+        </script>';
     } else {
         echo '<script>alert("Có lỗi xảy ra khi từ chối yêu cầu!")</script>';
     }
 }
 ?>
+<style>
+    
+</style>

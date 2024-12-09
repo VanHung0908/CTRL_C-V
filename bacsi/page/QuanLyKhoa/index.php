@@ -31,27 +31,38 @@ $dsYCNP = $con->dsKhoa();
 
 $successMessage = '';
 //Sua Khoa
-
+$arr = [];
+foreach($dsYCNP as $i){
+    $arr[] = $i['TenKhoa'];
+}
 
 // Xóa khoa
 if (isset($_GET['xoa'])) {
     $p = new mKhoa;
     $tbl = $p->xoaKhoa($_GET['xoa']);
     if ($tbl) {
-        $successMessage = 'Đã xóa khoa thành công!';
+        echo '<script>alert("Xóa khoa thành công !")</script>';
+        echo '<script>
+            window.location.href = "index.php?page=QuanLyKhoa";
+        </script>';
+        
     } else {
         $successMessage = 'Xóa khoa thất bại!';
     }
 } else if (isset($_POST['btn'])) {
-    $successMessage = 'Đã thêm khoa thành công!';
+    if(in_array($_POST['tenkhoa'],$arr)){
+        echo '<script>alert("Tên khoa đã tồn tại !")</script>';
+    }else{
+        $tbll = $con->themkhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota']);
+        if ($tbll) {
+            $successMessage = 'Đã thêm khoa thành công!';
 
-    $tbll = $con->themkhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota']);
-    if ($tbll) {
-        $successMessage = 'Đã thêm khoa thành công!';
-
-    } else {
-        $successMessage = 'Thêm khoa thất bại!';
+        } else {
+            $successMessage = 'Thêm khoa thất bại!';
+        }
     }
+    
+    
 } else if (isset($_POST['btnSua'])) {
     $layTT = $con->updateKhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota'], $_GET['sua']);
     if ($layTT) {
@@ -72,11 +83,11 @@ if (isset($_GET['xoa'])) {
         <table class="leave-request-table" align="center">
             <tr>
                 <td>Tên Khoa</td>
-                <td><input type="text" name="tenkhoa" style="width:500px;" required></td>
+                <td><input type="text" name="tenkhoa" style="width:500px; ';if(isset($_POST['tenkhoa'])) echo 'value="'.$_POST['tenkhoa'].'"'; echo'" required></td>
             </tr>
             <tr>
                     <td>Khu vực</td>
-                    <td><input type="text" name="khuvuc" style="width:500px;" required></td>
+                    <td><input type="text" name="khuvuc" style="width:500px;" value="" required></td>
             </tr>
             <tr>
                 <td>Mô tả</td>
