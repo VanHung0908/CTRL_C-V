@@ -42,13 +42,7 @@
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function ngaynghiphep($id){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "SELECT * FROM lichnghiphep where MaNS='$id' ";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
+        
         public function selectDateStartEnd($id){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
@@ -56,43 +50,7 @@
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
-        public function dsYCNP(){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "select * from lichnghiphep h join nhansu j on h.MaNS=j.MaNS  where h.TrangThai = 0";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
-        public function NPCaNhan($id){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "select * from lichnghiphep where MaNS='$id'";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
-        public function dknp($id,$date,$ca,$lydo,$phong){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $currentDateTime = (new DateTime())->format('Y-m-d H:i:s');
-            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`, `ThoiGianDK`,`Phong`) VALUES ('$id','$date','$ca','$lydo','0','$currentDateTime','$phong')";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
-        ///Duyet YCNP 
-        public function duyetYCNP($id){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "UPDATE `lichnghiphep` SET  `TrangThai`='1' WHERE `maLNP`='$id'";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
-        public function tuchoiYCNP($id,$lydo){
-            $con = new clsKetNoi;
-            $p = $con -> moKetNoi();
-            $sql = "UPDATE `lichnghiphep` SET `LyDo_TuChoi`='$lydo', `TrangThai`='2' WHERE `MaLNP`='$id'";
-            $kq = mysqli_query($p,$sql);
-            return $kq;
-        }
+        
 
         //lay phongkham 
         public function phongkham($makhoa){
@@ -157,9 +115,82 @@
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
+        //Lich Nghi Phep
         
-        
+        public function NPCaNhan($id){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichnghiphep where MaNS='$id'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function dknp($id,$date,$ca,$lydo,$phong){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $currentDateTime = (new DateTime())->format('Y-m-d H:i:s');
+            $sql = "INSERT INTO `lichnghiphep`( `MaNS`, `NgayNghiPhep`, `CaLam`, `LyDo`, `TrangThai`, `ThoiGianDK`,`Phong`) VALUES ('$id','$date','$ca','$lydo','0','$currentDateTime','$phong')";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        ///Duyet YCNP 
+        public function duyetYCNP($id){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "UPDATE `lichnghiphep` SET  `TrangThai`='1' WHERE `maLNP`='$id'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function tuchoiYCNP($id,$lydo){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "UPDATE `lichnghiphep` SET `LyDo_TuChoi`='$lydo', `TrangThai`='2' WHERE `MaLNP`='$id'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function SLLNNPGiam(){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "SELECT * 
+            FROM lichnghiphep h 
+            JOIN nhansu j ON h.MaNS = j.MaNS 
+            WHERE h.TrangThai = 0 
+            AND STR_TO_DATE(h.NgayNghiPhep, '%d/%m/%Y') >= CURDATE()
+            ORDER BY STR_TO_DATE(h.NgayNghiPhep, '%d/%m/%Y') ASC;
+            ";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function ngaynghiphep($id){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "SELECT * FROM lichnghiphep where MaNS='$id' ";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function DDVATCYCNP(){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichnghiphep h join nhansu j on h.MaNS=j.MaNS  where h.TrangThai = 1 OR h.TrangThai = 2";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function dsYCNP(){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "select * from lichnghiphep h join nhansu j on h.MaNS=j.MaNS  where h.TrangThai = 0";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+        public function SuaTTNP(){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "SELECT *
+            FROM lichnghiphep h join nhansu j on h.MaNS=j.MaNS 
+            WHERE STR_TO_DATE(NgayNghiPhep, '%d/%m/%Y') > CURDATE() AND (h.TrangThai = 1 OR h.TrangThai = 2) ";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
     }
 
-
+    
 ?>

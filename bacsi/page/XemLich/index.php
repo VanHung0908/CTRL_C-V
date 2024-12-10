@@ -99,13 +99,11 @@ foreach ($pp as $i) {
         $lydo = $_POST['lydo'];
         $ca = $_POST['ca'];
         $phong = $_POST['phong'];
-        $checkDangKy = [];
-        foreach ($ngaynghiphep as $i) {
-            $checkDangKy[$i['NgayNghiPhep']][] = $i['CaLam'];
-        }
-
-        if (isset($checkDangKy[$ngaynghi]) && in_array($ca, $checkDangKy[$ngaynghi])) {
-            $errorMessage = 'Đã xin nghỉ phép ca làm việc này!';
+    
+        // Chuyển ngày nghỉ từ dạng d/m/Y thành định dạng chuẩn
+        $date = DateTime::createFromFormat('d/m/Y', $ngaynghi);
+        if (!$date) {
+            $errorMessage = 'Ngày nghỉ không hợp lệ!';
             echo '<div id="notificationModal" class="modal" style="display: block;">
                     <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
                         <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
@@ -113,29 +111,61 @@ foreach ($pp as $i) {
                     </div>
                   </div>';
         } else {
-            if (!empty($ngaynghi) && !empty($lydo) && !empty($ca)) {
-                $con = new mEmployee;
-                $kq = $con->dknp($_SESSION['maNS'], $ngaynghi, $ca, $lydo,$phong);
-                if ($kq) {
-                    $successMessage = 'Đăng ký nghỉ phép thành công!';
-                    echo '<div id="notificationModal" class="modal" style="display: block;">
-                            <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                                <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
-                                <button id="closeModal" class="btn btn-success">Đóng</button>
-                            </div>
-                          </div>';
-                } else {
-                    $errorMessage = 'Xin nghỉ phép thất bại!';
+            // Chuyển đổi ngày nghỉ thành timestamp
+            $ngaynghiTimestamp = $date->getTimestamp();
+            $currentDateTimestamp = time(); // Timestamp của ngày hiện tại
+    
+            // Kiểm tra nếu ngày nghỉ bé hơn ngày hiện tại
+            if ($ngaynghiTimestamp < $currentDateTimestamp) {
+                $errorMessage = 'Ngày nghỉ phép không thể nhỏ hơn ngày hiện tại!';
+                echo '<div id="notificationModal" class="modal" style="display: block;">
+                        <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                            <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
+                            <button id="closeModal" class="btn btn-danger">Đóng</button>
+                        </div>
+                      </div>';
+            } else {
+                $checkDangKy = [];
+                foreach ($ngaynghiphep as $i) {
+                    $checkDangKy[$i['NgayNghiPhep']][] = $i['CaLam'];
+                }
+    
+                if (isset($checkDangKy[$ngaynghi]) && in_array($ca, $checkDangKy[$ngaynghi])) {
+                    $errorMessage = 'Đã xin nghỉ phép ca làm việc này!';
                     echo '<div id="notificationModal" class="modal" style="display: block;">
                             <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
                                 <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
                                 <button id="closeModal" class="btn btn-danger">Đóng</button>
                             </div>
                           </div>';
+                } else {
+                    if (!empty($ngaynghi) && !empty($lydo) && !empty($ca)) {
+                        $con = new mEmployee;
+                        $kq = $con->dknp($_SESSION['maNS'], $ngaynghi, $ca, $lydo, $phong);
+                        if ($kq) {
+                            $successMessage = 'Đăng ký nghỉ phép thành công!';
+                            echo '<div id="notificationModal" class="modal" style="display: block;">
+                                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                                        <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
+                                        <button id="closeModal" class="btn btn-success">Đóng</button>
+                                    </div>
+                                  </div>';
+                        } else {
+                            $errorMessage = 'Xin nghỉ phép thất bại!';
+                            echo '<div id="notificationModal" class="modal" style="display: block;">
+                                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
+                                        <p style="color: #F44336; font-size: 18px; font-weight: bold; text-align: center;">' . $errorMessage . '</p>
+                                        <button id="closeModal" class="btn btn-danger">Đóng</button>
+                                    </div>
+                                  </div>';
+                        }
+                    }
                 }
             }
         }
     }
+    
+    
     ?>
 
 </div>
