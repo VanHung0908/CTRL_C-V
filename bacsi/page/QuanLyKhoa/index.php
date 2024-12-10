@@ -2,7 +2,7 @@
     .custom-button {
         width: 200px;
         background-color: #66FF00;
-        color: white;
+        color: #FFFFFF;
         font-size: 16px;
         font-weight: bold;
         padding: 10px 20px;
@@ -13,13 +13,64 @@
     }
 
     .custom-button:hover {
-        background-color: #55cc00;
+        background-color: #55CC00;
         transform: scale(1.05);
     }
 
     .custom-button:active {
-        background-color: #4db200;
+        background-color: #4DB200;
         transform: scale(0.95);
+    }
+
+    .table-wrapper {
+        margin: 20px auto;
+        text-align: center;
+        width: 80%;
+    }
+
+    .leave-request-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .leave-request-table th,
+    .leave-request-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .leave-request-table th {
+        /* background-color: #f4f4f4; */
+        font-weight: bold;
+    }
+
+    .action-links a {
+        text-decoration: none;
+        color: #007BFF;
+        margin: 0 5px;
+    }
+
+    .action-links a:hover {
+        text-decoration: underline;
+        color: #0056b3;
+    }
+
+    .add-new-link {
+        margin: 20px 0;
+        display: inline-block;
+        background-color: #FFCC00;
+        color: #000;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .add-new-link:hover {
+        background-color: #FFB300;
+        color: #FFF;
     }
 </style>
 
@@ -29,42 +80,87 @@ include_once(BACKEND_URL . 'model/mKhoa.php');
 $con = new mKhoa;
 $dsYCNP = $con->dsKhoa();
 
-$successMessage = '';
-//Sua Khoa
-
-
 // Xóa khoa
 if (isset($_GET['xoa'])) {
     $p = new mKhoa;
     $tbl = $p->xoaKhoa($_GET['xoa']);
     if ($tbl) {
-        $successMessage = 'Đã xóa khoa thành công!';
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "Xóa khoa thành công!",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "/QLBV/bacsi/index.php?page=QuanLyKhoa";
+            });
+        </script>';
     } else {
-        $successMessage = 'Xóa khoa thất bại!';
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Xóa khoa thất bại. Vui lòng thử lại.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
     }
-} else if (isset($_POST['btn'])) {
-    $successMessage = 'Đã thêm khoa thành công!';
+}
 
-    $tbll = $con->themkhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota']);
-    if ($tbll) {
-        $successMessage = 'Đã thêm khoa thành công!';
-
+// Thêm khoa
+if (isset($_POST['btn'])) {
+    $result = $con->themkhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota']);
+    if ($result) {
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "Thêm khoa thành công!",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "/QLBV/bacsi/index.php?page=QuanLyKhoa";
+            });
+        </script>';
     } else {
-        $successMessage = 'Thêm khoa thất bại!';
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Thêm khoa thất bại. Vui lòng thử lại.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
     }
-} else if (isset($_POST['btnSua'])) {
-    $layTT = $con->updateKhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota'], $_GET['sua']);
-    if ($layTT) {
-        $successMessage = 'Đã sửa khoa thành công!';
+}
 
+// Sửa khoa
+if (isset($_POST['btnSua'])) {
+    $result = $con->updateKhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota'], $_GET['sua']);
+    if ($result) {
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "Sửa khoa thành công!",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "/QLBV/bacsi/index.php?page=QuanLyKhoa";
+            });
+        </script>';
     } else {
-        $successMessage = 'Sửa khoa thất bại!';
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Sửa khoa thất bại. Vui lòng thử lại.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
     }
 }
 ?>
 <div class="main-content" id="main-content">
-    <h3 align="center" ><a href="index.php?page=QuanLyKhoa" style="color : #4682B4;"><b>QUẢN LÝ KHOA</b></a></h3>
-
+    <h3 align="center"><a href="index.php?page=QuanLyKhoa" style="color : #4682B4;"><b>QUẢN LÝ KHOA</b></a></h3>
 
     <?php
     if (isset($_GET['themKhoa'])) {
@@ -75,26 +171,18 @@ if (isset($_GET['xoa'])) {
                 <td><input type="text" name="tenkhoa" style="width:500px;" required></td>
             </tr>
             <tr>
-                    <td>Khu vực</td>
-                    <td><input type="text" name="khuvuc" style="width:500px;" required></td>
+                <td>Khu vực</td>
+                <td><input type="text" name="khuvuc" style="width:500px;" required></td>
             </tr>
             <tr>
                 <td>Mô tả</td>
                 <td><textarea name="mota" id="mota" cols="30" rows="10" style="width:500px;" required></textarea></td>
             </tr>
             <tr>
-                <td colspan="2"><input type="submit" name="btn" class="custom-button" ></td>
+                <td colspan="2"><input type="submit" name="btn" class="custom-button"></td>
             </tr>
         </table>
-    </form>';
-        if ($successMessage) {
-            echo '<div id="notificationModal" class="modal" style="display: block;">
-                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                        <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
-                        <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
-                    </div>
-                  </div>';
-        }
+        </form>';
     } else if (isset($_GET['sua'])) {
         $layTT = $con->dsKhoaByID($_GET['sua']);
         foreach ($layTT as $i) {
@@ -109,86 +197,53 @@ if (isset($_GET['xoa'])) {
                 <td><input type="text" name="tenkhoa" value="' . $ten . '" style="width:500px;" required></td>
             </tr>
             <tr>
-                    <td>Khu vực</td>
-                    <td><input type="text" name="khuvuc" value="' . $kv . '" style="width:500px;" required></td>
+                <td>Khu vực</td>
+                <td><input type="text" name="khuvuc" value="' . $kv . '" style="width:500px;" required></td>
             </tr>
             <tr>
                 <td>Mô tả</td>
-                <td><textarea name="mota" id="mota" cols="30" rows="10"  style="width:500px;" required>' . $mt . '</textarea></td>
+                <td><textarea name="mota" id="mota" cols="30" rows="10" style="width:500px;" required>' . $mt . '</textarea></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" name="btnSua" class="custom-button"></td>
             </tr>
         </table>
-    </form>';
-        if ($successMessage) {
-            echo '<div id="notificationModal" class="modal" style="display: block;">
-                    <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                        <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
-                        <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
-                    </div>
-                  </div>';
-        }
+        </form>';
     } else {
-        echo '<form action="" method="post">
-        <table class="leave-request-table" align="center">
-            <tr>
-                <th>STT</th>
-                <th>Tên Khoa</th>
-                <th>Khu vực</th>
-                <th>Mô tả</th>
-                <th>Thao tác</th>
-            </tr>';
-
-
-        if (!mysqli_num_rows($dsYCNP) > 0) {
-            echo '
+        echo '<div align="center">
+                <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QuanLyKhoa&themKhoa">+ Thêm khoa</a></b>
+              </div>';
+        echo '<table class="leave-request-table" align="center">
                 <tr>
-                <td colspan="5"> Chưa có Khoa nào !</td>
+                    <th>STT</th>
+                    <th>Tên Khoa</th>
+                    <th>Khu vực</th>
+                    <th>Mô tả</th>
+                    <th>Thao tác</th>
                 </tr>';
+        if (!mysqli_num_rows($dsYCNP) > 0) {
+            echo '<tr><td colspan="5">Chưa có Khoa nào!</td></tr>';
         } else {
-            echo '<div align="center">
-                    <b><a style="color : #FFCC00 ; border:solid 1px; padding:3px;" href="?page=QuanLyKhoa&themKhoa">+ Thêm
-                    khoa</a></b>
-                </div>';
             $tt = 1;
             foreach ($dsYCNP as $i) {
                 echo '<tr>
-                            <td>' . $tt++ . '</td>
-                            <td>' . $i['TenKhoa'] . '</td>
-                            <td>' . $i['KhuVuc'] . '</td>
-                            <td>' . $i['MoTa'] . '</td>
-                            <td>
-                                <a href="?page=QuanLyKhoa&sua=' . $i['MaKhoa'] . '" onclick="openEditModal(' . $i['MaKhoa'] . ')">Sửa</a>
-                                <a href="?page=QuanLyKhoa&xoa=' . $i['MaKhoa'] . '" onclick="return confirm(\'Bạn có chắc muốn xóa Khoa này không ?\')">Xóa</a>
-                            </td>
-                        </tr>';
+                        <td>' . $tt++ . '</td>
+                        <td>' . $i['TenKhoa'] . '</td>
+                        <td>' . $i['KhuVuc'] . '</td>
+                        <td>' . $i['MoTa'] . '</td>
+                        <td>
+                         <button class="icon-btn edit-btn" id="editbtn">
+                            <a href="?page=QuanLyKhoa&sua=' . $i['MaKhoa'] . '" class="btn-link"> <i class="fas fa-edit"></i></a> 
+                        </button>
+                        <button class="icon-btn delete-btn">
+                           <a href="?page=QuanLyKhoa&xoa=' . $i['MaKhoa'] . '" class="btn-link" onclick="return confirm(\'Bạn có chắc muốn xóa Khoa này không?\')">
+                             <i class="fas fa-trash-alt"></i></a>
+                        </button>
+                        </td>
+                    </tr>';
             }
         }
-        // Thong bao 
-        if ($successMessage) {
-            echo '<div id="notificationModal" class="modal" style="display: block;">
-                        <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">
-                            <p style="color: #4CAF50; font-size: 18px; font-weight: bold; text-align: center;">' . $successMessage . '</p>
-                            <button id="closeModal" style="margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background-color: #4CAF50; color: white; cursor: pointer; font-size: 16px; display: block; margin: 0 auto;">Đóng</button>
-                        </div>
-                      </div>';
-        }
+        echo '</table>';
     }
     ?>
-
-    </table>
-
-
-    </form>
 </div>
-</style>
-<script>
-    var modal = document.getElementById("notificationModal");
-    var notificationCloseModal = document.getElementById("closeModal");
-
-    notificationCloseModal.onclick = function () {
-        window.location.href = '/QLBV/bacsi/index.php?page=QuanLyKhoa'; 
-    };
-
-</script>

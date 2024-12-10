@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="main-content" id="main-content">
     <div class="col-md-12">
-        <h3>Thủ tục nhập viện</h3>
+        <h3>Tiếp nhận bệnh án</h3>
         <hr class="divider">
         <div class="card-body">
             <form method="POST">

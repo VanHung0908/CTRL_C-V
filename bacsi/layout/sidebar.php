@@ -48,7 +48,7 @@ $maCV = $_SESSION['maCV'];
             <li>
                 <a href="index.php?page=DuyetYCNP" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
-                    <span>Duyệt      nghỉ phép</span>
+                    <span>Duyệt nghỉ phép</span>
                 </a>
             </li>
             <li>
@@ -70,8 +70,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
-                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
-                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a></li>
                 </ul>
             </li>
         <?php elseif ($maCV == 5): ?>
@@ -85,10 +84,9 @@ $maCV = $_SESSION['maCV'];
                 <span class="sidebar-icon"><i class="fa-solid fa-calendar-alt"></i></span>
                 <span class="menu-toggle">Lịch làm việc &nbsp; &nbsp;<i class="fa-solid fa-sort-down"></i></span>
                 <ul class="submenu">
-                    <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
+                <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
-                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
-                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a></li>
                 </ul>
             </li>
          
@@ -119,8 +117,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
-                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
-                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a></li>
                 </ul>
             </li>
             
@@ -162,8 +159,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
-                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
-                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a></li>
                 </ul>
             </li>
             <?php elseif ( $maCV == 8): ?>
@@ -187,8 +183,7 @@ $maCV = $_SESSION['maCV'];
                 <ul class="submenu">
                     <li><a href="index.php?page=DKLLV">Đăng kí lịch</a></li>
                     <li><a href="index.php?page=XemLich">Xem lịch</a> </li>
-                    <li><a href="index.php?page=XemLich">Đăng kí nghỉ phép</a></li>
-                    <li><a href="index.php?page=DuyetYCNP">Duyệt yêu cầu nghỉ phép</a></li>
+                    <li><a href="index.php?page=NghiPhep">Nghỉ phép</a></li>
                 </ul>
             </li>
            

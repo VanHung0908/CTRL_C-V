@@ -109,9 +109,8 @@
                     WHERE k.TenKhoa = ? 
                       AND k.TrangThai = 1 
                       AND bs.MaCV = 4
-                      AND llv.Thu = ?
-                      AND llv.CaLam = ?
-                      AND llv.TrangThai = 'Đã duyệt'"; 
+                      AND llv.NgayTrongTuan = ?
+                      AND llv.CaTrongNgay = ?"; 
         
             // Chuẩn bị và thực thi truy vấn
             $stmt = $con->prepare($sql);

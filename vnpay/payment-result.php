@@ -2,7 +2,7 @@
 include_once('../model/mPhieuDKKham.php');
 session_start();
 
-$vnp_HashSecret = "RPGU3OSO3YRV41GLQBJDV0O3PVRNP1FF";
+$vnp_HashSecret = "NN9LUAMR92XNZDIXS411CEX5AAS7DYOA";
 
 // Nhận giá trị từ URL trả về của VNPAY
 $vnp_ResponseCode = $_GET['vnp_ResponseCode'] ?? null;

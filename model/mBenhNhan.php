@@ -118,7 +118,7 @@
                 $selectMaNSQuery = "
                 SELECT MaNS 
                 FROM lichlamviec 
-                WHERE Thu = ? AND CaLam = ? AND TrangThai = 'Đã duyệt'
+                WHERE NgayTrongTuan = ? AND CaTrongNgay = ? 
                 ";
                 $stmt = $conn->prepare($selectMaNSQuery);
                 if (!$stmt) {

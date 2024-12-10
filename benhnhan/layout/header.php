@@ -112,7 +112,7 @@ include(__DIR__ . '/../../model/ketnoi.php');
                           <?php echo htmlspecialchars(strtoupper($hoTen)); ?> <b class="caret"></b>
                       </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ cá nhân</a>
+                            <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ bệnh nhân</a>
                             <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                         </div>
                     <?php else: ?>
