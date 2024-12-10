@@ -38,17 +38,24 @@ foreach($dsYCNP as $i){
 
 // Xóa khoa
 if (isset($_GET['xoa'])) {
+    
     $p = new mKhoa;
-    $tbl = $p->xoaKhoa($_GET['xoa']);
-    if ($tbl) {
-        echo '<script>alert("Xóa khoa thành công !")</script>';
-        echo '<script>
-            window.location.href = "index.php?page=QuanLyKhoa";
-        </script>';
-        
-    } else {
-        $successMessage = 'Xóa khoa thất bại!';
+    $check = $p -> NSbyIDKhoa($_GET['xoa']);
+    if(mysqli_num_rows($check) > 0){
+        echo '<script>alert("Xóa khoa không thành công do Khoa vẫn còn thành viên và phòng khám !")</script>';
+    }else{
+        $tbl = $p->xoaKhoa($_GET['xoa']);
+        if ($tbl) {
+            echo '<script>alert("Xóa khoa thành công!")</script>';
+            echo '<script>
+                window.location.href = "index.php?page=QuanLyKhoa";
+            </script>';
+            
+        } else {
+            $successMessage = 'Xóa khoa thất bại!';
+        }
     }
+    
 } else if (isset($_POST['btn'])) {
     if(in_array($_POST['tenkhoa'],$arr)){
         echo '<script>alert("Tên khoa đã tồn tại !")</script>';
@@ -63,15 +70,7 @@ if (isset($_GET['xoa'])) {
     }
     
     
-} else if (isset($_POST['btnSua'])) {
-    $layTT = $con->updateKhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota'], $_GET['sua']);
-    if ($layTT) {
-        $successMessage = 'Đã sửa khoa thành công!';
-
-    } else {
-        $successMessage = 'Sửa khoa thất bại!';
-    }
-}
+} 
 ?>
 <div class="main-content" id="main-content">
     <h3 align="center" ><a href="index.php?page=QuanLyKhoa" style="color : #4682B4;"><b>QUẢN LÝ KHOA</b></a></h3>
@@ -79,19 +78,20 @@ if (isset($_GET['xoa'])) {
 
     <?php
     if (isset($_GET['themKhoa'])) {
+        echo '<a href="index.php?page=QuanLyKhoa" style="color:#007bff"><b> <i class="fa-solid fa-house"></i>  TRỞ VỀ DANH SÁCH KHOA</b></a>';
         echo '<form action="" method="post">
         <table class="leave-request-table" align="center">
             <tr>
                 <td>Tên Khoa</td>
-                <td><input type="text" name="tenkhoa" style="width:500px; ';if(isset($_POST['tenkhoa'])) echo 'value="'.$_POST['tenkhoa'].'"'; echo'" required></td>
+                <td><input type="text" name="tenkhoa" style="width:500px;" value="' . (isset($_POST['tenkhoa']) ? $_POST['tenkhoa'] : '') . '" required></td>
             </tr>
             <tr>
                     <td>Khu vực</td>
-                    <td><input type="text" name="khuvuc" style="width:500px;" value="" required></td>
+                    <td><input type="text" name="khuvuc" style="width:500px;" value="' . (isset($_POST['khuvuc']) ? $_POST['khuvuc'] : '') . '" required></td>
             </tr>
             <tr>
                 <td>Mô tả</td>
-                <td><textarea name="mota" id="mota" cols="30" rows="10" style="width:500px;" required></textarea></td>
+                <td><textarea name="mota" id="mota" cols="30" rows="10" style="width:500px;" required>' . (isset($_POST['mota']) ? $_POST['mota'] : '') . '</textarea></td>
             </tr>
             <tr>
                 <td colspan="2"><input type="submit" name="btn" class="custom-button" ></td>
@@ -113,6 +113,7 @@ if (isset($_GET['xoa'])) {
             $kv = $i['KhuVuc'];
             $mt = $i['MoTa'];
         }
+        echo '<a href="index.php?page=QuanLyKhoa" style="color:#007bff"><b> <i class="fa-solid fa-house"></i>  TRỞ VỀ DANH SÁCH KHOA</b></a>';
         echo '<form action="" method="post">
         <table class="leave-request-table" align="center">
             <tr>
@@ -132,6 +133,20 @@ if (isset($_GET['xoa'])) {
             </tr>
         </table>
     </form>';
+    if (isset($_POST['btnSua'])) {
+        if(in_array($_POST['tenkhoa'],$arr) && $_POST['tenkhoa'] != $ten){
+            echo '<script>alert("Tên khoa đã tồn tại !")</script>';
+        }else{
+            //$layTT = $con->updateKhoa($_POST['tenkhoa'], $_POST['khuvuc'], $_POST['mota'], $_GET['sua']);
+        if ($layTT) {
+            $successMessage = 'Đã sửa khoa thành công!';
+    
+        } else {
+            $successMessage = 'Sửa khoa thất bại!';
+        }
+        }
+        
+    }
         if ($successMessage) {
             echo '<div id="notificationModal" class="modal" style="display: block;">
                     <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">

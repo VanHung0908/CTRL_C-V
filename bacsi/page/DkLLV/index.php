@@ -50,12 +50,13 @@ $ktra = $con->ktraDaDKL($_SESSION['maNS']);
 <body>
     <div class="main-content" id="main-content">
         <div class="trangDKLICH">
-            <h3 align="center" class="blu"><b>ĐĂNG KÝ LỊCH KHÁM</b></h3>
+            <h3 align="center" class="blu"><b>ĐĂNG KÝ LỊCH KHÁM </b></h3>
             <?php
             if(mysqli_num_rows($ktra)){
                 echo "<h3 align='center'><b class='tbDKR'>Bạn đã đăng ký lịch làm việc!</b></h3>";
             }else{
                 echo '<form action="" method="post">
+                    <caption><b>* Danh sách phòng có thể thể đăng ký </b></caption> <br> 
                     <select name="selection" id="selection" onchange="getSchedule(this.value)">
                         <option value="" disabled selected>Chọn phòng khám</option>';
                         
@@ -69,7 +70,9 @@ $ktra = $con->ktraDaDKL($_SESSION['maNS']);
                 </form>';
                 echo '<div align="right"><a href="#" id="showNotice"><b class="tb">*Lưu ý khi đăng ký lịch làm việc. Xem tại đây !</b></a></div>';
                 echo '<div id="div"></div>';
+                echo '<div id="lich"></div>';
                 echo '<div id="extra-info"></div>';
+                
                 }
             
             
@@ -102,30 +105,58 @@ $ktra = $con->ktraDaDKL($_SESSION['maNS']);
 
         // Hàm lấy lịch làm việc khi chọn phòng khám
         function getSchedule(value) {
+            
+            $('#extra-info').html('');
+            $('#lich').html(''); // Xóa thông tin lịch ca cũ
             $.ajax({
-                url: "page/DkLLV/ajax.php",
-                type: 'POST',
-                data: {value: value},
-                success: function(result) {
-                    $('#div').html(result);
-                }
-            });
+            url: "page/DkLLV/ajax.php", // Thêm timestamp
+            type: 'POST',
+            data: { value: value },
+            success: function(result) {
+                $('#div').html(result);
+                
+            }
+        });
+
         }
 
         // Hàm lấy thông tin chi tiết ca làm việc
         function getExtraInfo(caID) {
+            $('#extra-info').html('');
+            $('#lich').html(''); // Xóa thông tin lịch ca cũ
             $.ajax({
                 url: "page/DkLLV/extra_ajax.php",
                 type: 'POST',
                 data: { caID: caID },
                 success: function(result) {
                     $('#extra-info').html(result);
+                    
                 },
                 error: function() {
                     alert("Đã xảy ra lỗi khi lấy thông tin chi tiết!");
                 }
             });
         }
+        function getLich(caID) {
+    console.log('CaID:', caID); // Kiểm tra xem caID có đúng không
+    
+    // Làm sạch lịch cũ trước khi vẽ lại lịch mới
+    $('#lich').html('');
+    
+    $.ajax({
+        url: "page/DkLLV/lich.php",
+        type: 'POST',
+        data: { caID: caID },
+        success: function(result) {
+            console.log('Kết quả trả về từ server:', result); // Kiểm tra kết quả từ server
+            $('#lich').html(result); // Cập nhật lại lịch
+            
+        },
+        error: function() {
+            alert("Đã xảy ra lỗi khi lấy thông tin chi tiết!");
+        }
+    });
+}
 
         // Hàm xử lý đăng ký lịch làm việc
         function registerShift(caID) {

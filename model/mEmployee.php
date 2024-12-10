@@ -24,6 +24,14 @@
             $kq = mysqli_query($p,$sql);
             return $kq;
         }
+        public function LichByCa($id){
+            $con = new clsKetNoi;
+            $p = $con -> moKetNoi();
+            $sql = "SELECT * from `lichlamviec` where MaCTPhongKham='$id'";
+            $kq = mysqli_query($p,$sql);
+            return $kq;
+        }
+
         public function selectLicTrucNV($id){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
@@ -90,7 +98,7 @@
         public function phongkham($makhoa){
             $con = new clsKetNoi;
             $p = $con -> moKetNoi();
-            $sql = "select * from phongkham where makhoa='$makhoa'";
+            $sql = "select * from phongkham h join chitietphongkham j on h.MaPhong=j.MaPhong where makhoa='$makhoa' AND j.DaDangKy='0'";
             $kq = mysqli_query($p,$sql);
             return $kq;
         }

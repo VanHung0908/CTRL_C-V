@@ -42,6 +42,15 @@
             $p -> dongKetNoi($con);
             return $kq;
         }
+        public function NSbyIDKhoa($id){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "SELECT * FROM nhansu where MaKhoa ='$id' ";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
+
         public function getAllDepartments() {
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
