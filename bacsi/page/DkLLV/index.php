@@ -1,7 +1,14 @@
 <?php
 include_once(BACKEND_URL . 'model/mEmployee.php');
+include_once(BACKEND_URL . 'model/mKhoa.php');
 $con = new mEmployee();
 $ktra = $con->ktraDaDKL($_SESSION['maNS']);
+$conn = new mKhoa;
+$tenkhoa = $conn -> dsKhoaByID($_SESSION['maKhoa']);
+foreach($tenkhoa as $i){
+    $tenn = $i['TenKhoa'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +58,7 @@ $ktra = $con->ktraDaDKL($_SESSION['maNS']);
     <div class="main-content" id="main-content">
         <div class="trangDKLICH">
             <h3 align="center" class="blu"><b>ĐĂNG KÝ LỊCH KHÁM </b></h3>
+            <h5 align="center" class="blu"><b>Khoa <?=$tenn?> </b></h5>
             <?php
             if(mysqli_num_rows($ktra)){
                 echo "<h3 align='center'><b class='tbDKR'>Bạn đã đăng ký lịch làm việc!</b></h3>";
