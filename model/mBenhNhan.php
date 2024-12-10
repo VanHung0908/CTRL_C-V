@@ -524,7 +524,62 @@
                 }
                 
                 return $dsBenhNhan;
+            }  public function dsXV( $MaNS,$searchTerm = '') {
+                $p = new clsKetNoi();
+                
+                $conn = $p->moKetNoi();
+                
+                $sql = "SELECT 
+                        b.MaBN,
+                        b.HoTen, 
+                        b.NgaySinh, 
+                        b.GioiTinh, 
+                        b.DiaChi, 
+                        b.SDT, 
+                        b.CCCD, 
+                        b.BHYT, 
+                        b.LoaiBHYT, 
+                        p.ThoiGianNV,
+                        p.ThoiGianXV,
+                        p.MaNV,
+                        ns.HoTen AS TenNhanSu,
+                        ph.TenPhong,
+                        gg.TenGiuong
+                    FROM 
+                        benhnhan b
+                    JOIN 
+                        phieunamvien p ON b.MaBN = p.MaBN
+                    JOIN 
+                        phong ph ON ph.MaPhong = p.MaPhong
+                    JOIN 
+                        giuong gg ON gg.MaGiuong = p.MaGiuong
+                    JOIN 
+                        nhansu ns ON p.MaNS = ns.MaNS
+                    WHERE 
+                        p.ThoiGianXV IS NOT NULL
+                    ORDER BY 
+                        p.MaBN DESC;
+                    ";
+            
+              
+            
+                if (!empty($searchTerm)) {
+                    $sql .= " AND b.HoTen LIKE '%$searchTerm%'";
+                }
+            
+                $result = $conn->query($sql);
+            
+                $dsBenhNhan = [];
+                
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                    }
+                }
+                
+                return $dsBenhNhan;
             }
+          
           
             public function updateBenhNhan($MaBN, $HoTen, $GioiTinh, $SDT, $CCCD, $BHYT, $DiaChi) {
                 $p = new clsKetNoi();
@@ -554,11 +609,14 @@
                             p.ThoiGianNV,
                             p.MaNV,
                             p.LyDo,
-                            p.ChuanDoanBD
+                            p.ChuanDoanBD,
+                            ph.TenPhong
                         FROM 
                             benhnhan b
                          JOIN 
                             phieunamvien p ON b.MaBN = p.MaBN
+                         JOIN 
+                            phong ph ON ph.MaPhong = p.MaPhong
                         WHERE  b.MaBN = '$MaBN' AND b.TrangThai  ='Nhập viện' ";
               
                 $result = $conn->query($sql);
@@ -617,6 +675,26 @@
                 }
                 
                 return $BenhNhan;
+            }
+            public function allBN( ) {
+                // Tạo đối tượng lớp clsKetNoi
+                $p = new clsKetNoi();
+            
+                // Mở kết nối cơ sở dữ liệu
+                $conn = $p->moKetNoi();
+            
+                // Khởi tạo câu truy vấn mặc định
+                $sql = "SELECT * from benhnhan order by MaBN Desc";
+                $result = $conn->query($sql);
+            
+                $dsBenhNhan = [];
+            
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $dsBenhNhan[] = $row; // Thêm mỗi bệnh nhân vào mảng
+                    }
+                }
+                return $dsBenhNhan;
             }
             
         }

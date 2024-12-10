@@ -5,7 +5,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
 $vnp_Returnurl = "http://localhost/QLBV/vnpay/payment-result.php";
 $vnp_TmnCode = "CRE8YO3Q";
-$vnp_HashSecret = "RPGU3OSO3YRV41GLQBJDV0O3PVRNP1FF";
+$vnp_HashSecret = "NN9LUAMR92XNZDIXS411CEX5AAS7DYOA";
 session_start(); 
 
 if (isset($_POST['selectedDate']) && isset($_POST['selectedTime']) && isset($_POST['department']) && isset($_POST['doctor'])) {

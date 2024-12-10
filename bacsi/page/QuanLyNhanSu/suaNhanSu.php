@@ -25,7 +25,7 @@
     {
         
         echo '<script>alert("Dữ liệu không hợp lệ")</script>';
-        header("refresh:0;url=index.php?type=nhansu");
+        // header("refresh:0;url=index.php?type=nhansu");
     }
 ?>
 

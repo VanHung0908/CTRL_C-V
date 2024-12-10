@@ -22,24 +22,26 @@ if (isset($_POST['SDT']) && !empty($_POST['SDT'])) {
 }
 
 // Xử lý loại BHYT dựa trên số thẻ (sẽ dùng JavaScript để xử lý)
-if (isset($_POST['BHYT']) && !empty($_POST['BHYT'])) {
+if (!empty($_POST['BHYT'])) {
     $BHYT = $_POST['BHYT'];
-
-    // Kiểm tra số thẻ BHYT hợp lệ
+    // Xử lý số thẻ BHYT nếu đã nhập
     if (strlen($BHYT) != 15 && strlen($BHYT) != 10) {
         $loi = 'Số thẻ BHYT không hợp lệ!';
     } else {
-        // Kiểm tra nếu thẻ BHYT dài 15 ký tự thì có thể tự động xác định loại
         if (strlen($BHYT) == 15) {
-            // Lấy ký tự thứ 3 trong số thẻ để xác định loại BHYT
             $loaiBHYT = substr($BHYT, 2, 1);
         }
     }
+} else {
+    // Nếu không nhập BHYT, giữ giá trị mặc định
+    $BHYT = null;
+    $loaiBHYT = null;
 }
+
 
 if (isset($_POST['btn_DangKy'])) {
     // Danh sách các trường cần kiểm tra
-    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD', 'BHYT', 'LoaiBHYT', 'chiPhi', 'phuongThucThanhToan'];
+    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD',  'chiPhi', 'phuongThucThanhToan'];
     $error = false; // Biến để theo dõi lỗi
 
     // Kiểm tra từng trường
@@ -61,8 +63,8 @@ if (isset($_POST['btn_DangKy'])) {
             $_REQUEST['MaKhoa'],
             $_REQUEST['DiaChi'],
             $_REQUEST['CCCD'],
-            $_REQUEST['BHYT'],
-            $_REQUEST['LoaiBHYT'],
+            $_REQUEST['BHYT'] ?? null,
+            $_REQUEST['LoaiBHYT'] ?? null, 
             $_REQUEST['chiPhi'],
             $_REQUEST['phuongThucThanhToan']
         );
@@ -173,11 +175,10 @@ if (isset($_POST['btn_DangKy'])) {
             </div>
 
             <div class="mb-3">
-                    <label for="BHYT" class="form-label">Thẻ BHYT</label>
-                    <input type="text" class="form-control" id="BHYT" name="BHYT" placeholder="Nhập số thẻ BHYT" value="<?php echo isset($benhNhan['BHYT']) ? $benhNhan['BHYT'] : ''; ?>" onchange="checkBHYTType()"
-                    onblur="validateInput(this)">
+                <label for="BHYT" class="form-label">Thẻ BHYT (không bắt buộc)</label>
+                <input type="text" class="form-control" id="BHYT" name="BHYT" placeholder="Nhập số thẻ BHYT (nếu có)" value="<?php echo isset($benhNhan['BHYT']) ? $benhNhan['BHYT'] : ''; ?>" onchange="checkBHYTType()">
                 <span class="text-danger" id="errorBHYT"></span>
-                </div>
+            </div>
 
             <!-- Loại BHYT sẽ được xử lý bằng JavaScript -->
             <div class="mb-3" id="loaiBHYT-container" style="display: none;">
@@ -221,11 +222,17 @@ if (isset($_POST['btn_DangKy'])) {
     // Hàm kiểm tra loại BHYT dựa trên số thẻ
     function checkBHYTType() {
         var BHYT = document.getElementById('BHYT').value;
+    if (BHYT) { // Chỉ xử lý nếu có nhập
         var loaiBHYTField = document.getElementById('LoaiBHYT');
         var loaiBHYTTextField = document.getElementById('LoaiBHYTText');
         var loaiBHYTContainer = document.getElementById('loaiBHYT-container');
         var loaiBHYTTextContainer = document.getElementById('loaiBHYT-text');
-
+        // Xử lý logic xác định loại BHYT
+    } else {
+        // Ẩn các trường liên quan đến loại BHYT nếu không nhập
+        document.getElementById('loaiBHYT-container').style.display = 'none';
+        document.getElementById('loaiBHYT-text').style.display = 'none';
+    }
         // Kiểm tra độ dài của thẻ BHYT
         if (BHYT.length === 15) {
             // Thẻ BHYT cũ (15 số) -> Loại BHYT sẽ tự động xác định từ ký tự thứ 3

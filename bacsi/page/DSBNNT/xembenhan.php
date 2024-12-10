@@ -2,6 +2,7 @@
 $MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
 include_once(BACKEND_URL . 'model/mBenhNhan.php');
 include_once(BACKEND_URL . 'model/mPhieuDKKham.php');
+include_once(BACKEND_URL . 'model/mPhieuChamSoc.php');
 
 $con = new mBenhNhan(); 
 
@@ -16,6 +17,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 $con = new mPhieuDKKham(); 
 $resultKQK = $con->getPhacDo($MaBN);
+$mPhieuChamSoc = new mPhieuChamSoc(); 
+$PCS = $mPhieuChamSoc->getPhieuChamSoc($MaBN);
 ?>
 <style>
     
@@ -90,7 +93,7 @@ $resultKQK = $con->getPhacDo($MaBN);
                                             echo '<td>' . (isset($row['ChanDoan']) ? $row['ChanDoan'] : '') . '</td>';
                                             echo '<td>' . (isset($row['KeHoach']) ? $row['KeHoach'] : '') . '</td>';
                                             echo '<td>' . (isset($row['CheDoDD']) ? $row['CheDoDD'] : '') . '</td>';
-                                            echo '<td>' . (isset($row['GhiChu']) ? $row['LuuY'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['GhiChu']) ? $row['GhiChu'] : '') . '</td>';
                                             ?>
                                             <td>
                                                     <?php if (isset($row['MaDonThuoc'])): ?>
@@ -116,7 +119,53 @@ $resultKQK = $con->getPhacDo($MaBN);
                         </div>
                     </div>
 
-                   
+                    <!-- Phiếu chăm sóc -->
+                    <div class="mt-4">
+                        <div class="ttcnbn-card">
+                            <div class="ttcnbn-card-header bg-secondary">
+                                <h4 class="mb-0">Phiếu chăm sóc</h4>
+                            </div>
+                            <div class="ttcnbn-card-body">
+                                <table class="ttcnbn-table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ngày thực hiện</th>
+                                            <th>Tình trạng</th>
+                                            <th>Điều dưỡng</th>
+                                            <th>Nhịp tim</th>
+                                            <th>Nhịp thở</th>
+                                            <th>Huyết áp</th>
+                                            <th>Nhiệt độ cơ thể</th>
+                                            <th>Ghi chú</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                     if (!empty($PCS)) {
+                                        foreach ($PCS as $row) {
+                                            echo '<tr>';
+                                            echo '<td>' . (isset($row['NgayThuchien']) ? $row['NgayThuchien'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['TinhTrang']) ? $row['TinhTrang'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['TenNhanSu']) ? $row['TenNhanSu'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NhipTim']) ? $row['NhipTim'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NhipTho']) ? $row['NhipTho'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['HuyetAp']) ? $row['HuyetAp'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NhietDoCoThe']) ? $row['NhietDoCoThe'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['GhiChu']) ? $row['GhiChu'] : '') . '</td>';
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        // Nếu không có dữ liệu, hiển thị một dòng trống hoặc thông báo
+                                        echo '<tr><td colspan="5">Không có dữ liệu để hiển thị.</td></tr>';
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -195,11 +244,10 @@ $resultKQK = $con->getPhacDo($MaBN);
                 <table class="table table-striped table-bordered table-hover table-costt">
                     <thead>
                         <tr>
-                            <th>Loại chi phí</th>
                             <th>Tên</th>
                             <th>Số lượng</th>
-                            <th>Giá (VNĐ)</th>
-                            <th>Thành tiền (VNĐ)</th>
+                            <th>Liệu dùng</th>
+                            <th>Cách dùng</th>
                         </tr>
                     </thead>
                     <tbody id="chiTietDonThuocBody">
@@ -233,17 +281,13 @@ function loadChiTietDonThuoc(maDonThuoc) {
             let totalCost = 0;
             jsonData.forEach(thuoc => {
                 const soLuong = parseFloat(thuoc.SoLuong);
-                const gia = parseFloat(thuoc.Gia);
-                const thanhTien = soLuong * gia; // Tính thành tiền
-                totalCost += thanhTien;
 
                 const row = `
                     <tr>
-                        <td>Thuốc</td>
                         <td>${thuoc.TenThuoc}</td>
                         <td>${soLuong} ${thuoc.DonViTinh}</td>
-                        <td>${new Intl.NumberFormat('vi-VN').format(gia)}</td>
-                        <td>${new Intl.NumberFormat('vi-VN').format(thanhTien)}</td>
+                        <td>${thuoc.LieuDung} </td>
+                        <td>${thuoc.CachDung} </td>
                     </tr>
                 `;
                 tbody.insertAdjacentHTML('beforeend', row);
@@ -251,10 +295,7 @@ function loadChiTietDonThuoc(maDonThuoc) {
 
             // Thêm tổng tiền
             const totalRow = `
-                <tr>
-                    <td colspan="4" style="text-align: right;"><strong>Tổng cộng:</strong></td>
-                    <td><strong>${new Intl.NumberFormat('vi-VN').format(totalCost)}</strong></td>
-                </tr>
+                
             `;
             tbody.insertAdjacentHTML('beforeend', totalRow);
         } catch (error) {

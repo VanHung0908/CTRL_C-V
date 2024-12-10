@@ -76,14 +76,47 @@
             $p->dongKetNoi($con);
             return $tbl;
         }
-        public function updateNS($ma,$ten,$ns,$email,$gt,$cccd,$SoDienThoai,$NgayBatDau,$diaChi,$macv,$khoa){
-            $p=new clsKetNoi();
-            $con=$p->MoKetNoi();
-            $query="update nhansu set HoTen='$ten', NgaySinh='$ns', Email='$email',SoDienThoai='$SoDienThoai', GioiTinh='$gt', CCCD='$cccd', NgayBatDau='$NgayBatDau', DiaChi=N'$diaChi', MaCV='$macv', MaKhoa='$khoa' where MaNS='$ma'";
-            $kq=mysqli_query($con,$query);
-            $p->dongKetNoi($con);
-            return $kq;
+        public function updateNS($ma, $ten, $ns, $email, $gt, $cccd, $SoDienThoai, $NgayBatDau, $diaChi, $macv, $khoa)
+        {
+            $p = new clsKetNoi();
+            $con = $p->MoKetNoi();
+        
+            try {
+                // Câu truy vấn cập nhật
+                $query = "UPDATE nhansu SET 
+                            HoTen = '$ten', 
+                            NgaySinh = '$ns', 
+                            Email = '$email', 
+                            SoDienThoai = '$SoDienThoai', 
+                            GioiTinh = '$gt', 
+                            CCCD = '$cccd', 
+                            NgayBatDau = '$NgayBatDau', 
+                            DiaChi = N'$diaChi', 
+                            MaCV = '$macv', 
+                            MaKhoa = '$khoa' 
+                          WHERE MaNS = '$ma'";
+        
+                // Thực thi truy vấn
+                mysqli_query($con, $query);
+        
+                $p->dongKetNoi($con);
+                return true; // Thành công
+        
+            } catch (mysqli_sql_exception $e) {
+                // Xử lý lỗi cụ thể
+                if ($e->getCode() == 1062) {
+                    // Trích xuất lỗi UNIQUE
+                    if (strpos($e->getMessage(), 'SoDienThoai') !== false) {
+                        return "Số điện thoại đã tồn tại, vui lòng nhập số khác.";
+                    }
+                }
+        
+                // Trả về lỗi chung
+                return "Lỗi khi cập nhật: " . $e->getMessage();
+            }
         }
+        
+        
         public function xoaNS($id){
             $p = new clsKetNoi();
             $con = $p -> moKetNoi();

@@ -63,33 +63,46 @@ class cNhanSu
             
             }
         }
-        public function uploadNhanSu($ma,$ten,$ns,$email,$gt,$cccd,$SoDienThoai,$NgayBatDau,$diaChi,$macv,$khoa)
-        {
-            $p=new mNhanSu();
-            $kq=$p->updateNS($ma,$ten,$ns,$email,$gt,$cccd,$SoDienThoai,$NgayBatDau,$diaChi,$macv,$khoa);
-           if($kq){
-            echo '<script>
-                Swal.fire({
-                    icon: "success",
-                    title: "Chỉnh sửa nhân sự thành công",
-                    confirmButtonText: "OK"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                      window.location.href = "/QLBV/bacsi/index.php?page=QuanLyNhanSu";
-                    }
-                });
-            </script>';
-           }else{
-            echo '<script>
-                    Swal.fire({
-                        icon: "error",
-                        title: "Thất bại",
-                        text: "Chỉnh sửa nhân sự thất bại! Vui lòng kiểm tra lại thông tin.",
-                        confirmButtonText: "Thử lại"
-                    });
-                </script>';
-           }
-        }
+            public function uploadNhanSu($ma, $ten, $ns, $email, $gt, $cccd, $SoDienThoai, $NgayBatDau, $diaChi, $macv, $khoa)
+            {
+                $p = new mNhanSu();
+                $kq = $p->updateNS($ma, $ten, $ns, $email, $gt, $cccd, $SoDienThoai, $NgayBatDau, $diaChi, $macv, $khoa);
+            
+                if ($kq === true) {
+                    echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Chỉnh sửa nhân sự thành công",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/QLBV/bacsi/index.php?page=QuanLyNhanSu";
+                            }
+                        });
+                    </script>';
+                } elseif (is_string($kq)) {
+                    // Trường hợp có lỗi cụ thể trả về dưới dạng chuỗi
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Thất bại",
+                            text: "Lỗi: ' . htmlspecialchars($kq) . '",
+                            confirmButtonText: "Thử lại"
+                        });
+                    </script>';
+                } else {
+                    // Lỗi không xác định
+                    echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Thất bại",
+                            text: "Chỉnh sửa thất bại! Vui lòng thử lại.",
+                            confirmButtonText: "Thử lại"
+                        });
+                    </script>';
+                }
+            }
+        
         public function cXoa01NhanSu($ma){
             $p = new mNhanSu();
             $kq = $p -> mXoa01NhanSu($ma);

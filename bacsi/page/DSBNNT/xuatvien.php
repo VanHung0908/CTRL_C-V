@@ -75,7 +75,7 @@ $dsThuoc = $conThuoc->getAllThuoc();
                 <input type="date" class="form-control" id="dischargeDate" name="ThoiGianXV" value="<?php echo date('Y-m-d'); ?>">
             </div>  
             <div class="mb-3">
-                <label for="finalDiagnosis" class="form-label">Chuẩn đoán kết quả</label>
+                <label for="finalDiagnosis" class="form-label">Chẩn đoán kết quả</label>
                 <input type="text" class="form-control" id="finalDiagnosis" name="ChuanDoanKQ">
             </div>
             <div class="mb-3">

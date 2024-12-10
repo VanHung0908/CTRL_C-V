@@ -241,6 +241,8 @@ $resultKQK = $con->getKQK($MaBN);
                             <th>Loại chi phí</th>
                             <th>Tên</th>
                             <th>Số lượng</th>
+                            <th>Liệu dùng</th>
+                            <th>Cách dùng</th>
                             <th>Giá (VNĐ)</th>
                             <th>Thành tiền (VNĐ)</th>
                         </tr>
@@ -284,6 +286,8 @@ function loadChiTietDonThuoc(maDonThuoc) {
                         <td>Thuốc</td>
                         <td>${thuoc.TenThuoc}</td>
                         <td>${soLuong} ${thuoc.DonViTinh}</td>
+                        <td>${thuoc.LieuDung} </td>
+                        <td>${thuoc.CachDung} </td>
                         <td>${new Intl.NumberFormat('vi-VN').format(gia)}</td>
                         <td>${new Intl.NumberFormat('vi-VN').format(thanhTien)}</td>
                     </tr>
@@ -294,7 +298,7 @@ function loadChiTietDonThuoc(maDonThuoc) {
             // Thêm tổng tiền
             const totalRow = `
                 <tr>
-                    <td colspan="4" style="text-align: right;"><strong>Tổng cộng:</strong></td>
+                    <td colspan="6" style="text-align: right;"><strong>Tổng cộng:</strong></td>
                     <td><strong>${new Intl.NumberFormat('vi-VN').format(totalCost)}</strong></td>
                 </tr>
             `;

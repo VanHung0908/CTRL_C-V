@@ -10,8 +10,9 @@ $con = new mBenhNhan();
 $MaCV = $_SESSION['maCV'];
 $MaNS = $_SESSION['maNS'];
 
-$dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
-
+// Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
+$dsBenhNhan = $con->allBN();
+// Hiển thị danh sách bệnh nhân trong bảng
 ?>
 
 
@@ -20,11 +21,10 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
         <h3>Danh sách bệnh nhân</h3>
         <div class="search-container">
             <div class="input-container">
-                <input type="text" id="search-input" placeholder="Nhập mã, tên bệnh nhân" class="search-input">
+                <input type="text" id="search-input" placeholder="Nhập tên bệnh nhân" class="search-input">
                 <span class="search-icon">&#128269;</span>
             </div>
         </div>
-
     </div>
     <table class="employee-table">
         <thead>
@@ -33,58 +33,44 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
-                <th>Tên phòng</th>
-                <th>Tên giường</th>
-                <th>Thời gian nhập viện</th>
-                <th>Bác sĩ điều trị</th>
-                <th>Thao tác</th>
+                <th>Địa chỉ</th>
+                <th>Số điện thoại</th>
+                <th>CCCD</th>
+                <th>BHYT</th>
+                <th>Loại BHYT</th>
             </tr>
         </thead>
         <tbody id="employee-table-body">
-    <?php
-    // Duyệt qua danh sách bệnh nhân và hiển thị từng dòng
-    $stt = 1;
-    foreach ($dsBenhNhan as $benhNhan) {
-        echo "<tr>";
-        echo "<td>" . $stt++ . "</td>";
-        echo "<td>" . $benhNhan['HoTen'] . "</td>";
-        echo "<td>" . $benhNhan['NgaySinh'] . "</td>";
-        echo "<td>" . $benhNhan['GioiTinh'] . "</td>";
-        echo "<td>" . $benhNhan['TenPhong'] . "</td>";
-        echo "<td>" . $benhNhan['TenGiuong'] . "</td>";
-        echo "<td>" . $benhNhan['ThoiGianNV'] . "</td>";
-        echo "<td>" . $benhNhan['TenNhanSu'] . "</td>";
-        echo "<td>
-                <div class='dropdown'>
-                    <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
-                        <i class='fas fa-tasks'></i> Thao tác
-                    </button>
-                    <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
-                     if ($_SESSION['maCV'] == 8) {
-                        echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>";
-                        echo "<li><a class='dropdown-item' href='index.php?page=phieuchamsoc&MaBN=" . $benhNhan['MaBN'] . "'>Lập phiếu chăm sóc</a></li>";
+        <?php
+            // Duyệt qua danh sách bệnh nhân và hiển thị từng dòng
+            $stt = 1;
+            foreach ($dsBenhNhan as $benhNhan) {
+                echo "<tr>";
+                echo "<td>" . $stt++ . "</td>";
+                echo "<td>" . $benhNhan['HoTen'] . "</td>";
+                echo "<td>" . $benhNhan['NgaySinh'] . "</td>";
+                echo "<td>" . $benhNhan['GioiTinh'] . "</td>";
+                echo "<td>" . $benhNhan['DiaChi'] . "</td>";
+                echo "<td>" . $benhNhan['SDT'] . "</td>";
+                echo "<td>" . $benhNhan['CCCD'] . "</td>";
+                echo "<td>" . $benhNhan['BHYT'] . "</td>";
+                echo "<td>" . $benhNhan['LoaiBHYT'] . "</td>";
+               
+                echo "</tr>";
+            }
+            ?>
 
-                     }else{
-                     echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>";
-                     echo "<li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=" . $benhNhan['MaBN'] . "'>Lập phác đồ</a></li>";
-                     echo "<li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=" . $benhNhan['MaBN'] . "&MaNV=" . $benhNhan['MaNV'] . "'>Xuất viện</a></li>";
-    }
-                    echo "      </ul>
-                        </div>
-                    </td>";
-        echo "</tr>";
-    }
-    ?>
 </tbody>
 
     </table>
 
     <div class="pagination" id="pagination">
+        <!-- Nút chuyển trang sẽ được tạo động -->
     </div>
 </div>
 
 <?php
-ob_end_flush(); 
+ob_end_flush(); // Kết thúc output buffering
 ?>
  <script>
         const rowsPerPage = 7;
@@ -144,7 +130,7 @@ ob_end_flush();
         }
 
         displayPage(currentPage);
-    document.getElementById("search-input").addEventListener("input", function () {
+        document.getElementById("search-input").addEventListener("input", function () {
         const query = this.value.toLowerCase();
         filterPatients(query);
     });
@@ -167,7 +153,7 @@ ob_end_flush();
     });
 
     function fetchPatients(query) {
-        fetch("path/to/your/php/script.php", {
+        fetch("/script.php", {
             method: "POST",
             body: JSON.stringify({ searchTerm: query }),
             headers: {
@@ -200,9 +186,8 @@ function displayPatients(patients) {
                         <i class='fas fa-tasks'></i> Thao tác
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem bệnh án</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=${patient.MaBN}'>Lập phác đồ</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=${patient.MaBN}&MaNV=${patient.MaNV}'>Xuất viện</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem chi tiết</a></li>
+                        <li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=${patient.MaBN}'>Lập hóa đơn</a></li>
                     </ul>
                 </div>
             </td>
@@ -210,5 +195,4 @@ function displayPatients(patients) {
         tableBody.appendChild(row);
     });
 }
-
     </script>

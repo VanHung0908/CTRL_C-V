@@ -49,7 +49,7 @@
             case 'thanhtoan':
                 $pagePath = "./page/HoaDon/hoadon.php";
                 break;
-            #Bác sĩ nội trú
+            #nội trú
             case 'lapphacdo':
                 $pagePath = "./page/DSBNNT/lapphacdo.php";
                 break;
@@ -58,6 +58,9 @@
                 break;
             case 'xembenhan':
                 $pagePath = "./page/DSBNNT/xembenhan.php";
+                break;
+            case 'phieuchamsoc':
+                $pagePath = "./page/DSBNNT/phieuchamsoc.php";
                 break;
             #NVQLNgoaiTru
             case 'capnhatthongtinNV':

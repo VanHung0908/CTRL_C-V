@@ -65,9 +65,7 @@ $dsBenhNhan = $con->dsBenhNhan($MaCV, $MaNS);
                             </button>
                             <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
                             
-                if ($_SESSION['maCV'] == 1) {
-                    echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
-                } else if ($_SESSION['maCV'] == 4) {
+               if ($_SESSION['maCV'] == 4) {
                     echo "<li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=" . $benhNhan['MaBN'] . "'>Xem chi tiết</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=lapphieukham&MaBN=" . $benhNhan['MaBN'] . "&MaDKK=" . $benhNhan['MaDKK'] . "'>Lập phiếu khám</a></li>";
                     echo "<li><a class='dropdown-item' href='index.php?page=nhapvien&MaBN=" . $benhNhan['MaBN'] . "'>Nhập viện</a></li>";

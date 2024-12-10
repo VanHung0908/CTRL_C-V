@@ -307,8 +307,8 @@
                 console.error('Error:', error);
                 Swal.fire({
                     icon: "error",
-                    title: "Lỗi kết nối",
-                    text: "Có lỗi xảy ra khi gửi yêu cầu. Vui lòng thử lại.",
+                    title: "Thất bại.",
+                    text: "Vui lòng thử lại!",
                     confirmButtonText: "OK",
                 });
             });

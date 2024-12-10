@@ -7,17 +7,17 @@ include_once(BACKEND_URL . 'model/mBenhNhan.php');
 $con = new mBenhNhan(); 
 
 // Lấy giá trị MaCV và MaNS từ session
-$MaCV = $_SESSION['maCV'];
 $MaNS = $_SESSION['maNS'];
 
-$dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
-
+// Lấy danh sách bệnh nhân và truyền các giá trị session vào phương thức
+$dsBenhNhan = $con->dsXV( $MaNS);
+// Hiển thị danh sách bệnh nhân trong bảng
 ?>
 
 
 <div class="main-content" id="main-content">
     <div class="actions">
-        <h3>Danh sách bệnh nhân</h3>
+        <h3>Danh sách bệnh nhân xuất viện</h3>
         <div class="search-container">
             <div class="input-container">
                 <input type="text" id="search-input" placeholder="Nhập mã, tên bệnh nhân" class="search-input">
@@ -29,15 +29,15 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
     <table class="employee-table">
         <thead>
             <tr>
-                <th>STT</th>
+            <th>STT</th>
                 <th>Họ và tên</th>
                 <th>Ngày sinh</th>
                 <th>Giới tính</th>
                 <th>Tên phòng</th>
                 <th>Tên giường</th>
                 <th>Thời gian nhập viện</th>
+                <th>Thời gian xuất viện</th>
                 <th>Bác sĩ điều trị</th>
-                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody id="employee-table-body">
@@ -53,26 +53,9 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
         echo "<td>" . $benhNhan['TenPhong'] . "</td>";
         echo "<td>" . $benhNhan['TenGiuong'] . "</td>";
         echo "<td>" . $benhNhan['ThoiGianNV'] . "</td>";
+        echo "<td>" . $benhNhan['ThoiGianXV'] . "</td>";
         echo "<td>" . $benhNhan['TenNhanSu'] . "</td>";
-        echo "<td>
-                <div class='dropdown'>
-                    <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
-                        <i class='fas fa-tasks'></i> Thao tác
-                    </button>
-                    <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
-                     if ($_SESSION['maCV'] == 8) {
-                        echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>";
-                        echo "<li><a class='dropdown-item' href='index.php?page=phieuchamsoc&MaBN=" . $benhNhan['MaBN'] . "'>Lập phiếu chăm sóc</a></li>";
-
-                     }else{
-                     echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>";
-                     echo "<li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=" . $benhNhan['MaBN'] . "'>Lập phác đồ</a></li>";
-                     echo "<li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=" . $benhNhan['MaBN'] . "&MaNV=" . $benhNhan['MaNV'] . "'>Xuất viện</a></li>";
-    }
-                    echo "      </ul>
-                        </div>
-                    </td>";
-        echo "</tr>";
+     
     }
     ?>
 </tbody>
@@ -194,18 +177,7 @@ function displayPatients(patients) {
             <td>${patient.DiaChi}</td>
             <td>${patient.SDT}</td>
             <td>${patient.TrangThai}</td>
-            <td>
-                <div class='dropdown'>
-                    <button class='btn btn-secondary dropdown-toggle' type='button' id='actionMenu1' data-bs-toggle='dropdown' aria-expanded='false'>
-                        <i class='fas fa-tasks'></i> Thao tác
-                    </button>
-                    <ul class='dropdown-menu' aria-labelledby='actionMenu1'>
-                         <li><a class='dropdown-item' href='index.php?page=xemchitiet&MaBN=${patient.MaBN}'>Xem bệnh án</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=${patient.MaBN}'>Lập phác đồ</a></li>
-                        <li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=${patient.MaBN}&MaNV=${patient.MaNV}'>Xuất viện</a></li>
-                    </ul>
-                </div>
-            </td>
+          
         `;
         tableBody.appendChild(row);
     });
