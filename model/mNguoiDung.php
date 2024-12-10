@@ -197,6 +197,70 @@
                 return false; // Không tìm thấy người dùng
             }
         }
+        public function checkCurrentPasswordBN($MaBN, $currentPassword) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn lấy TenTk từ bảng nhansu theo MaBN
+            $sql = "SELECT k.MatKhau FROM benhnhan ns JOIN taikhoan k ON k.TenTK = ns.TenTk WHERE ns.MaBN = '$MaBN'";
+            $result = mysqli_query($con, $sql);
+        
+            if (mysqli_num_rows($result) > 0) {
+                // Lấy mật khẩu đã mã hóa (MD5) từ bảng taikhoan
+                $row = mysqli_fetch_assoc($result);
+                $storedPassword = $row['MatKhau'];
+        
+                // So sánh mật khẩu nhập vào (sau khi mã hóa MD5) với mật khẩu đã lưu trong DB
+                if (md5($currentPassword) === $storedPassword) {
+                    $p->dongKetNoi($con);
+                    return true; // Mật khẩu đúng
+                } else {
+                    $p->dongKetNoi($con);
+                    return false; // Mật khẩu sai
+                }
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Không tìm thấy người dùng
+            }
+        }
+        public function updatePasswordBN($MaBN, $newPassword,$HoTen, $NgaySinh, $GioiTinh,$SDT) {
+            $newPasswordHash = md5($newPassword);
+    
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn để cập nhật mật khẩu mới cho người dùng
+            $sql = "UPDATE taikhoan k 
+                    JOIN benhnhan ns ON ns.TenTk = k.TenTK 
+                    SET k.MatKhau = '$newPasswordHash', ns.HoTen='$HoTen', ns.NgaySinh='$NgaySinh',ns.GioiTinh='$GioiTinh',ns.SDT='$SDT'
+                    WHERE ns.MaBN = '$MaBN'";
+    
+            if (mysqli_query($con, $sql)) {
+                $p->dongKetNoi($con);
+                return true; 
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Thất bại
+            }
+    }
+    public function updateProfileBN($MaBN,$HoTen, $NgaySinh, $GioiTinh,$SDT) {
+
+        $p = new clsKetNoi();
+        $con = $p->moKetNoi(); 
+        
+        // Truy vấn để cập nhật mật khẩu mới cho người dùng
+        $sql = "UPDATE benhnhan
+                SET  HoTen='$HoTen', NgaySinh='$NgaySinh',GioiTinh='$GioiTinh',SDT='$SDT'
+                WHERE MaBN = '$MaBN'";
+
+        if (mysqli_query($con, $sql)) {
+            $p->dongKetNoi($con);
+            return true; 
+        } else {
+            $p->dongKetNoi($con);
+            return false; // Thất bại
+        }
+}
         public function updatePassword($MaNS,  $newPassword) {
                 $newPasswordHash = md5($newPassword);
         
@@ -231,7 +295,22 @@
                 $p->dongKetNoi($con);
                 return false; // Thất bại
             }
-    }
+        }
+        public function updateIMGBN($MaBN,  $imageName) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn để cập nhật mật khẩu mới cho người dùng
+            $sql = "UPDATE benhnhan SET IMG = '$imageName' WHERE MaBN = '$MaBN'";
+    
+            if (mysqli_query($con, $sql)) {
+                $p->dongKetNoi($con);
+                return true; 
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Thất bại
+            }
+        }
         
     }
     

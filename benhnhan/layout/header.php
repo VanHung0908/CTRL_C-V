@@ -113,6 +113,7 @@ include(__DIR__ . '/../../model/ketnoi.php');
                       </a>
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/QLBV/benhnhan/page/HSBA.php">Hồ sơ bệnh nhân</a>
+                            <a class="dropdown-item" href="/QLBV/benhnhan/page/TTCN.php">Thông tin cá nhân</a>
                             <a class="dropdown-item" href="/QLBV/benhnhan/auth/logout.php">Đăng xuất</a>
                         </div>
                     <?php else: ?>

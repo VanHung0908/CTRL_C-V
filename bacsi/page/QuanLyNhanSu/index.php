@@ -251,19 +251,41 @@
 </div>
 
 <script>
- document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById("addEmployeeForm");
     if (form) {
         form.addEventListener("submit", function(event) {
             event.preventDefault();
-            
-            const formData = new FormData(this);
-            
-            // Kiểm tra dữ liệu formData
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
+
+            const phoneInput = document.querySelector('input[name="SoDienThoai"]');
+            const idCardInput = document.querySelector('input[name="CCCD"]');
+
+            const phoneRegex = /^\d{10}$/; // Kiểm tra số điện thoại có đúng 10 chữ số
+            const idCardRegex = /^\d{12}$/; // Kiểm tra CCCD có đúng 12 chữ số
+
+            if (!phoneRegex.test(phoneInput.value)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Số điện thoại phải là 10 chữ số!",
+                    confirmButtonText: "OK",
+                });
+                return;
             }
-            
+
+            if (!idCardRegex.test(idCardInput.value)) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Lỗi",
+                    text: "Số CCCD phải là 12 chữ số!",
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
+
+            // Nếu dữ liệu hợp lệ, tiến hành gửi form
+            const formData = new FormData(this);
+
             fetch("/QLBV/ajax/Themns.php", {
                 method: "POST",
                 body: formData,
@@ -272,13 +294,10 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.text(); // Lấy phản hồi dưới dạng text thay vì JSON
+                return response.text();
             })
             .then((text) => {
-                console.log("Response text:", text); // Log phản hồi để kiểm tra
-
                 try {
-                    // Thử phân tích phản hồi như JSON
                     return JSON.parse(text);
                 } catch (error) {
                     throw new Error('Phản hồi không phải là JSON');
@@ -315,5 +334,6 @@
         });
     }
 });
+
 
 </script>

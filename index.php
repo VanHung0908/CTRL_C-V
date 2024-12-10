@@ -66,11 +66,17 @@ include ('benhnhan/layout/header.php');
                   Bất cứ lúc nào bạn cần, chúng tôi đều có mặt.
                 </span>
               </div>
-              <a href="./benhnhan/auth/login.php" class="style-a">
-              <div class="button">
+              <?php if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1): ?>
+                        <a href="/QLBV/benhnhan/page/datlich.php" class="style-a"><div class="button">
                 Đặt lịch ngay
-              </div>
-              </a>
+              </div></a> <!-- Trang đặt lịch -->
+                    <?php else: ?>
+                        <a href="/QLBV/benhnhan/auth/login.php" class="style-a"><div class="button">
+                Đặt lịch ngay
+              </div></a> <!-- Chuyển đến trang đăng nhập -->
+                    <?php endif; ?>
+              <a href="./benhnhan/auth/login.php" class="style-a">
+              
             </div>
           </div>
         </div>

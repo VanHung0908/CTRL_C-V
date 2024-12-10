@@ -1001,3 +1001,35 @@
     font-size: 14px;
     border-bottom: 1px solid #dee2e6;
 }
+/* cá nhân */
+.profile-card, .account-info, .personal-info {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.profile-card {
+    text-align: center;
+    height: 100%;
+}
+.profile-card img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+.account-info h5, .personal-info h5 {
+    font-weight: bold;
+}
+.account-info .form-control, .personal-info {
+    margin-bottom: 10px;
+}
+.form-group {
+    position: relative;
+}
+.form-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
