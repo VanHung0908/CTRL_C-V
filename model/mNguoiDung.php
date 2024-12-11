@@ -75,6 +75,32 @@
 
             return $bacSiList;
         }
+        public function checkCurrentPasswordBN($MaBN, $currentPassword) {
+            $p = new clsKetNoi();
+            $con = $p->moKetNoi(); 
+            
+            // Truy vấn lấy TenTk từ bảng nhansu theo MaBN
+            $sql = "SELECT k.MatKhau FROM benhnhan ns JOIN taikhoan k ON k.TenTK = ns.TenTk WHERE ns.MaBN = '$MaBN'";
+            $result = mysqli_query($con, $sql);
+        
+            if (mysqli_num_rows($result) > 0) {
+                // Lấy mật khẩu đã mã hóa (MD5) từ bảng taikhoan
+                $row = mysqli_fetch_assoc($result);
+                $storedPassword = $row['MatKhau'];
+        
+                // So sánh mật khẩu nhập vào (sau khi mã hóa MD5) với mật khẩu đã lưu trong DB
+                if (md5($currentPassword) === $storedPassword) {
+                    $p->dongKetNoi($con);
+                    return true; // Mật khẩu đúng
+                } else {
+                    $p->dongKetNoi($con);
+                    return false; // Mật khẩu sai
+                }
+            } else {
+                $p->dongKetNoi($con);
+                return false; // Không tìm thấy người dùng
+            }
+        }
       
     }
 ?>
