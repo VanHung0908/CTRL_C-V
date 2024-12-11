@@ -182,7 +182,28 @@ if (isset($_POST['btn_thanhtoan'])) {
     <p>Chưa có dữ liệu đơn thuốc.</p>
 <?php endif; ?>
 
-
+    <?php
+$percentBHYT = 0;
+switch ($benhNhan['LoaiBHYT']) {
+    case 1:
+    case 2:
+    case 5:
+        $percentBHYT = 100;
+        break;
+    case 3:
+        $percentBHYT = 95;
+        break;
+    case 4:
+        $percentBHYT = 80;
+        break;
+    default:
+        $percentBHYT = 0; 
+}
+$totalCost = $totalCost ?? 0;
+$bhytPayment = ($percentBHYT / 100) * $totalCost;
+$patientPayment = $totalCost - $bhytPayment;
+?>
+    
 
 </div>
  
