@@ -18,7 +18,7 @@ class phong{
     public function InsertPhong($ten,$toa,$mt,$idKhoa){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "INSERT INTO `phongkham`( `TenPhong`, `Toa`, `MoTa`, `MaKhoa`)
+        $sql = "INSERT INTO phongkham( TenPhong, Toa, MoTa, MaKhoa)
          VALUES ('$ten','$toa','$mt','$idKhoa')";
         $kq = mysqli_query($p,$sql);
         return $kq;
