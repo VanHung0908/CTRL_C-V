@@ -23,6 +23,39 @@ if (!empty($KQKB) && is_array($KQKB)) {
 }
 
 
+if (isset($_POST['btn_thanhtoan'])) {
+    $phuongThucThanhToan = $_POST['payment_method'];
+
+    include_once(BACKEND_URL . 'model/mHoaDon.php');
+    $p = new mHoaDon();
+
+    $isUpdated = $p->updateHoadon($MaDonThuoc, $phuongThucThanhToan,$MaBN);
+
+    if ($isUpdated) {
+        echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "Thanh toán hóa đơn thành công!",
+                confirmButtonText: "OK"
+            }).then(() => {
+                window.location.href = "/QLBV/bacsi/index.php?page=DSBN";
+            });
+        </script>';
+    } else {
+        echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Thanh toán thất bại. Vui lòng thử lại.",
+                confirmButtonText: "Thử lại"
+            });
+        </script>';
+    }
+    
+    
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="vi">
