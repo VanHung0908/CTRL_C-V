@@ -204,6 +204,27 @@ $bhytPayment = ($percentBHYT / 100) * $totalCost;
 $patientPayment = $totalCost - $bhytPayment;
 ?>
     
+<form method="POST" >
+    <!-- Các thông tin hiển thị khác -->
+    <p class="total-amount"><strong>Phần trăm BHYT:</strong> <span><?php echo $percentBHYT; ?>%</span></p>
+    <p class="total-amount"><strong>Tổng chi phí:</strong> <span><?php echo number_format($totalCost, 0, ',', '.'); ?> VNĐ</span></p>
+    <p class="total-amount"><strong>Tổng thanh toán BHYT trả:</strong> <span><?php echo number_format($bhytPayment, 0, ',', '.'); ?> VNĐ</span></p>
+    <p class="payable-amount"><strong>Số tiền bệnh nhân cần thanh toán:</strong> <span><?php echo number_format($patientPayment, 0, ',', '.'); ?> VNĐ</span></p>
+
+    <!-- Phương thức thanh toán -->
+    <p class="payment-method">
+        <strong>Phương thức thanh toán:</strong><br>
+        <label>
+            <input type="radio" name="payment_method" value="Tiền mặt" checked> Tiền mặt
+        </label><br>
+        <label>
+            <input type="radio" name="payment_method" value="Chuyển khoản"> Chuyển khoản
+        </label>
+    </p>
+
+    <!-- Nút xác nhận -->
+    <button type="submit" class="btn-payment" name= "btn_thanhtoan">Thanh toán</button>
+</form>
 
 </div>
  
