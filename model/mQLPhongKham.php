@@ -1,4 +1,5 @@
 <?php 
+
 class phong{
     //Phong
     public function AllPhongbyKhoa($idKhoa){
@@ -56,7 +57,7 @@ class phong{
     public function InsertCaByPhong($idPhong,$ten,$dadk,$maxdk){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "INSERT INTO `chitietphongkham`( `MaPhong`, `TenCa`, `DaDangKy`, `DangKyToiDa`) 
+        $sql = "INSERT INTO chitietphongkham( MaPhong, TenCa, DaDangKy, DangKyToiDa) 
         VALUES ('$idPhong','$ten','$dadk','$maxdk')";
         $kq = mysqli_query($p,$sql);
         return $kq;
@@ -68,7 +69,6 @@ class phong{
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
-    
     //ChiTiet Ca làm việc
     public function AllCTCabyCa($idCa){
         $con = new clsKetNoi;
@@ -80,7 +80,7 @@ class phong{
     public function CTCabyCa($idCa,$day,$ca){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "INSERT INTO `lichlamviec`(`MaCTPhongKham`, `NgayTrongTuan`, `CaTrongNgay`,  `MaNS`) 
+        $sql = "INSERT INTO lichlamviec(MaCTPhongKham, NgayTrongTuan, CaTrongNgay,  MaNS) 
         VALUES ('$idCa','$day','$ca','0')";
         $kq = mysqli_query($p,$sql);
         return $kq;
@@ -88,7 +88,7 @@ class phong{
     public function UpdateCTCa($id,$day,$ca){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "UPDATE `lichlamviec` SET `NgayTrongTuan`='$day',`CaTrongNgay`='$ca' WHERE MaLLV ='$id'";
+        $sql = "UPDATE lichlamviec SET NgayTrongTuan='$day',CaTrongNgay='$ca' WHERE MaLLV ='$id'";
         echo $sql;
         $kq = mysqli_query($p,$sql);
         return $kq;
