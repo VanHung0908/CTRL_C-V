@@ -48,7 +48,32 @@
                     </script>';
           }
       }
-       
+      public function getBenhNhanInfo()
+      {
+          if (isset($_SESSION['dangnhap']) && $_SESSION['dangnhap'] == 1) {
+              // Lấy mã nhân viên hoặc mã bệnh nhân từ session
+              $maNS = isset($_SESSION['maNS']) ? $_SESSION['maNS'] : null;
+              $maBN = isset($_SESSION['maBN']) ? $_SESSION['maBN'] : null;
+
+              $NguoiDungModel = new mNguoiDung();
+              
+              if ($maNS) {
+                  $result = $NguoiDungModel->selectTTND($maNS);
+              } elseif ($maBN) {
+                  $result = $NguoiDungModel->selectTTND($maBN);
+              }
+
+              // Xử lý kết quả và trả về
+              if ($result) {
+                  // Ví dụ, trả lại kết quả cho view hoặc làm gì đó với dữ liệu
+                  return $result;
+              } else {
+                  echo "Không tìm thấy thông tin.";
+              }
+          } else {
+              echo "Bạn cần phải đăng nhập!";
+          }
+      }
         
     }
 
