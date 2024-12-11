@@ -42,6 +42,15 @@
             $p -> dongKetNoi($con);
             return $kq;
         }
+        public function NSbyIDKhoa($id){
+            $p = new clsKetNoi();
+            $con = $p -> moKetNoi();
+            $sql = "SELECT * FROM nhansu where MaKhoa ='$id' ";
+            $kq = mysqli_query($con,$sql);
+            $p -> dongKetNoi($con);
+            return $kq;
+        }
+
         public function getAllDepartments() {
             $p = new clsKetNoi();
             $con = $p->moKetNoi();
@@ -80,35 +89,7 @@
         
             return $departments;
         }
-        public function getalDepartments($MaBN) {
-            $p = new clsKetNoi();
-            $con = $p->moKetNoi();
-            
-            $sql = "
-            SELECT k.MaKhoa, k.TenKhoa, pn.MaNV 
-            FROM khoa k
-            JOIN phieunamvien pn ON k.MaKhoa = pn.MaKhoa
-            WHERE pn.MaBN = ? AND pn.TrangThai = 'Nhập viện'";
-            
-            if ($stmt = mysqli_prepare($con, $sql)) {
-                mysqli_stmt_bind_param($stmt, "i", $MaBN); 
-                
-                mysqli_stmt_execute($stmt);
-                
-                $result = mysqli_stmt_get_result($stmt);
-                
-                $departments = [];
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $departments[] = $row;
-                }
-                
-                mysqli_stmt_close($stmt);
-            }
-            
-            $p->dongKetNoi($con);
-            
-            return $departments;
-        }
+        
         public function lay($id){
             $p = new clsKetNoi();
             $con = $p -> moKetNoi();
@@ -117,8 +98,6 @@
             $p -> dongKetNoi($con);
             return $kq;
         }
-
-        
 
       
     }

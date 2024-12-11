@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 include_once('ketnoi.php');
 
 class mPhong {
@@ -24,4 +25,5 @@ class mPhong {
         return $phongs;
     }
 }
+
 ?>

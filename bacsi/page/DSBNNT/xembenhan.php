@@ -6,7 +6,7 @@ include_once(BACKEND_URL . 'model/mPhieuChamSoc.php');
 
 $con = new mBenhNhan(); 
 
-$result = $con->getAllBenhNhan($MaBN);
+$result = $con->getTTNVBenhNhan($MaBN);
 if ($result && mysqli_num_rows($result) > 0) {
     $benhNhan = mysqli_fetch_assoc($result); 
 } else {
@@ -49,6 +49,8 @@ $PCS = $mPhieuChamSoc->getPhieuChamSoc($MaBN);
                                             <option value="Nữ" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Nữ') ? 'selected' : ''; ?>>Nữ</option>
                                             <option value="Khác" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Khác') ? 'selected' : ''; ?>>Khác</option>
                                         </select>
+                                        <p><strong>Chẩn đoán ban đầu:</strong>
+                                        <input type="text" class="form-control" name ="ChuanDoanBn" value="<?php echo isset($benhNhan['ChuanDoanBD']) ? $benhNhan['ChuanDoanBD'] : ''; ?>" />
                                     </div>
                                     <div class="col-md-6">
                                         <p><strong>Địa chỉ:</strong> 
@@ -59,6 +61,8 @@ $PCS = $mPhieuChamSoc->getPhieuChamSoc($MaBN);
                                         
                                         <p><strong>CCCD:</strong> 
                                             <input type="text" class="form-control" placeholder="Nhập số CCCD" name="CCCD" value="<?php echo isset($benhNhan['CCCD'])?$benhNhan['CCCD']:''; ?>">
+                                        <p><strong>Tiền sử bệnh:</strong> 
+                                            <input type="text" class="form-control"  name="TienSuBenh" value="<?php echo isset($benhNhan['TienSuBenh'])?$benhNhan['TienSuBenh']:''; ?>">
                                     </div>
                                 </div>
                             </div>

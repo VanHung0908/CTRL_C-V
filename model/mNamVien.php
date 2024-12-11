@@ -4,7 +4,7 @@ class NamVien {
     public function insertPhieuNamVien($LyDo, $ChuanDoanBD, $ThoiGianNV, $TienSuBenh, $ThuocDangSD, $MaBN, $MaKhoa) {
         $p = new clsKetNoi();
         $con = $p->moKetNoi();
-        $kq = false; // Mặc định kết quả là false
+        $kq = false; 
 
         // Câu lệnh INSERT
         $sqlInsert = "INSERT INTO phieunamvien (LyDo, ChuanDoanBD, ThoiGianNV, TienSuBenh, ThuocDangSD, MaBN, MaKhoa, TrangThai)
@@ -118,14 +118,39 @@ class NamVien {
     public function xuatvien($ThoiGianXV, $ChuanDoanKQ, $PhuongPhapDieuTri, $GhiChu, $MaBN, $MaNV){
         $p = new clsKetNoi();
         $con = $p->moKetNoi(); 
-        $sql =  "UPDATE phieunamvien 
-        SET ThoiGianXV = '$ThoiGianXV', ChuanDoanKQ = '$ChuanDoanKQ', PhuongPhapDieuTri = '$PhuongPhapDieuTri',GhiChu = '$GhiChu', TrangThai = 'Xuất viện'
-        WHERE MaNV ='$MaNV' ";
-        $sql ="Update benhnhan set TrangThai='Xuất viện' where MaBN='$MaBN'";
-        $result = mysqli_query($con, $sql);
-        $p -> dongKetNoi($con);
-        return $result;
+    
+        $ThoiGianXV = date('Y-m-d');
+    
+        // Bắt đầu giao dịch
+        mysqli_begin_transaction($con);
+    
+        try {
+            // Cập nhật bảng phieunamvien
+            $sql1 = "UPDATE phieunamvien 
+                     SET ThoiGianXV = '$ThoiGianXV', ChuanDoanKQ = '$ChuanDoanKQ', PhuongPhapDieuTri = '$PhuongPhapDieuTri', GhiChu = '$GhiChu', TrangThai = 'Xuất viện'
+                     WHERE MaNV ='$MaNV'";
+            mysqli_query($con, $sql1);
+    
+            // Cập nhật bảng benhnhan
+            $sql2 = "UPDATE benhnhan SET TrangThai='Xuất viện' WHERE MaBN='$MaBN'";
+            mysqli_query($con, $sql2);
+    
+            // Cập nhật bảng phieunamvien lần nữa
+            $sql3 = "UPDATE phieunamvien SET TrangThai='Xuất viện' WHERE MaBN='$MaBN'";
+            mysqli_query($con, $sql3);
+    
+            // Commit giao dịch
+            mysqli_commit($con);
+            $p->dongKetNoi($con);
+            return true;
+        } catch (Exception $e) {
+            // Rollback nếu có lỗi
+            mysqli_rollback($con);
+            $p->dongKetNoi($con);
+            return false;
+        }
     }
+    
 
 
 

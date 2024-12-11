@@ -36,6 +36,14 @@ if ($result && mysqli_num_rows($result) > 0) {
                     </div>
                 </div>
                 <div class="mb-3">
+                    <label for="patientName" class="form-label">Giới tính</label>
+                    <select class="form-control" id="GioiTinh" name="GioiTinh">
+                                            <option value="Nam" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Nam') ? 'selected' : ''; ?>>Nam</option>
+                                            <option value="Nữ" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Nữ') ? 'selected' : ''; ?>>Nữ</option>
+                                            <option value="Khác" <?php echo (isset($benhNhan['GioiTinh']) && $benhNhan['GioiTinh'] == 'Khác') ? 'selected' : ''; ?>>Khác</option>
+                                        </select>
+                </div>
+                <div class="mb-3">
                     <label for="patientName" class="form-label">Địa chỉ</label>
                     <input type="text" class="form-control" placeholder="Nhập địa chỉ"  name="DiaChi" value="<?php echo isset($benhNhan['DiaChi'])?$benhNhan['DiaChi']:''; ?>">
                 </div>
@@ -125,21 +133,6 @@ if ($result && mysqli_num_rows($result) > 0) {
     $LoaiBHYT = isset($_POST['LoaiBHYT']) ? $_POST['LoaiBHYT'] : null;
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $benhnhan = new mBenhNhan();
-    if (empty($NgaySinh) || empty($GioiTinh)  || empty($MaBN) || empty($DiaChi)|| empty($SDT)|| empty($CCCD)|| empty($BHYT)) {
-        echo "<script>
-            Swal.fire({
-                icon: 'warning',
-                title: 'Thiếu thông tin',
-                text: 'Vui lòng nhập đầy đủ thông tin trước khi lưu!',
-                confirmButtonText: 'OK'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.history.back();
-                }
-            });
-        </script>";
-        exit; 
-    }
 
     $result = $benhnhan->updateTTCN($HoTen, $NgaySinh, $GioiTinh, $DiaChi,$SDT, $CCCD,$BHYT,$LoaiBHYT,$MaBN);
     

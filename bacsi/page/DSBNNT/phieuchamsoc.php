@@ -76,19 +76,19 @@ $benhNhan = $BenhNhan[0];
                 </div>
                 <div class="col-md-6">
                     <label for="bloodPressure" class="form-label">Huyết áp (mmHg)</label>
-                    <input type="text" class="form-control" id="bloodPressure" placeholder="Nhập chỉ số huyết áp" name="HuyetAp">
+                    <input type="number" class="form-control" id="bloodPressure" placeholder="Nhập chỉ số huyết áp" name="HuyetAp">
                 </div>
                 <div class="col-md-6">
                     <label for="heartRate" class="form-label">Nhịp tim (lần/phút)</label>
-                    <input type="text" class="form-control" id="heartRate" name="NhipTim" placeholder="Nhập chỉ số nhịp tim">
+                    <input type="number" class="form-control" id="heartRate" name="NhipTim" placeholder="Nhập chỉ số nhịp tim">
                 </div>
                 <div class="col-md-6">
                     <label for="temperature" class="form-label">Nhiệt độ cơ thể (°C)</label>
-                    <input type="text" class="form-control" id="temperature" name="NhietDoCoThe" placeholder="Nhập nhiệt độ cơ thể">
+                    <input type="number" class="form-control" id="temperature" name="NhietDoCoThe" placeholder="Nhập nhiệt độ cơ thể">
                 </div>
                 <div class="col-md-6">
                     <label for="respirationRate" class="form-label">Nhịp thở (lần/phút)</label>
-                    <input type="text" class="form-control" id="respirationRate" name="NhipTho" placeholder="Nhập nhịp thở">
+                    <input type="number" class="form-control" id="respirationRate" name="NhipTho" placeholder="Nhập nhịp thở">
                 </div>
             </div>
         </div>
@@ -128,7 +128,7 @@ if(isset($_REQUEST["btn_LuuPhieu"])) {
             Swal.fire({
                 icon: 'success',
                 title: 'Thành công',
-                text: 'Lưu phiếu xuất viện thành công!',
+                text: 'Lưu phiếu chăm sóc thành công!',
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -141,7 +141,7 @@ if(isset($_REQUEST["btn_LuuPhieu"])) {
             Swal.fire({
                 icon: 'error',
                 title: 'Thất bại',
-                text: 'Lưu phiếu xuất viện thất bại!',
+                text: 'Lưu phiếu chăm sóc thất bại!',
                 confirmButtonText: 'Thử lại'
             }).then((result) => {
                 if (result.isConfirmed) {

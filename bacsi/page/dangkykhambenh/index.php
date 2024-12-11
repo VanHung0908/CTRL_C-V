@@ -40,11 +40,9 @@ if (!empty($_POST['BHYT'])) {
 
 
 if (isset($_POST['btn_DangKy'])) {
-    // Danh sách các trường cần kiểm tra
-    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD',  'chiPhi', 'phuongThucThanhToan'];
-    $error = false; // Biến để theo dõi lỗi
+    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD', 'chiPhi', 'phuongThucThanhToan'];
+    $error = false;
 
-    // Kiểm tra từng trường
     foreach ($required_fields as $field) {
         if (empty($_REQUEST[$field])) {
             $error = true;
@@ -52,23 +50,60 @@ if (isset($_POST['btn_DangKy'])) {
         }
     }
 
-    if (!$error) { // Nếu không có lỗi
+    if (!$error) {
         include('../controller/cBenhNhan.php');
         $p = new cBenhNhan();
-        $con = $p->addDKKhamBenh(
-            $_REQUEST['HoTen'],
-            $_REQUEST['NgaySinh'],
-            $_REQUEST['GioiTinh'],
-            $_REQUEST['SDT'],
-            $_REQUEST['MaKhoa'],
-            $_REQUEST['DiaChi'],
-            $_REQUEST['CCCD'],
-            $_REQUEST['BHYT'] ?? null,
-            $_REQUEST['LoaiBHYT'] ?? null, 
-            $_REQUEST['chiPhi'],
-            $_REQUEST['phuongThucThanhToan']
-        );
-        // Xử lý kết quả nếu cần
+
+        if ($benhNhan) {
+            $result = $p->updateDKKhamBenh(
+                $_REQUEST['HoTen'],
+                $_REQUEST['NgaySinh'],
+                $_REQUEST['GioiTinh'],
+                $_REQUEST['SDT'],
+                $_REQUEST['MaKhoa'],
+                $_REQUEST['DiaChi'],
+                $_REQUEST['CCCD'],
+                $_REQUEST['BHYT'] ?? null,
+                $_REQUEST['LoaiBHYT'] ?? null,
+                $_REQUEST['chiPhi'],
+                $_REQUEST['phuongThucThanhToan']
+            );
+        } else {
+            // Bệnh nhân không tồn tại, thêm mới
+            $result = $p->addDKKhamBenh(
+                $_REQUEST['HoTen'],
+                $_REQUEST['NgaySinh'],
+                $_REQUEST['GioiTinh'],
+                $_REQUEST['SDT'],
+                $_REQUEST['MaKhoa'],
+                $_REQUEST['DiaChi'],
+                $_REQUEST['CCCD'],
+                $_REQUEST['BHYT'] ?? null,
+                $_REQUEST['LoaiBHYT'] ?? null,
+                $_REQUEST['chiPhi'],
+                $_REQUEST['phuongThucThanhToan']
+            );
+        }
+
+        if ($result) {
+            echo '<script>
+            Swal.fire({
+                icon: "success",
+                title: "Thành công",
+                text: "Thông tin bệnh nhân đã được lưu.",
+                confirmButtonText: "OK"
+            });
+            </script>';
+        } else {
+            echo '<script>
+            Swal.fire({
+                icon: "error",
+                title: "Thất bại",
+                text: "Không thể lưu thông tin bệnh nhân.",
+                confirmButtonText: "Thử lại"
+            });
+            </script>';
+        }
     } else {
         echo '<script>
         Swal.fire({
@@ -77,9 +112,10 @@ if (isset($_POST['btn_DangKy'])) {
             text: "Vui lòng điền đầy đủ thông tin.",
             confirmButtonText: "Thử lại"
         });
-      </script>';
+        </script>';
     }
 }
+
 
 ?>
 

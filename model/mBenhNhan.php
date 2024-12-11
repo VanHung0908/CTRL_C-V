@@ -30,6 +30,15 @@
                 $result = mysqli_query($con, $sql);
                 return $result;
             }
+            public function getTTNVBenhNhan($maBN) {
+                $p = new clsKetNoi();
+                $con = $p->moKetNoi();
+        
+                // Truy vấn lấy thông tin HoTen từ bảng benhnhan
+                $sql = "SELECT * FROM benhnhan bn join phieunamvien pn on bn.MaBN=pn.MaBN WHERE pn.MaBN = '$maBN' and  pn.ThoiGianXV IS NULL";
+                $result = mysqli_query($con, $sql);
+                return $result;
+            }
          
             public function dangKyKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $diaChi, $cccd, $khoaKham, $bhyt, $loaiBHYT) {
                 $p = new clsKetNoi();
@@ -191,7 +200,103 @@
             
                 return false;
             }
-        
+            public function updateDKKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $maKhoa, $diaChi, $cccd, $bhyT, $loaiBHYT, $chiPhi, $phuongThucThanhToan) {
+                // Kết nối đến cơ sở dữ liệu
+                $p = new clsKetNoi();
+                $conn = $p->moKetNoi();
+            
+                // Cập nhật thông tin bệnh nhân
+                $updatePatientQuery = "UPDATE benhnhan 
+                                       SET HoTen = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, CCCD = ?, BHYT = ?, LoaiBHYT = ? 
+                                       WHERE SDT = ?";
+                if ($stmt = $conn->prepare($updatePatientQuery)) {
+                    $stmt->bind_param("ssssssss", $hoTen, $ngaySinh, $gioiTinh, $diaChi, $cccd, $bhyT, $loaiBHYT, $sdt);
+                    if (!$stmt->execute()) {
+                        return "Lỗi khi cập nhật thông tin bệnh nhân: " . $stmt->error;
+                    }
+                    $stmt->close();
+                } else {
+                    return "Lỗi trong việc chuẩn bị câu truy vấn: " . $conn->error;
+                }
+            
+                // Lấy MaBN từ bảng benhnhan dựa trên SDT
+                $selectMaBNQuery = "SELECT MaBN FROM benhnhan WHERE SDT = ?";
+                if ($stmt = $conn->prepare($selectMaBNQuery)) {
+                    $stmt->bind_param("s", $sdt);
+                    $stmt->execute();
+                    $stmt->bind_result($maBN);
+                    if (!$stmt->fetch()) {
+                        return "Không tìm thấy MaBN tương ứng.";
+                    }
+                    $stmt->close();
+                } else {
+                    return "Lỗi trong việc chuẩn bị câu truy vấn: " . $conn->error;
+                }
+            
+                // Xác định Thu và CaLam như bạn đã làm
+                $currentDate = date('Y-m-d');
+                $timestamp = strtotime($currentDate);
+                $thuMapping = [0 => 6, 1 => 0, 2 => 1, 3 => 2, 4 => 3, 5 => 4, 6 => 5];
+                $dayOfWeek = date('w', $timestamp);
+                $thu = $thuMapping[$dayOfWeek];
+            
+                $currentTime = date('H:i');
+                $caLam = ($currentTime >= "07:00" && $currentTime <= "11:00") ? 1 : (($currentTime >= "13:00" && $currentTime <= "18:00") ? 2 : null);
+            
+                if ($caLam === null) {
+                    return "Hiện không có ca làm việc nào phù hợp.";
+                }
+            
+                // Lấy danh sách MaNS từ bảng lichlamviec
+                $selectMaNSQuery = "SELECT MaNS FROM lichlamviec WHERE NgayTrongTuan = ? AND CaTrongNgay = ?";
+                $stmt = $conn->prepare($selectMaNSQuery);
+                $stmt->bind_param("ii", $thu, $caLam);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $maNSList = [];
+                while ($row = $result->fetch_assoc()) {
+                    $maNSList[] = $row['MaNS'];
+                }
+                $stmt->close();
+            
+                if (empty($maNSList)) {
+                    return "Không có nhân sự khả dụng.";
+                }
+            
+                // Lọc MaNS hợp lệ
+                $maNSListStr = implode(',', $maNSList);
+                $selectValidMaNSQuery = "SELECT MaNS FROM nhansu WHERE MaNS IN ($maNSListStr) AND MaCV = 4";
+                $result = $conn->query($selectValidMaNSQuery);
+                $validMaNSList = [];
+                while ($row = $result->fetch_assoc()) {
+                    $validMaNSList[] = $row['MaNS'];
+                }
+            
+                if (empty($validMaNSList)) {
+                    return "Không có nhân sự hợp lệ.";
+                }
+            
+                // Chọn ngẫu nhiên MaNS
+                $selectedMaNS = $validMaNSList[array_rand($validMaNSList)];
+            
+                // Thêm mới bản ghi vào bảng phieudangkykham
+                $insertDKKhamQuery = "INSERT INTO phieudangkykham (MaDKK, NgayKham, TrangThai, ChiPhiKham, MaNS, MaKhoa, MaBN, maThanhToan)
+                                      VALUES (NULL, CURRENT_TIMESTAMP, 'Chờ khám', ?, ?, ?, ?, ?)";
+                if ($stmt = $conn->prepare($insertDKKhamQuery)) {
+                    $stmt->bind_param("diiis", $chiPhi, $selectedMaNS, $maKhoa, $maBN, $phuongThucThanhToan);
+                    if ($stmt->execute()) {
+                        return true;
+                    } else {
+                        return "Lỗi khi thêm phiếu đăng ký khám: " . $stmt->error;
+                    }
+                    $stmt->close();
+                } else {
+                    return "Lỗi trong việc chuẩn bị câu truy vấn: " . $conn->error;
+                }
+            
+                return false;
+            }
+            
             public function dsBenhNhan($MaCV, $MaNS) {
                 // Tạo đối tượng lớp clsKetNoi
                 $p = new clsKetNoi();
@@ -397,7 +502,7 @@
                 if ($MaCV == 6) {
                     $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.TrangThai IN ('Nhập viện') ORDER BY p.MaBN DESC";
                 } elseif ($MaCV == 7) {
-                    $sql .= " WHERE  p.TrangThai = 'Đang điều trị' ORDER BY p.MaBN DESC";
+                    $sql .= " WHERE  p.TrangThai = 'Nhập viện' ORDER BY p.MaBN DESC";
                 } elseif ($MaCV == 4) {
                     $sql .= " WHERE DATE(p.NgayKham) = CURDATE() AND p.MaNS = '$MaNS' AND p.TrangThai = 'Chờ khám' ORDER BY p.MaBN DESC";
                 }

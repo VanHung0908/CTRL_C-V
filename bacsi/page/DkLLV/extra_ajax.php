@@ -7,7 +7,6 @@
 session_start();
 include_once('../../../model/mEmployee.php');
 $con = new mEmployee();
-
 if (isset($_POST['caID'])) {
     $caID = $_POST['caID'];
     // Lấy thông tin chi tiết từ cơ sở dữ liệu
@@ -54,7 +53,9 @@ if (isset($_POST['caID'])) {
 
     // Bắt đầu bảng
     echo '<div class="details-table">';
+    
     echo '<h5 align="center"><b class="color">CHI TIẾT CA LÀM VIỆC</b></h5>';
+    echo '<input type="radio" name="shift" onclick="getLich(' . $caID . ')"> Xem trước lịch';
     echo '<table class="schedule-table">';
     echo '<thead>
             <tr>

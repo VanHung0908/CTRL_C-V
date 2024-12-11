@@ -82,7 +82,7 @@
                             confirmButtonText: "OK"
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                 window.location.href = "QLBV/benhnhan/auth/login.php"; 
+                                 window.location.href = "/QLBV/benhnhan/auth/login.php"; 
                             }
                         });
                     </script>';

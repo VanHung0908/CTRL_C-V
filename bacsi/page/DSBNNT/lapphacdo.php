@@ -299,7 +299,7 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
                         Swal.fire({
                             icon: 'success',
                             title: 'Thành công',
-                            text: 'Lập phiếu khám thành công!',
+                            text: 'Lập phác đồ thành công!',
                             confirmButtonText: 'OK'
                         }).then(() => {
                             window.location.href = '/QLBV/bacsi/index.php?page=DSBNNT';
@@ -308,7 +308,7 @@ document.getElementById('savePrescriptionButton').addEventListener('click', func
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi',
-                            text: 'Lỗi khi lưu đơn thuốc: ' + response.message,
+                            text: 'Lỗi khi lưu phác đồ ' ,
                             confirmButtonText: 'Thử lại'
                         });
                     }

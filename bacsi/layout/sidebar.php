@@ -27,11 +27,12 @@ $maCV = $_SESSION['maCV'];
             </li>
         <?php elseif ($maCV == 2): ?>
             <li>
-                <a href="index.php?page=QLPK" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
-                    <span>Quản lý ca trực</span>
+                <a href="index.php?page=QLP" class="sidebar-link">
+                    <span class="sidebar-icon"><i class="fa-solid fa-house"></i></span>
+                    <span>Quản lý Phòng</span>
                 </a>
             </li>
+           
             <li>
                 <a href="index.php?page=DuyetYCNP" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
@@ -39,6 +40,7 @@ $maCV = $_SESSION['maCV'];
                 </a>
             </li>
         <?php elseif ($maCV == 3): ?>
+
             <li>
                 <a href="index.php?page=QLPK" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-house-user"></i></span> 
@@ -91,12 +93,7 @@ $maCV = $_SESSION['maCV'];
             </li>
          
         <?php elseif ($maCV == 6 ): ?>
-            <li>
-                <a href="index.php?page=DSgiuong" class="sidebar-link">
-                    <span class="sidebar-icon"><i class="fa-solid fa-bed"></i></i></span> 
-                    <span> Danh sách giường</span>
-                </a>
-            </li>
+          
             <li>
                 <a href="index.php?page=DSBN" class="sidebar-link">
                     <span class="sidebar-icon"><i class="fa-solid fa-hospital-user"></i></span>

@@ -169,16 +169,16 @@ $tongChiPhi = $giaPhong * $soNgay;
         </tfoot>
     </table>
 
+    <?php else: ?>
+        <p>Chưa có dữ liệu đơn thuốc.</p>
+    <?php endif; ?>
 
 </fieldset>
-<?php else: ?>
-    <p>Chưa có dữ liệu đơn thuốc.</p>
-<?php endif; ?>
 <fieldset class="border p-4 mb-4 rounded bg-white">
     <legend class="w-auto px-3">Tổng chi phi</legend>
 
 <?php
-$totalAllCost = $tongChiPhi + $totalCost; // $tongChiPhi là chi phí phòng, $totalCost là chi phí thuốc
+$totalAllCost = $tongChiPhi + ($totalCost ?? 0);
 $percentBHYT = 0;
 switch ($benhNhan['LoaiBHYT']) {
     case 1:
