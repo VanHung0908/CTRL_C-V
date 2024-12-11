@@ -1,3 +1,29 @@
+<?php
+include_once(BACKEND_URL . 'model/mBenhNhan.php');
+$MaBN = isset($_GET['MaBN']) ? $_GET['MaBN'] : null;
+$con = new mBenhNhan();
+$dsBenhNhan = $con->getTTBN($MaBN);
+$benhNhan = $dsBenhNhan[0];
+include_once(BACKEND_URL . 'model/mPKQK.php');
+$conkqk = new mPKQK();
+$KQKB = $conkqk->getslectKQK($MaBN); 
+
+if (!empty($KQKB) && is_array($KQKB)) {
+    $KQKB = $KQKB[0];
+    $MaDonThuoc = isset($KQKB['MaDonThuoc']) ? $KQKB['MaDonThuoc'] : null;
+
+    if ($MaDonThuoc) {
+        $donthuoc = $conkqk->getTTThuoc($MaDonThuoc);
+    } else {
+        $donthuoc = []; // Nếu không có mã đơn thuốc, đặt mảng rỗng
+    }
+} else {
+    $KQKB = null; // Đặt null nếu không có kết quả
+    $donthuoc = []; // Đặt mảng rỗng nếu không có đơn thuốc
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
