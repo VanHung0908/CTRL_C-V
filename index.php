@@ -130,7 +130,7 @@ include ('benhnhan/layout/header.php');
       <div class="row justify-content-center">
         <div class="col-8">
           <div class="box-head">
-            <div class="inner-title">Dịch vụ y tế của chúng tôi</div>
+            <div class="inner-title">Dịch vụ y tế của chúng tôi !</div>
             <div class="inner-dsc">Chúng tôi cung cấp một loạt các dịch vụ y tế đa dạng, từ chăm sóc tổng quát đến các chuyên khoa cao cấp, bao gồm cả chẩn đoán, điều trị, và phòng ngừa bệnh tật. Khách hàng của chúng tôi có thể yên tâm về sự đa dạng và chất lượng của các dịch vụ y tế mà chúng tôi cung cấp.</div>
           </div>
         </div>
