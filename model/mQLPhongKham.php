@@ -26,11 +26,11 @@ class phong{
     public function UpdatePhong($ten,$toa,$mt,$idKhoa){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "UPDATE `phongkham` SET `TenPhong`='$ten',`Toa`='$toa',`MoTa`='$mt' WHERE MaPhong='$idKhoa'";
+        $sql = "UPDATE phongkham SET TenPhong='$ten',Toa='$toa',MoTa='$mt' WHERE MaPhong='$idKhoa'";      
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
-    //Ca
+    //Ca làm việc
     public function AllCabyPhong($idPhong){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
@@ -69,7 +69,7 @@ class phong{
         return $kq;
     }
     
-    //ChiTiet Ca
+    //ChiTiet Ca làm việc
     public function AllCTCabyCa($idCa){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
@@ -113,63 +113,38 @@ class phong{
     public function xoaChiTiet($id){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "DELETE FROM `lichlamviec` WHERE MaLLV='$id'";
+        $sql = "DELETE FROM lichlamviec WHERE MaLLV='$id'";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
     public function xoaCa($id){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "DELETE FROM `chitietphongkham` WHERE MaCTPhongKham='$id'";
+        $sql = "DELETE FROM chitietphongkham WHERE MaCTPhongKham='$id'";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
     public function ktraCaDDK($id){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "SELECT * FROM `chitietphongkham` WHERE DaDangKy > 0 AND MaCTPhongKham='$id'";
+        $sql = "SELECT * FROM chitietphongkham WHERE DaDangKy > 0 AND MaCTPhongKham='$id'";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
     public function ktraPhongCoCa($id){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "SELECT * FROM `chitietphongkham` WHERE DaDangKy > 0 AND MaPhong = '$id'";
+        $sql = "SELECT * FROM chitietphongkham WHERE DaDangKy > 0 AND MaPhong = '$id'";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
     public function xoaPhong($id){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "DELETE FROM `PhongKham` WHERE MaPhong='$id'";
+        $sql = "DELETE FROM PhongKham WHERE MaPhong='$id'";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }
 }
-// include_once('ketnoi.php');
-
-// class mPhong {
-//     public function getPhongsByKhoa($MaKhoa) {
-
-//         $p = new clsKetNoi();
-//         $con = $p->moKetNoi();
-        
-//         $sql = "SELECT MaPhong, TenPhong FROM phong WHERE MaKhoa = ?"; 
-//         $stmt = mysqli_prepare($con, $sql);
-        
-//         mysqli_stmt_bind_param($stmt, 's', $MaKhoa);
-//         mysqli_stmt_execute($stmt);
-//         $result = mysqli_stmt_get_result($stmt);
-        
-//         $phongs = [];
-//         while ($row = mysqli_fetch_assoc($result)) {
-//             $phongs[] = $row;
-//         }
-        
-//         $p->dongKetNoi($con);
-        
-//         return $phongs;
-//     }
-// }
 
 ?>
