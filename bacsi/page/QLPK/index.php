@@ -49,6 +49,16 @@
                     <td id="afternoon6"></td>
                     <td id="afternoon7"></td>
                 </tr>
+                <tr>
+                    <td class="night">Tối</td>
+                    <td id="night1"></td>
+                    <td id="night2"></td>
+                    <td id="night3"></td>
+                    <td id="night4"></td>
+                    <td id="night5"></td>
+                    <td id="night6"></td>
+                    <td id="night7"></td>
+                </tr>
             </tbody>
         </table>
     </div>
