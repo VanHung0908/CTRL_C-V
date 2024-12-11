@@ -80,7 +80,7 @@
 <body>
 
     <div class="container">
-        <h2>Hóa Đơn Thanh Toán</h2>
+        <h2>Hóa Đơn Thanh Toán </h2>
 
         <h3>Thông tin bệnh nhân</h3>
         <p><strong>Tên bệnh nhân:</strong> Châu Duy Khánh</p>
