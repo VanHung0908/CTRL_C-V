@@ -74,6 +74,41 @@
               echo "Bạn cần phải đăng nhập!";
           }
       }
+      public function addTK($hoTen, $soDienThoai, $matKhau)
+        {
+            // Mã hóa mật khẩu
+            $matKhau = md5($matKhau);
+
+            // Khởi tạo đối tượng model để thực hiện thao tác với CSDL
+            $p = new mNguoiDung();
+
+            $result = $p->insertNguoiDung($hoTen, $soDienThoai, $matKhau);
+
+            // Kiểm tra nếu kết quả trả về là thành công hay thất bại
+            if ($result) {
+                echo '<script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "Đăng ký thành công",
+                            confirmButtonText: "OK"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                 window.location.href = "/QLBV/benhnhan/auth/login.php"; 
+                            }
+                        });
+                    </script>';
+            } else {
+                echo '<script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "Thất bại",
+                            text: "Đã có lỗi xảy ra khi đăng ký!",
+                            confirmButtonText: "Thử lại"
+                        });
+                    </script>';
+            }
+        }
+
         
     }
 
