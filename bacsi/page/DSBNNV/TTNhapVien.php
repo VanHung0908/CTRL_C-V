@@ -225,6 +225,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 
 <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+    const sdt = document.getElementById('sdt_nguoinha').value.trim();
+
+    // Kiểm tra độ dài số điện thoại
+    if (!/^\d{10}$/.test(sdt)) {
+        e.preventDefault(); // Ngăn form gửi đi
+        Swal.fire({
+            icon: 'error',
+            title: 'Lỗi dữ liệu',
+            text: 'Số điện thoại phải đủ 10 số.',
+            confirmButtonText: 'OK'
+        });
+    }
+});
+
     document.getElementById('department').addEventListener('change', function() {
         var maKhoa = this.value; // Lấy mã khoa đã chọn
         var roomSelect = document.getElementById('room'); // Phần tử select phòng

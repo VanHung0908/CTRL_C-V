@@ -1,6 +1,9 @@
     <?php
     session_start(); 
-
+?>
+<?php
+ini_set('display_errors', 0);  // Tắt hiển thị lỗi
+error_reporting(0);            // Tắt báo cáo lỗi
     if (!isset($_SESSION['dangnhap']) || $_SESSION['dangnhap'] != 2) {
         // Chuyển hướng về trang đăng nhập
         header('Location: http://localhost/QLBV/');

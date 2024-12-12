@@ -119,7 +119,7 @@
                 $caLam = null;
                 if ($currentTime >= "07:00" && $currentTime <= "11:00") {
                     $caLam = 1;
-                } elseif ($currentTime >= "13:00" && $currentTime <= "18:00") {
+                } elseif ($currentTime >= "13:00" && $currentTime <= "24:00") {
                     $caLam = 2;
                 }
             
@@ -207,10 +207,11 @@
             
                 // Cập nhật thông tin bệnh nhân
                 $updatePatientQuery = "UPDATE benhnhan 
-                                       SET HoTen = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, CCCD = ?, BHYT = ?, LoaiBHYT = ? 
-                                       WHERE SDT = ?";
+                                       SET HoTen = ?, NgaySinh = ?, GioiTinh = ?, DiaChi = ?, CCCD = ?, BHYT = ?, LoaiBHYT = ?,TrangThai=?
+                                       WHERE SDT = '$sdt'";
+                $trangThai = 'Khám bệnh';
                 if ($stmt = $conn->prepare($updatePatientQuery)) {
-                    $stmt->bind_param("ssssssss", $hoTen, $ngaySinh, $gioiTinh, $diaChi, $cccd, $bhyT, $loaiBHYT, $sdt);
+                    $stmt->bind_param("ssssssss", $hoTen, $ngaySinh, $gioiTinh, $diaChi, $cccd, $bhyT, $loaiBHYT,$trangThai );
                     if (!$stmt->execute()) {
                         return "Lỗi khi cập nhật thông tin bệnh nhân: " . $stmt->error;
                     }
@@ -241,7 +242,7 @@
                 $thu = $thuMapping[$dayOfWeek];
             
                 $currentTime = date('H:i');
-                $caLam = ($currentTime >= "07:00" && $currentTime <= "11:00") ? 1 : (($currentTime >= "13:00" && $currentTime <= "18:00") ? 2 : null);
+                $caLam = ($currentTime >= "07:00" && $currentTime <= "11:00") ? 1 : (($currentTime >= "13:00" && $currentTime <= "24:00") ? 2 : null);
             
                 if ($caLam === null) {
                     return "Hiện không có ca làm việc nào phù hợp.";
@@ -559,7 +560,9 @@
                 $sql .= " WHERE p.TrangThai = 'Nhập viện' ORDER BY p.MaBN DESC";
             } elseif ($MaCV == 7) {
                 $sql .= " WHERE  b.TrangThai  in('Nhập viện') ORDER BY DATEDIFF(CURRENT_DATE, p.ThoiGianNV) DESC";
-            }
+            }elseif ($MaCV == 8) {
+                $sql .= " WHERE p.TrangThai = 'Nhập viện' ORDER BY p.MaBN DESC";
+            } 
               
             
                 if (!empty($searchTerm)) {

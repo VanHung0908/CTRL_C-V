@@ -1,6 +1,7 @@
 <?php
 
 include_once(__DIR__ . '/../model/mBenhNhan.php');
+include_once(__DIR__ . '/../model/ketnoi.php');
 
     class cBenhNhan {
         public function getUserInfo() {
@@ -18,15 +19,24 @@ include_once(__DIR__ . '/../model/mBenhNhan.php');
                 
             }
         }
+        public function getBenhNhanByCCCD($SDT) {
+            $p = new clsKetNoi();
+            $conn = $p->moKetNoi();
+                $query = "SELECT * FROM benhnhan WHERE SDT = '$SDT'";
+                $result = mysqli_query($conn, $query);
+                if ($result) {
+                    return mysqli_fetch_assoc($result);
+                } else {
+                    return null;
+                }
+                
+        }
         public function addDKKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $maKhoa, $diaChi, $cccd, $bhyT, $loaiBHYT, $chiPhi, $phuongThucThanhToan) {
-            // Tạo đối tượng model
             $model = new mBenhNhan();
-            
             // Gọi phương thức thêm đăng ký khám bệnh trong model và nhận kết quả
             $result = $model->insertDKKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $maKhoa, $diaChi, $cccd, $bhyT, $loaiBHYT, $chiPhi, $phuongThucThanhToan);
-            
             // Kiểm tra kết quả và hiển thị thông báo
-            if ($result === true) { // Nếu kết quả là true, đăng ký thành công
+            if ($result === true) { 
                 echo '<script>
                     Swal.fire({
                         icon: "success",
@@ -34,7 +44,7 @@ include_once(__DIR__ . '/../model/mBenhNhan.php');
                         confirmButtonText: "OK"
                     });
                 </script>';
-            } elseif ($result === false) { // Nếu kết quả là false, đăng ký thất bại
+            } elseif ($result === false) { 
                 echo '<script>
                     Swal.fire({
                         icon: "error",
@@ -43,7 +53,7 @@ include_once(__DIR__ . '/../model/mBenhNhan.php');
                         confirmButtonText: "Thử lại"
                     });
                 </script>';
-            } else { // Nếu kết quả trả về là thông báo lỗi, hiển thị thông báo đó
+            } else { 
                 echo '<script>
                     Swal.fire({
                         icon: "error",
@@ -57,7 +67,6 @@ include_once(__DIR__ . '/../model/mBenhNhan.php');
      public function updateDKKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $maKhoa, $diaChi, $cccd, $bhyT, $loaiBHYT,$chiPhi, $phuongThucThanhToan) {
     // Tạo đối tượng model
     $model = new mBenhNhan();
-
     // Gọi phương thức cập nhật thông tin bệnh nhân trong model và nhận kết quả
     $result = $model->updateDKKhamBenh($hoTen, $ngaySinh, $gioiTinh, $sdt, $maKhoa, $diaChi, $cccd, $bhyT, $loaiBHYT,$chiPhi, $phuongThucThanhToan);
 

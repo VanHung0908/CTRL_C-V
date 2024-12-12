@@ -53,7 +53,13 @@
     public function phongkham($makhoa){
         $con = new clsKetNoi;
         $p = $con -> moKetNoi();
-        $sql = "select * from phongkham h join chitietphongkham j on h.MaPhong=j.MaPhong where makhoa='$makhoa' AND j.DaDangKy='0'";
+        $sql = "
+        SELECT DISTINCT h.TenPhong, h.MaPhong, j.*
+        FROM phongkham h
+        JOIN chitietphongkham j ON h.MaPhong = j.MaPhong
+        WHERE h.MaKhoa = '$makhoa' AND j.DaDangKy = '0'
+        GROUP BY h.TenPhong
+        ";
         $kq = mysqli_query($p,$sql);
         return $kq;
     }

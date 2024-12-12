@@ -63,40 +63,81 @@
               }
           }
       }
-      public function addTK($hoTen, $soDienThoai, $matKhau)
-        {
-            // Mã hóa mật khẩu
-            $matKhau = md5($matKhau);
-
-            // Khởi tạo đối tượng model để thực hiện thao tác với CSDL
-            $p = new mNguoiDung();
-
-            $result = $p->insertNguoiDung($hoTen, $soDienThoai, $matKhau);
-
-            // Kiểm tra nếu kết quả trả về là thành công hay thất bại
-            if ($result) {
-                echo '<script>
-                        Swal.fire({
-                            icon: "success",
-                            title: "Đăng ký thành công",
-                            confirmButtonText: "OK"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                 window.location.href = "/QLBV/benhnhan/auth/login.php"; 
-                            }
-                        });
-                    </script>';
-            } else {
-                echo '<script>
-                        Swal.fire({
-                            icon: "error",
-                            title: "Thất bại",
-                            text: "Đã có lỗi xảy ra khi đăng ký!",
-                            confirmButtonText: "Thử lại"
-                        });
-                    </script>';
-            }
-        }
+      public function addTK($hoTen, $soDienThoai, $matKhau, $confirmMatKhau)
+      {
+          // Kiểm tra số điện thoại có đúng 10 chữ số hay không
+          if (!preg_match('/^[0-9]{10}$/', $soDienThoai)) {
+              echo '<script>
+                      Swal.fire({
+                          icon: "error",
+                          title: "Thất bại",
+                          text: "Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số.",
+                          confirmButtonText: "Thử lại"
+                      });
+                  </script>';
+              return;
+          }
+      
+          // Kiểm tra độ mạnh của mật khẩu: ít nhất 8 ký tự, có chữ in hoa và ký tự đặc biệt
+          if (!preg_match('/^(?=.*[A-Z])(?=.*\W).{8,}$/', $matKhau)) {
+              echo '<script>
+                      Swal.fire({
+                          icon: "error",
+                          title: "Thất bại",
+                          text: "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ in hoa và ký tự đặc biệt.",
+                          confirmButtonText: "Thử lại"
+                      });
+                  </script>';
+              return;
+          }
+      
+          // Kiểm tra mật khẩu và confirm mật khẩu có trùng khớp hay không
+          if ($matKhau !== $confirmMatKhau) {
+              echo '<script>
+                      Swal.fire({
+                          icon: "error",
+                          title: "Thất bại",
+                          text: "Mật khẩu và xác nhận mật khẩu không trùng khớp.",
+                          confirmButtonText: "Thử lại"
+                      });
+                  </script>';
+              return;
+          }
+      
+          // Mã hóa mật khẩu
+          $matKhau = md5($matKhau);
+      
+          // Khởi tạo đối tượng model để thực hiện thao tác với CSDL
+          $p = new mNguoiDung();
+      
+          // Chèn người dùng vào cơ sở dữ liệu
+          $result = $p->insertNguoiDung($hoTen, $soDienThoai, $matKhau);
+      
+          // Kiểm tra nếu kết quả trả về là thành công hay thất bại
+          if ($result) {
+              echo '<script>
+                      Swal.fire({
+                          icon: "success",
+                          title: "Đăng ký thành công",
+                          confirmButtonText: "OK"
+                      }).then((result) => {
+                          if (result.isConfirmed) {
+                              window.location.href = "/QLBV/benhnhan/auth/login.php"; 
+                          }
+                      });
+                  </script>';
+          } else {
+              echo '<script>
+                      Swal.fire({
+                          icon: "error",
+                          title: "Thất bại",
+                          text: "Đã có lỗi xảy ra khi đăng ký!",
+                          confirmButtonText: "Thử lại"
+                      });
+                  </script>';
+          }
+      }
+      
 
       public function getBenhNhanInfo()
       {

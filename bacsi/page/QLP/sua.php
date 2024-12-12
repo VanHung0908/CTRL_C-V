@@ -1,4 +1,6 @@
 <?php
+include_once(BACKEND_URL . 'model/mQLPhongKham.php');  
+$con = new phong();
 if (isset($_GET['suaP'])) {
     $dl = $con -> PhongByID($_GET['suaP']);
     foreach($dl as $i){
@@ -48,7 +50,7 @@ if (isset($_GET['suaP'])) {
     <a href="index.php?page=QLP&chitiet='.$_SESSION['chitiet'].'" style="color:#007bff"><b> <i class="fa-solid fa-house"></i>  TRỞ VỀ DANH SÁCH CA</b></a>
 
             <div class="schedule-list">
-                <h5 align="center"><b class="color">THÊM CA CHO PHÒNG ' . $name . '</b></h5>
+                <h5 align="center"><b class="color">SỬA CA CHO PHÒNG ' . $name . '</b></h5>
                 <form action="" method="post">
                     <table class="schedule-table">
                         <tr>
@@ -84,7 +86,7 @@ if (isset($_GET['suaP'])) {
      <div id="Ca">
                                     <!-- Hiển thị Ca theo Phòng (AJAX) -->
                     </div>
-         <h5 align="center"><b class="color">THÊM CHI TIẾT CA CHO ' . $name . '</b></h5>
+         <h5 align="center"><b class="color">SỬA CHI TIẾT CA CHO ' . $name . '</b></h5>
          <form action="" method="post">
              <table class="schedule-table">';
              echo '

@@ -276,7 +276,6 @@ if (isset($_POST['btnSuaCTCa'])) {
     $maCa = $_SESSION['chitiet']; // Lấy mã ca cần sửa từ tham số GET
     $errors = [];
     
-    
     // Lấy dữ liệu từ form
     if (isset($_POST["day_of_week"]) && isset($_POST["shift"])) {
         $day_of_week = $_POST["day_of_week"];
@@ -313,7 +312,8 @@ if (isset($_POST['btnSuaCTCa'])) {
 
         // Nếu không có lỗi, tiến hành cập nhật
         if (empty($errors)) {
-            $result = $con->UpdateCTCa($maCa, $day_of_week, $shift); // Hàm cập nhật dữ liệu
+           
+            $result = $con->UpdateCTCa($_GET['suaCT'], $day_of_week, $shift); // Hàm cập nhật dữ liệu
             if ($result) {
                 echo '<script>alert("Sửa chi tiết ca thành công !")</script>';
                 echo '<script>
@@ -330,7 +330,7 @@ if (isset($_POST['btnSuaCTCa'])) {
     // Hiển thị thông báo lỗi nếu có
     if (!empty($errors)) {
         echo '<script>alert("' . implode("\\n", $errors) . '");</script>';
-        echo '<p style="color:red;">Thông báo: ' . implode("<br>", $errors) . '</p>';
+        // echo '<p style="color:red;">Thông báo: ' . implode("<br>", $errors) . '</p>';
     }
 }else if(isset($_GET['xoaCT'])){
     $ktra = $con -> xoaChiTiet($_GET['xoaCT']);

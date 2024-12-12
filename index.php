@@ -227,7 +227,7 @@ include ('benhnhan/layout/header.php');
           <div class="inner-people">
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/tk.jpg" alt="">
+                <img src="assets/images/mailinh.jpg" alt="">
               </div>
               <div class="name">
                 Mai Linh
@@ -238,7 +238,7 @@ include ('benhnhan/layout/header.php');
             </div>
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/Văn Bình.jpg" alt="">
+                <img src="assets/images/tandatnt.jpg" alt="">
               </div>
               <div class="name">
                 Tấn Đạt
@@ -249,7 +249,7 @@ include ('benhnhan/layout/header.php');
             </div>
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/Văn Bình.jpg" alt="">
+                <img src="assets/images/duykhanh.jpg" alt="">
               </div>
               <div class="name">
                 Duy Khánh
@@ -260,7 +260,7 @@ include ('benhnhan/layout/header.php');
             </div>
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/Văn Bình.jpg" alt="">
+                <img src="assets/images/vanhung1.jpg" alt="">
               </div>
               <div class="name">
                 Văn Hưng
@@ -271,7 +271,7 @@ include ('benhnhan/layout/header.php');
             </div>
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/Văn Bình.jpg" alt="">
+                <img src="assets/images/giakhanh.jpg" alt="">
               </div>
               <div class="name">
                 Gia Khánh
@@ -282,7 +282,7 @@ include ('benhnhan/layout/header.php');
             </div>
             <div class="item">
               <div class="inner-img">
-                <img src="assets/images/Văn Bình.jpg" alt=""> 
+                <img src="assets/images/tandat.jpg" alt=""> 
               </div>
               <div class="name">
                 Tấn Đạt

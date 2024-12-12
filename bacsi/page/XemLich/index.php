@@ -116,7 +116,7 @@ foreach ($pp as $i) {
             $currentDateTimestamp = time(); // Timestamp của ngày hiện tại
     
             // Kiểm tra nếu ngày nghỉ bé hơn ngày hiện tại
-            if ($ngaynghiTimestamp < $currentDateTimestamp) {
+            if ($ngaynghiTimestamp <= $currentDateTimestamp) {
                 $errorMessage = 'Ngày nghỉ phép không thể nhỏ hơn ngày hiện tại!';
                 echo '<div id="notificationModal" class="modal" style="display: block;">
                         <div class="modal-content" style="border-radius: 10px; padding: 20px; background-color: #f9f9f9; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); max-width: 500px; margin: 100px auto;">

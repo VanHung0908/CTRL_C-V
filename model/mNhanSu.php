@@ -17,7 +17,7 @@
         public function selectAllKhoa(){
             $p = new clsKetNoi();
             $con = $p -> moKetNoi();
-            $sql = "SELECT * FROM khoa";
+            $sql = "SELECT * FROM khoa where TrangThai='1'";
             $kq = mysqli_query($con,$sql);
             $p -> dongKetNoi($con);
             return $kq;

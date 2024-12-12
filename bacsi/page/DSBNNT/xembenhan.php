@@ -93,7 +93,7 @@ $PCS = $mPhieuChamSoc->getPhieuChamSoc($MaBN);
                                      if (!empty($resultKQK)) {
                                         foreach ($resultKQK as $row) {
                                             echo '<tr>';
-                                            echo '<td>' . (isset($row['NgayLap']) ? $row['NgayLap'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NgayLap']) ? date('d/m/Y', strtotime($row['NgayLap'])) : '') . '</td>';
                                             echo '<td>' . (isset($row['ChanDoan']) ? $row['ChanDoan'] : '') . '</td>';
                                             echo '<td>' . (isset($row['KeHoach']) ? $row['KeHoach'] : '') . '</td>';
                                             echo '<td>' . (isset($row['CheDoDD']) ? $row['CheDoDD'] : '') . '</td>';
@@ -148,7 +148,7 @@ $PCS = $mPhieuChamSoc->getPhieuChamSoc($MaBN);
                                      if (!empty($PCS)) {
                                         foreach ($PCS as $row) {
                                             echo '<tr>';
-                                            echo '<td>' . (isset($row['NgayThuchien']) ? $row['NgayThuchien'] : '') . '</td>';
+                                            echo '<td>' . (isset($row['NgayThuchien']) ? date('d/m/Y', strtotime($row['NgayThuchien'])) : '')                                            . '</td>';
                                             echo '<td>' . (isset($row['TinhTrang']) ? $row['TinhTrang'] : '') . '</td>';
                                             echo '<td>' . (isset($row['TenNhanSu']) ? $row['TenNhanSu'] : '') . '</td>';
                                             echo '<td>' . (isset($row['NhipTim']) ? $row['NhipTim'] : '') . '</td>';

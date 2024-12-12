@@ -39,9 +39,8 @@ if (isset($_POST['BHYT']) && !empty($_POST['BHYT'])) {
 
 if (isset($_POST['btn_DangKy'])) {
     // Danh sách các trường cần kiểm tra
-    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD',  'chiPhi', 'phuongThucThanhToan'];
+    $required_fields = ['HoTen', 'NgaySinh', 'GioiTinh', 'MaKhoa', 'DiaChi', 'CCCD', 'BHYT', 'LoaiBHYT', 'chiPhi', 'phuongThucThanhToan'];
     $error = false; // Biến để theo dõi lỗi
-    $LoaiBHYT = (strlen($_REQUEST['BHYT']) == 15) ? $loaiBHYT :  $_REQUEST['LoaiBHYT'];
 
     // Kiểm tra từng trường
     foreach ($required_fields as $field) {
@@ -51,42 +50,23 @@ if (isset($_POST['btn_DangKy'])) {
         }
     }
 
-    
-    if (!$error) {
+    if (!$error) { // Nếu không có lỗi
         include('../controller/cBenhNhan.php');
         $p = new cBenhNhan();
-        $benhNhan = $p->getBenhNhanByCCCD($_REQUEST['SDT']);
-        if ($benhNhan) {
-            $result = $p->updateDKKhamBenh(
-                $_REQUEST['HoTen'],
-                $_REQUEST['NgaySinh'],
-                $_REQUEST['GioiTinh'],
-                $_REQUEST['SDT'],
-                $_REQUEST['MaKhoa'],
-                $_REQUEST['DiaChi'],
-                $_REQUEST['CCCD'],
-                $_REQUEST['BHYT'] ,
-                $LoaiBHYT,
-                $_REQUEST['chiPhi'],
-                $_REQUEST['phuongThucThanhToan']
-            );
-        } else {
-            // Bệnh nhân không tồn tại, thêm mới
-            $result = $p->addDKKhamBenh(
-                $_REQUEST['HoTen'],
-                $_REQUEST['NgaySinh'],
-                $_REQUEST['GioiTinh'],
-                $_REQUEST['SDT'],
-                $_REQUEST['MaKhoa'],
-                $_REQUEST['DiaChi'],
-                $_REQUEST['CCCD'],
-                $_REQUEST['BHYT'] ,
-                $LoaiBHYT,
-                $_REQUEST['chiPhi'],
-                $_REQUEST['phuongThucThanhToan']
-            );
-        }
-
+        $con = $p->addDKKhamBenh(
+            $_REQUEST['HoTen'],
+            $_REQUEST['NgaySinh'],
+            $_REQUEST['GioiTinh'],
+            $_REQUEST['SDT'],
+            $_REQUEST['MaKhoa'],
+            $_REQUEST['DiaChi'],
+            $_REQUEST['CCCD'],
+            $_REQUEST['BHYT'],
+            $_REQUEST['LoaiBHYT'],
+            $_REQUEST['chiPhi'],
+            $_REQUEST['phuongThucThanhToan']
+        );
+        // Xử lý kết quả nếu cần
     } else {
         echo '<script>
         Swal.fire({
@@ -95,10 +75,9 @@ if (isset($_POST['btn_DangKy'])) {
             text: "Vui lòng điền đầy đủ thông tin.",
             confirmButtonText: "Thử lại"
         });
-        </script>';
+      </script>';
     }
 }
-
 
 ?>
 
@@ -196,7 +175,7 @@ if (isset($_POST['btn_DangKy'])) {
             <div class="mb-3">
                     <label for="BHYT" class="form-label">Thẻ BHYT</label>
                     <input type="text" class="form-control" id="BHYT" name="BHYT" placeholder="Nhập số thẻ BHYT" value="<?php echo isset($benhNhan['BHYT']) ? $benhNhan['BHYT'] : ''; ?>" onchange="checkBHYTType()"
-                    >
+                    onblur="validateInput(this)">
                 <span class="text-danger" id="errorBHYT"></span>
                 </div>
 
@@ -204,7 +183,6 @@ if (isset($_POST['btn_DangKy'])) {
             <div class="mb-3" id="loaiBHYT-container" style="display: none;">
                     <label for="LoaiBHYT" class="form-label">Chọn loại BHYT</label>
                     <select class="form-select" id="LoaiBHYT" name="LoaiBHYT">
-                        <option value=""></option>
                         <option value="1">Loại 1</option>
                         <option value="2">Loại 2</option>
                         <option value="3">Loại 3</option>
@@ -247,7 +225,7 @@ if (isset($_POST['btn_DangKy'])) {
         var loaiBHYTTextField = document.getElementById('LoaiBHYTText');
         var loaiBHYTContainer = document.getElementById('loaiBHYT-container');
         var loaiBHYTTextContainer = document.getElementById('loaiBHYT-text');
-      
+
         // Kiểm tra độ dài của thẻ BHYT
         if (BHYT.length === 15) {
             // Thẻ BHYT cũ (15 số) -> Loại BHYT sẽ tự động xác định từ ký tự thứ 3

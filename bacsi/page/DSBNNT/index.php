@@ -61,11 +61,11 @@ $dsBenhNhan = $con->dsBenhNhanNTRu($MaCV, $MaNS);
                     </button>
                     <ul class='dropdown-menu' aria-labelledby='actionMenu1'>";
                      if ($_SESSION['maCV'] == 8) {
-                        echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem phác đồ</a></li>";
+                        echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>";
                         echo "<li><a class='dropdown-item' href='index.php?page=phieuchamsoc&MaBN=" . $benhNhan['MaBN'] . "'>Lập phiếu chăm sóc</a></li>";
 
                      }else{
-                     echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Xem bệnh án</a></li>";
+                     echo "<li><a class='dropdown-item' href='index.php?page=xembenhan&MaBN=" . $benhNhan['MaBN'] . "'>Hồ sơ bệnh nhân</a></li>";
                      echo "<li><a class='dropdown-item' href='index.php?page=lapphacdo&MaBN=" . $benhNhan['MaBN'] . "'>Lập phác đồ</a></li>";
                      echo "<li><a class='dropdown-item' href='index.php?page=xuatvien&MaBN=" . $benhNhan['MaBN'] . "&MaNV=" . $benhNhan['MaNV'] . "'>Xuất viện</a></li>";
     }

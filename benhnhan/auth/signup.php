@@ -107,6 +107,7 @@
       confirmPasswordError.classList.remove('d-none');
     }
   }
+  
 </script>
 
 
@@ -114,7 +115,7 @@
     if(isset($_POST['btn_DangKy'])){
         include_once('../../controller/cNguoiDung.php');
         $p = new cNguoiDung();
-        $con = $p -> addTK($_REQUEST['hoTen'],$_REQUEST['soDienThoai'],$_REQUEST['matKhau']);
+        $con = $p -> addTK($_REQUEST['hoTen'],$_REQUEST['soDienThoai'],$_REQUEST['matKhau'],$_REQUEST['confirmMatKhau']);
     }
 
 ?>
